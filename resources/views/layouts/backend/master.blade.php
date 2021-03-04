@@ -13,6 +13,7 @@
 	<link href="{{asset('assets/admin/css/core.css')}}" rel="stylesheet" type="text/css">
 	<link href="{{asset('assets/admin/css/components.css')}}" rel="stylesheet" type="text/css">
 	<link href="{{asset('assets/admin/css/colors.css')}}" rel="stylesheet" type="text/css">
+	<link href="{{asset('assets/admin/css/main.css')}}" rel="stylesheet" type="text/css">
 	<!-- /global stylesheets -->
 
 	<!-- Core JS files -->
@@ -86,6 +87,7 @@
 
 				<!-- Content area -->
 				<div class="content">
+					@include('helper.alert')
 					@yield('content')
 				</div>
 				<!-- /content area -->

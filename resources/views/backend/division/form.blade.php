@@ -51,7 +51,7 @@
                 validate : {
                     'name' : {
                         validation : 'required'
-                    } 
+                    }
                 }
             };
             

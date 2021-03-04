@@ -26,14 +26,14 @@ Route::group(['prefix' => 'admin'], function () {
     })->middleware('auth:admin')->name('admin.dashboard');
 
     Route::group(['middleware' => 'auth:admin'], function () {
-        Route::get('/division', 'Admin\DivisionController@index')->name('admin.division.index');
+        Route::get('/division/index', 'Admin\DivisionController@index')->name('admin.division.index');
         Route::get('/division/create', 'Admin\DivisionController@create')->name('admin.division.create');
         Route::post('/division/store', 'Admin\DivisionController@store')->name('admin.division.store');
         Route::get('/division/{id}/edit', 'Admin\DivisionController@edit')->name('admin.division.edit');
         Route::post('/division/update', 'Admin\DivisionController@update')->name('admin.division.update');
         Route::post('/division/destroy', 'Admin\DivisionController@destroy')->name('admin.division.destroy');
 
-        Route::get('/employee', 'Admin\EmployeeController@index')->name('admin.employee.index');
+        Route::get('/employee/index', 'Admin\EmployeeController@index')->name('admin.employee.index');
         Route::get('/employee/create', 'Admin\EmployeeController@create')->name('admin.employee.create');
         Route::post('/employee/store', 'Admin\EmployeeController@store')->name('admin.employee.store');
         Route::get('/employee/{id}/edit', 'Admin\EmployeeController@edit')->name('admin.employee.edit');

@@ -46,13 +46,14 @@ class DivisionController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|min:2|max:100'
+            'name' => 'required'
         ]);
-
+        
         Division::create([
             'name' => $request->name
         ]);
 
+        session()->flash("success","Success Message");
         return redirect()->route('admin.division.index');
     }
 
@@ -65,13 +66,14 @@ class DivisionController extends Controller
     public function update(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|min:2|max:100'
+            'name' => 'required'
         ]);
 
         Division::where('id', $request->id)->update([
             'name' => $request->name
         ]);
 
+        session()->flash("success","Success Message");
         return redirect()->route('admin.division.index');
     }
 

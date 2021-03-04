@@ -41,8 +41,6 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
-
     <script>
         $(document).ready(function () {
             var _token = '{{ csrf_token() }}';
@@ -79,23 +77,32 @@
 
             $(document).on('click', '#delete', function () {
                 var id = $(this).attr('data-id');
-                bootbox.confirm("Apakah anda yakin akan menghapus data ini?", function(result) {
-                    if (result) {
-                        $.ajax({
-                            url: "{{ route('admin.division.destroy') }}",
-                            method: "POST",
-                            data: {id:id},
-                            success: function (resp) {
-                                bootbox.alert("Hapus Data Berhasil");
-                                $('.datatable-basic').DataTable().ajax.reload();
-                            },
-                            error: function (resp) {
-                                var res = resp.responseJSON;
-                                bootbox.alert(res.message);
-                            }
-                        })
+                swal({
+                    title: "Apakah anda yakin akan menghapus data ini?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Ya, Hapus!",
+                    cancelButtonText: "Kembali",
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                    }, function(result) {
+                        if (result) {
+                            $.ajax({
+                                url: "{{ route('admin.division.destroy') }}",
+                                method: "POST",
+                                data: {id:id},
+                                success: function (resp) {
+                                    $('.datatable-basic').DataTable().ajax.reload();
+                                    swal('Sukses!', resp.message, 'success');
+                                },
+                                error: function (resp) {
+                                    swal('Error!', resp.message, 'error');
+                                }
+                            })
+                        }
                     }
-                }); 
+                )
             })
         })
     </script>

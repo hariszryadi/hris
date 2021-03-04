@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Employee;
 use App\Models\Division;
-use Datatables;
+use DataTables;
 
 class EmployeeController extends Controller
 {
@@ -27,7 +28,7 @@ class EmployeeController extends Controller
                                             <a href="/admin/employee/'.$data->id .'/edit"><i class="icon-pencil5 text-primary"></i> Edit</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)" id="delete" data-id="'.$data->id.'"><i class="icon-bin text-danger"></i> Hapus</a>
+                                            <a href="javascript:void(0)" id="delete" data-id="'.$data->id.'" data-image="' . $data->image . '"><i class="icon-bin text-danger"></i> Hapus</a>
                                         </li>
                                     </div>
                                 </li>
@@ -48,59 +49,98 @@ class EmployeeController extends Controller
         return view($this->_view.'form')->with(compact('division'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'nip' => 'required|unique:ms_empl',
+            'empl_name' => 'required',
+            'birth_date' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
+            'gender' => 'required',
+            'religion' => 'required',
+            'division_id' => 'required',
+            'image' => 'required'
+        ]);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('employee', ['disk' => 'public']);
+        }
+
+        Employee::create([
+            'nip' => $request->nip,
+            'empl_name' => $request->empl_name,
+            'birth_date' => $request->birth_date,
+            'address' => $request->address,
+            'phone' => '62' + $request->phone,
+            'email' => $request->email,
+            'gender' => $request->gender,
+            'religion' => $request->religion,
+            'division_id' => $request->division_id,
+            'image' => $path
+        ]);
+
+        session()->flash("success","Success Message");
+        return redirect()->route('admin.employee.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $division = Division::orderBy('id', 'ASC')->get();
+        $employee = Employee::find($id);
+        return view($this->_view.'form')->with(compact('division', 'employee'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $data = [];
+        $image = $request->file('image');
+        $employee = Employee::where('id', $request->id);
+
+        if ($image != '') {
+            $path = $request->file('image')->store('employee', ['disk' => 'public']);
+            $image = $employee->first()->image;
+            $data['image'] = $path;
+            $path = \storage_path('app/public/' . $image);
+            unlink($path);
+        }
+
+        $this->validate($request, [
+            'nip' => 'required',
+            'empl_name' => 'required',
+            'birth_date' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
+            'gender' => 'required',
+            'religion' => 'required',
+            'division_id' => 'required',
+        ]);
+
+        $data['nip'] = $request->nip;
+        $data['empl_name'] = $request->empl_name;
+        $data['birth_date'] = $request->birth_date;
+        $data['address'] = $request->address;
+        $data['phone'] = '62' + $request->phone;
+        $data['email'] = $request->email;
+        $data['gender'] = $request->gender;
+        $data['religion'] = $request->religion;
+        $data['division_id'] = $request->division_id;
+
+        $employee->update($data);
+
+        session()->flash("success","Success Message");
+        return redirect()->route('admin.employee.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $employee = Employee::where('id', $request->id);
+        $path = \storage_path('app/public/' . $request->image);
+        unlink($path);
+        $employee->delete();
+
+        return response()->json(['success' => 'Delete Data Successfully']);
     }
 }

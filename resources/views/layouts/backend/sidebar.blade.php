@@ -35,11 +35,11 @@
                         <a href="#" class="nav-link"><i class="icon-cube3"></i>
                             <span>Master</span></a>
                         <ul>
-                            <li class="nav-item">
+                            <li class="nav-item {{request()->is('admin/division/*') ? 'active' : ''}}">
                                 <a href="{{route('admin.division.index')}}">Divisi</a>
                             </li>
                 
-                            <li class="nav-item">
+                            <li class="nav-item {{request()->is('admin/employee/*') ? 'active' : ''}}">
                                 <a href="{{route('admin.employee.index')}}">Pegawai</a>
                             </li>
                 
