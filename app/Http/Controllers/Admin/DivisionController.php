@@ -53,8 +53,7 @@ class DivisionController extends Controller
             'name' => $request->name
         ]);
 
-        session()->flash("success","Success Message");
-        return redirect()->route('admin.division.index');
+        return redirect()->route('admin.division.index')->with('success', 'Success Message');
     }
 
     public function edit($id)
@@ -73,8 +72,7 @@ class DivisionController extends Controller
             'name' => $request->name
         ]);
 
-        session()->flash("success","Success Message");
-        return redirect()->route('admin.division.index');
+        return redirect()->route('admin.division.index')->with('success', 'Success Message');
     }
 
     public function destroy(Request $request)

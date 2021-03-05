@@ -78,7 +78,7 @@
             $(document).on('click', '#delete', function () {
                 var id = $(this).attr('data-id');
                 swal({
-                    title: "Apakah anda yakin akan menghapus data ini?",
+                    title: "Apakah Anda Yakin Akan Menghapus Data ini?",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",

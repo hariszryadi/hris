@@ -12,12 +12,17 @@
         });
     </script>
 @endif
-{{-- @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif --}}
+@if ($errors->has('nip'))
+    <script type="text/javascript">
+        $(function (resp) {
+            swal('Error!', 'NIP Duplikat\nTerdapat Pada Pegawai Lain', 'error');
+        });
+    </script>
+@endif
+@if ($errors->has('email'))
+    <script type="text/javascript">
+        $(function (resp) {
+            swal('Error!', 'Email Duplikat\nTerdapat Pada Pegawai Lain', 'error');
+        });
+    </script>
+@endif

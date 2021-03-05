@@ -10,21 +10,19 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $table = 'users';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'nip', 'password',
+        'empl_id', 'name', 'nip', 'password', 'status'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    public function empl()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 }

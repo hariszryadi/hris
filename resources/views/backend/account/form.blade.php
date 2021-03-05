@@ -1,40 +1,54 @@
 @extends('layouts.backend.master')
 
 @section('title-header')
-    Divisi
+    Account Pegawai
 @endsection
 
 @section('menus')
-    Master
+    User Config
 @endsection
 
 @section('submenus')
-    Divisi
+    Account Pegawai
 @endsection
 
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Form Divisi</h5>
+            <h5 class="panel-title">Form Account Pegawai</h5>
         </div>
         <div class="panel-body">
-            <form class="form-horizontal" id="form" action="{{route('admin.division.'. (isset($division) ? 'update' : 'store') )}}" method="POST">
+            <form class="form-horizontal" id="form" action="{{route('admin.account.update')}}" method="POST">
                 {{ csrf_field() }}
                 <div class="form-group">
-                    <input type="hidden" name="id" value="{{(isset($division) ? "$division->id" : '')}}">
+                    <input type="hidden" name="id" value="{{$account->id}}">
                 </div>			
                 
                 <div class="form-group">
-                    <label class="control-label col-lg-2">Nama Divisi</label>
+                    <label class="control-label col-lg-2">NIP</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Nama Divisi" value="{{(isset($division) ? "$division->name" : '')}}">
+                        <input type="text" class="form-control" name="nip" id="nip" value="{{$account->nip}}" disabled>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-lg-2">Nama Pegawai</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="name" id="name" value="{{$account->name}}" disabled>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-lg-2">Password</label>
+                    <div class="col-lg-10">
+                        <input type="password" class="form-control" name="password" id="password" value="{{$account->password}}">
                         <span class="help-block"></span>
                     </div>
                 </div>
 
                 <div class="form-group" style="margin-top: 50px; margin-left: 10px;">
-                    <a class="btn btn-danger" href="{{route('admin.division.index')}}">Kembali</a>
-                    <button type="submit" class="btn btn-primary">{{(isset($division) ? 'Update' : 'Simpan')}}</button>
+                    <a class="btn btn-danger" href="{{route('admin.account.index')}}">Kembali</a>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </form>
         </div>
@@ -49,7 +63,7 @@
             var config = {
                 form : 'form',
                 validate : {
-                    'name' : {
+                    'password' : {
                         validation : 'required'
                     }
                 }
@@ -60,10 +74,6 @@
                 onModulesLoaded : function() {
                     $.setupValidation(config);
                 }
-            });
-
-            $(document).on("input", "#name", function() {
-                this.value = this.value.toUpperCase();
             });
         });
     </script>

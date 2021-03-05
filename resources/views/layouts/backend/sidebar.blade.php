@@ -51,33 +51,12 @@
                             <span>Transaction</span></a>
                         <ul>
                             <li class="nav-item">
-                                <a href="#">Jobs</a>
+                                <a href="#">Transaksi Lembur</a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="#" class="text-warning">Wallet Transaction</a>
+                                <a href="#">Transaksi Cuti</a>
                             </li>
-                        </ul>
-                    </li>
-                
-                    <li class="nav-item nav-item-submenu">
-                        <a href="#" class="nav-link"><i class="icon-wallet"></i>
-                            <span>Add Payment Method</span>
-                        </a>
-                    </li>
-                
-                    <li class="nav-item nav-item-submenu">
-                        <a href="#" class="nav-link"><i class="icon-camera"></i>
-                            <span>Media</span></a>
-                        <ul>
-                            <li class="nav-item">
-                                <a href="#">Photo</a>
-                            </li>
-            
-                            <li class="nav-item">
-                                <a href="#">Video</a>
-                            </li>
-            
                         </ul>
                     </li>
                 
@@ -86,12 +65,16 @@
                             <span>User Config</span></a>
                         <ul>
             
-                            <li class="nav-item">
-                                <a href="#" class="text-warning">Limit Job</a>
+                            <li class="nav-item {{request()->is('admin/account/*') ? 'active' : ''}}">
+                                <a href="{{route('admin.account.index')}}">Account Pegawai</a>
                             </li>
-            
+
                             <li class="nav-item">
-                                <a href="#">Account</a>
+                                <a href="#">Role</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#">User Admin</a>
                             </li>
             
                         </ul>

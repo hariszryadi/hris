@@ -39,6 +39,11 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/employee/{id}/edit', 'Admin\EmployeeController@edit')->name('admin.employee.edit');
         Route::post('/empoyee/update', 'Admin\EmployeeController@update')->name('admin.employee.update');
         Route::post('/employee/destroy', 'Admin\EmployeeController@destroy')->name('admin.employee.destroy');
+
+        Route::get('/account/index', 'Admin\AccountController@index')->name('admin.account.index');
+        Route::get('/account/{id}/edit', 'Admin\AccountController@edit')->name('admin.account.edit');
+        Route::post('/account/update', 'Admin\AccountController@update')->name('admin.account.update');
+        Route::post('/account/change-status', 'Admin\AccountController@changeStatus')->name('admin.account.changeStatus');
     });
 });
 

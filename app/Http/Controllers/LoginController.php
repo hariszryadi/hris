@@ -20,7 +20,7 @@ class LoginController extends Controller
             'password' => 'required'
         ]);
 
-        if (!Auth::guard('user')->attempt(['nip' => $request->nip, 'password' => $request->password])) {
+        if (!Auth::guard('user')->attempt(['nip' => $request->nip, 'password' => $request->password, 'status' => true])) {
             return redirect()->back()->withErrors(['error' => 'NIP/Password yang Anda Masukkan Salah']);
         }
 

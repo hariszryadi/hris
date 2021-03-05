@@ -1,40 +1,30 @@
 @extends('layouts.backend.master')
 
 @section('title-header')
-    Pegawai
+    Account Pegawai
 @endsection
 
 @section('menus')
-    Master
+    User Config
 @endsection
 
 @section('submenus')
-    Pegawai
+    Account Pegawai
 @endsection
 
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">List Pegawai</h5>
+            <h5 class="panel-title">List Account Pegawai</h5>
         </div>
         <div class="panel-body">
-            
-            <div class="form-group text-left">
-                <a href="{{route('admin.employee.create')}}" id="tambah" 
-                    class="btn btn-primary">
-                    <i class="icon-file-plus"></i>
-                    Tambah
-                </a>
-            </div>       
-            
             <table class="table datatable-basic table-hover table-bordered striped">
                 <thead>
                     <tr class="bg-teal-400">
                         <th>No</th>
                         <th>NIP</th>
                         <th>Nama Pegawai</th>
-                        <th>Email</th>
-                        <th>Divisi</th>
+                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -61,7 +51,7 @@
                 bLengthChange: false,
                 pageLength: 10,
                 ajax: {
-                    url: "{{route('admin.employee.index')}}",
+                    url: "{{route('admin.account.index')}}",
                 },
                 columns: [
                     {data: "id", render: function (data, type, row, meta) {
@@ -69,36 +59,66 @@
                         },
                     },
                     {data: "nip", name: "nip", orderable: false},
-                    {data: "empl_name", name: "empl_name", orderable: false},
-                    {data: "email", name: "email", orderable: false},
-                    {data: "division_id", name: "division_id", orderable: false},
+                    {data: "name", name: "name", orderable: false},
+                    {data: "status", name: "status", orderable: false},
                     {data: "action", name: "action", orderable: false}
                 ],
                 columnDefs: [
                     { width: "5%", "targets": [0] },
-                    { width: "10%", "targets": [5] },
-                    { className: "text-center", "targets": [5] }
+                    { width: "10%", "targets": [3,4] },
+                    { className: "text-center", "targets": [3,4] }
                 ]
             });
 
-            $(document).on('click', '#delete', function () {
+            $(document).on('click', '#nonaktif', function () {
                 var id = $(this).attr('data-id');
-                var image = $(this).attr('data-image');
+                var status = $(this).attr('data-status');
                 swal({
-                    title: "Apakah Anda Yakin Akan Menghapus Data ini?",
+                    title: "Apakah Anda Yakin Akan Menonaktifkan Account ini?",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Ya, Hapus!",
+                    confirmButtonText: "Ya, Nonaktif!",
                     cancelButtonText: "Kembali",
                     closeOnConfirm: false,
                     closeOnCancel: true
                     }, function(result) {
                         if (result) {
                             $.ajax({
-                                url: "{{ route('admin.employee.destroy') }}",
+                                url: "{{ route('admin.account.changeStatus') }}",
                                 method: "POST",
-                                data: {id:id, image:image},
+                                data: {id:id, status:status},
+                                success: function (resp) {
+                                    $('.datatable-basic').DataTable().ajax.reload();
+                                    swal('Sukses!', resp.message, 'success');
+                                },
+                                error: function (resp) {
+                                    swal('Error!', resp.message, 'error');
+                                }
+                            })
+                        }
+                    }
+                )
+            })
+
+            $(document).on('click', '#aktif', function () {
+                var id = $(this).attr('data-id');
+                var status = $(this).attr('data-status');
+                swal({
+                    title: "Apakah Anda Yakin Akan Mengaktifkan Account ini?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#4CAF50",
+                    confirmButtonText: "Ya, Aktif!",
+                    cancelButtonText: "Kembali",
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                    }, function(result) {
+                        if (result) {
+                            $.ajax({
+                                url: "{{ route('admin.account.changeStatus') }}",
+                                method: "POST",
+                                data: {id:id, status:status},
                                 success: function (resp) {
                                     $('.datatable-basic').DataTable().ajax.reload();
                                     swal('Sukses!', resp.message, 'success');

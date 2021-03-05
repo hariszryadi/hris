@@ -15,7 +15,7 @@ class CreateMsEmplTable extends Migration
     {
         Schema::create('ms_empl', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nip');
+            $table->string('nip')->unique();
             $table->string('empl_name');
             $table->string('birth_date');
             $table->text('address');

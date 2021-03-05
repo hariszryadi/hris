@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Employee;
 use App\Models\Division;
+use App\Models\User;
 use DataTables;
 
 class EmployeeController extends Controller
@@ -57,7 +58,7 @@ class EmployeeController extends Controller
             'birth_date' => 'required',
             'address' => 'required',
             'phone' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:ms_empl',
             'gender' => 'required',
             'religion' => 'required',
             'division_id' => 'required',
@@ -68,12 +69,12 @@ class EmployeeController extends Controller
             $path = $request->file('image')->store('employee', ['disk' => 'public']);
         }
 
-        Employee::create([
+        $data = Employee::create([
             'nip' => $request->nip,
             'empl_name' => $request->empl_name,
             'birth_date' => $request->birth_date,
             'address' => $request->address,
-            'phone' => '62' + $request->phone,
+            'phone' => '62' . $request->phone,
             'email' => $request->email,
             'gender' => $request->gender,
             'religion' => $request->religion,
@@ -81,8 +82,15 @@ class EmployeeController extends Controller
             'image' => $path
         ]);
 
-        session()->flash("success","Success Message");
-        return redirect()->route('admin.employee.index');
+        User::create([
+            'empl_id' => $data->id,
+            'name' => $data->empl_name,
+            'nip' => $data->nip,
+            'password' => \bcrypt($data->nip),
+            'status' => true
+        ]);
+
+        return redirect()->route('admin.employee.index')->with('success', 'Success Message');
     }
 
     public function edit($id)
@@ -130,8 +138,7 @@ class EmployeeController extends Controller
 
         $employee->update($data);
 
-        session()->flash("success","Success Message");
-        return redirect()->route('admin.employee.index');
+        return redirect()->route('admin.employee.index')->with('success', 'Success Message');
     }
 
     public function destroy(Request $request)
