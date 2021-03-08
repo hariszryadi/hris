@@ -52,6 +52,10 @@ Route::get('/dashboard', function () {
     return view('frontend.dashboard');
 })->middleware('auth:user')->name('dashboard');
 
+Route::get('/profile', function () {
+    return view('frontend.profile');
+})->middleware('auth:user')->name('profile');
+
 Route::get('/settings', function () {
     return view('frontend.settings');
 })->middleware('auth:user')->name('settings');

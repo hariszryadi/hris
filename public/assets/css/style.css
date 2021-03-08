@@ -496,17 +496,17 @@ button:hover, button:active, button:focus {
   display: none;
 }
 
-#appCapsule {
+.appCapsule {
   padding: 56px 0;
   margin-bottom: env(safe-area-inset-bottom);
   margin-top: env(safe-area-inset-top);
 }
 
-#appCapsule.extra-header-active {
+.appCapsule.extra-header-active {
   padding-top: 112px;
 }
 
-#appCapsule.full-height {
+.appCapsule.full-height {
   min-height: 100vh;
 }
 

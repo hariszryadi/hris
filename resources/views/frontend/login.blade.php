@@ -35,7 +35,7 @@
     <!-- * App Header -->
 
     <!-- App Capsule -->
-    <div id="appCapsule" class="pt-10">
+    <div class="pt-10 appCapsule">
 
         <div class="login-form mt-1">
             <div class="section">

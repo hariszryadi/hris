@@ -6,7 +6,11 @@
                 <!-- profile box -->
                 <div class="profileBox">
                     <div class="image-wrapper">
-                        <img src="{{asset('storage/'.Auth::user()->empl->image)}}" alt="image" class="imaged rounded">
+                        <img src="{{asset('storage/'.Auth::user()->empl->avatar)}}" alt="image" class="imaged rounded"
+                        @if (Auth::user()->empl->gender == 'Pria')
+                            onerror="this.src='{{asset('assets/admin/images/male.png')}}';"
+                        @endif 
+                            onerror="this.src='{{asset('assets/admin/images/female.png')}}';">
                     </div>
                     <div class="in">
                         <strong>{{Auth::user()->empl->empl_name}}</strong>
@@ -68,7 +72,7 @@
 
             <!-- sidebar buttons -->
             <div class="sidebar-buttons">
-                <a href="#" class="button">
+                <a href="{{route('profile')}}" class="button">
                     <ion-icon name="person-outline"></ion-icon>
                 </a>
                 <a href="#" class="button">

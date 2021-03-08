@@ -4,8 +4,12 @@
     <title>Dashboard</title>
 @endsection
 
+@section('pageTitle')
+    Dashboard
+@endsection
+
 @section('content')
-    <div id="appCapsule">
+    <div class="appCapsule">
 
         <div class="header-large-title">
             <h2 class="title">What is Lorem Ipsum?</h2>

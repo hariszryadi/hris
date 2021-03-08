@@ -26,3 +26,21 @@
 .text-danger {
     text-align: left;
 }
+
+.row-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.avatar-profile {
+    width: 270px;
+    height: 270px;
+}
+
+.col-body-profile {
+    margin-bottom: 12px;
+}
+
+.col-body-profile span {
+    font-weight: bold;
+}

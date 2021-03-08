@@ -54,6 +54,7 @@
     <!-- Base Js File -->
     <script src="{{asset('assets/js/base.js')}}"></script>
 
+    @yield('scripts')
 </body>
 
 </html>

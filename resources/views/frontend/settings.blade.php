@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div id="appCapsule">
+    <div class="appCapsule">
         <div class="section mt-3 mb-3">
             <div class="card">
                 <div class="card-body d-flex justify-content-between align-items-end">

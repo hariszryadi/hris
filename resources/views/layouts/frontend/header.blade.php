@@ -5,12 +5,7 @@
         </a>
     </div>
     <div class="pageTitle">
-        Dashboard
-    </div>
-    <div class="right">
-        <a href="javascript:;" class="headerButton toggle-searchbox">
-            <ion-icon name="search-outline"></ion-icon>
-        </a>
+        @yield('pageTitle')
     </div>
 </div>
 
