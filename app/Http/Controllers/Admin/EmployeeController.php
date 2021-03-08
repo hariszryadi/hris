@@ -9,6 +9,7 @@ use App\Models\Employee;
 use App\Models\Division;
 use App\Models\User;
 use DataTables;
+use File;
 
 class EmployeeController extends Controller
 {
@@ -29,7 +30,7 @@ class EmployeeController extends Controller
                                             <a href="/admin/employee/'.$data->id .'/edit"><i class="icon-pencil5 text-primary"></i> Edit</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)" id="delete" data-id="'.$data->id.'" data-image="' . $data->image . '"><i class="icon-bin text-danger"></i> Hapus</a>
+                                            <a href="javascript:void(0)" id="delete" data-id="'.$data->id.'" data-avatar="' . $data->avatar . '"><i class="icon-bin text-danger"></i> Hapus</a>
                                         </li>
                                     </div>
                                 </li>
@@ -61,12 +62,11 @@ class EmployeeController extends Controller
             'email' => 'required|unique:ms_empl',
             'gender' => 'required',
             'religion' => 'required',
-            'division_id' => 'required',
-            'image' => 'required'
+            'division_id' => 'required'
         ]);
 
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('employee', ['disk' => 'public']);
+        if ($request->hasFile('avatar')) {
+            $path = $request->file('avatar')->store('employee', ['disk' => 'public']);
         }
 
         $data = Employee::create([
@@ -79,7 +79,7 @@ class EmployeeController extends Controller
             'gender' => $request->gender,
             'religion' => $request->religion,
             'division_id' => $request->division_id,
-            'image' => $path
+            'avatar' => $request->hasFile('avatar') ? $path : null
         ]);
 
         User::create([
@@ -103,15 +103,16 @@ class EmployeeController extends Controller
     public function update(Request $request)
     {
         $data = [];
-        $image = $request->file('image');
+        $avatar = $request->file('avatar');
         $employee = Employee::where('id', $request->id);
 
-        if ($image != '') {
-            $path = $request->file('image')->store('employee', ['disk' => 'public']);
-            $image = $employee->first()->image;
-            $data['image'] = $path;
-            $path = \storage_path('app/public/' . $image);
-            unlink($path);
+        if ($avatar != '') {
+            $path = $request->file('avatar')->store('employee', ['disk' => 'public']);
+            $avatar = $employee->first()->avatar;
+            $data['avatar'] = $path;
+            $path = \storage_path('app/public/' . $avatar);
+            // unlink($path);
+            File::delete($path);
         }
 
         $this->validate($request, [
@@ -144,8 +145,9 @@ class EmployeeController extends Controller
     public function destroy(Request $request)
     {
         $employee = Employee::where('id', $request->id);
-        $path = \storage_path('app/public/' . $request->image);
-        unlink($path);
+        $path = \storage_path('app/public/' . $request->avatar);
+        // unlink($path);
+        File::delete($path);
         $employee->delete();
 
         return response()->json(['success' => 'Delete Data Successfully']);

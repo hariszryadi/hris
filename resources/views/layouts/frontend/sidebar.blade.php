@@ -6,13 +6,12 @@
                 <!-- profile box -->
                 <div class="profileBox">
                     <div class="image-wrapper">
-                        <img src="{{asset('assets/img/sample/avatar/avatar1.jpg')}}" alt="image" class="imaged rounded">
+                        <img src="{{asset('storage/'.Auth::user()->empl->image)}}" alt="image" class="imaged rounded">
                     </div>
                     <div class="in">
-                        <strong>{{Auth::user()->name}}</strong>
+                        <strong>{{Auth::user()->empl->empl_name}}</strong>
                         <div class="text-muted">
-                            <ion-icon name="location"></ion-icon>
-                            Bandung
+                            {{Auth::user()->empl->nip}}
                         </div>
                     </div>
                     <a href="javascript:;" class="close-sidebar-button" data-dismiss="modal">

@@ -119,11 +119,15 @@
                 <div class="form-group">
                     <label class="control-label col-lg-2">Foto Pegawai</label>
                     <div class="col-lg-10">
-                        <input type="file" class="form-control" name="image" id="image" value="{{(isset($employee) ? "$employee->image" : '')}}">
+                        <input type="file" class="form-control" name="avatar" id="avatar" value="{{(isset($employee) ? "$employee->avatar" : '')}}">
                         <span class="help-block"></span>
-                        <span id="store_image">
+                        <span id="temp_image">
                             @if (isset($employee))
-                                <img src="{{ asset('storage/'.$employee->image) }}" class="img-thumbnail" />
+                                <img src="{{ asset('storage/'.$employee->avatar) }}" class="img-thumbnail" 
+                                @if ($employee->gender == 'Pria')
+                                    onerror="this.src='{{asset('assets/admin/images/male.png')}}';"
+                                @endif 
+                                    onerror="this.src='{{asset('assets/admin/images/female.png')}}';"/>
                             @endif
                         </span>
                     </div>
@@ -143,7 +147,7 @@
     
     <script>
         $(document).ready(function () {
-            var previews = $('#store_image');
+            var previews = $('#temp_image');
             var config = {
                 form : 'form',
                 validate : {

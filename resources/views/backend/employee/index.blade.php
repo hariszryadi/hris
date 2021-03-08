@@ -83,7 +83,7 @@
 
             $(document).on('click', '#delete', function () {
                 var id = $(this).attr('data-id');
-                var image = $(this).attr('data-image');
+                var avatar = $(this).attr('data-avatar');
                 swal({
                     title: "Apakah Anda Yakin Akan Menghapus Data ini?",
                     type: "warning",
@@ -98,7 +98,7 @@
                             $.ajax({
                                 url: "{{ route('admin.employee.destroy') }}",
                                 method: "POST",
-                                data: {id:id, image:image},
+                                data: {id:id, avatar:avatar},
                                 success: function (resp) {
                                     $('.datatable-basic').DataTable().ajax.reload();
                                     swal('Sukses!', resp.message, 'success');

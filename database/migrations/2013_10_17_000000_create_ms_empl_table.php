@@ -26,7 +26,7 @@ class CreateMsEmplTable extends Migration
             $table->unsignedBigInteger('division_id');
             $table->foreign('division_id')->references('id')->on('ms_division')
                     ->onDelete('cascade')->onUpdate('cascade');
-            $table->string('image');
+            $table->string('avatar')->nullable();
             $table->timestamps();
         });
     }
