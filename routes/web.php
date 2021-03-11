@@ -40,6 +40,13 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/empoyee/update', 'Admin\EmployeeController@update')->name('admin.employee.update');
         Route::post('/employee/destroy', 'Admin\EmployeeController@destroy')->name('admin.employee.destroy');
 
+        Route::get('/category-leave/index', 'Admin\CategoryLeaveController@index')->name('admin.categoryLeave.index');
+        Route::get('/category-leave/create', 'Admin\CategoryLeaveController@create')->name('admin.categoryLeave.create');
+        Route::post('/category-leave/store', 'Admin\CategoryLeaveController@store')->name('admin.categoryLeave.store');
+        Route::get('/category-leave/{id}/edit', 'Admin\CategoryLeaveController@edit')->name('admin.categoryLeave.edit');
+        Route::post('/category-leave/update', 'Admin\CategoryLeaveController@update')->name('admin.categoryLeave.update');
+        Route::post('/category-leave/destroy', 'Admin\CategoryLeaveController@destroy')->name('admin.categoryLeave.destroy');
+
         Route::get('/account/index', 'Admin\AccountController@index')->name('admin.account.index');
         Route::get('/account/{id}/edit', 'Admin\AccountController@edit')->name('admin.account.edit');
         Route::post('/account/update', 'Admin\AccountController@update')->name('admin.account.update');
@@ -55,6 +62,10 @@ Route::get('/dashboard', function () {
 Route::get('/profile', function () {
     return view('frontend.profile');
 })->middleware('auth:user')->name('profile');
+
+Route::get('/leave', function () {
+    return view('frontend.leave');
+})->middleware('auth:user')->name('leave');
 
 Route::get('/settings', function () {
     return view('frontend.settings');

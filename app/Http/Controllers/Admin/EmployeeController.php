@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Employee;
-use App\Models\Division;
+use App\Models\MsEmployee;
+use App\Models\MsDivision;
 use App\Models\User;
 use DataTables;
 use File;
@@ -18,7 +18,7 @@ class EmployeeController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return Datatables::of(Employee::orderBy('id', 'DESC')->get())
+            return Datatables::of(MsEmployee::orderBy('id', 'DESC')->get())
                 ->addColumn('action', function($data){
                     return '<ul class="icons-list">
                                 <li>
@@ -47,7 +47,7 @@ class EmployeeController extends Controller
 
     public function create()
     {
-        $division = Division::orderBy('id', 'ASC')->get();
+        $division = MsDivision::orderBy('id', 'ASC')->get();
         return view($this->_view.'form')->with(compact('division'));
     }
 
@@ -69,7 +69,7 @@ class EmployeeController extends Controller
             $path = $request->file('avatar')->store('employee', ['disk' => 'public']);
         }
 
-        $data = Employee::create([
+        $data = MsEmployee::create([
             'nip' => $request->nip,
             'empl_name' => $request->empl_name,
             'birth_date' => $request->birth_date,
@@ -95,8 +95,8 @@ class EmployeeController extends Controller
 
     public function edit($id)
     {
-        $division = Division::orderBy('id', 'ASC')->get();
-        $employee = Employee::find($id);
+        $division = MsDivision::orderBy('id', 'ASC')->get();
+        $employee = MsEmployee::find($id);
         return view($this->_view.'form')->with(compact('division', 'employee'));
     }
 
@@ -104,7 +104,7 @@ class EmployeeController extends Controller
     {
         $data = [];
         $avatar = $request->file('avatar');
-        $employee = Employee::where('id', $request->id);
+        $employee = MsEmployee::where('id', $request->id);
 
         if ($avatar != '') {
             $path = $request->file('avatar')->store('employee', ['disk' => 'public']);
@@ -144,7 +144,7 @@ class EmployeeController extends Controller
 
     public function destroy(Request $request)
     {
-        $employee = Employee::where('id', $request->id);
+        $employee = MsEmployee::where('id', $request->id);
         $path = \storage_path('app/public/' . $request->avatar);
         // unlink($path);
         File::delete($path);

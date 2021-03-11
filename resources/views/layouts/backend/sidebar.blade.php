@@ -42,6 +42,10 @@
                             <li class="nav-item {{request()->is('admin/employee/*') ? 'active' : ''}}">
                                 <a href="{{route('admin.employee.index')}}">Pegawai</a>
                             </li>
+
+                            <li class="nav-item {{request()->is('admin/category-leave/*') ? 'active' : ''}}">
+                                <a href="{{route('admin.categoryLeave.index')}}">Kategori Cuti/Izin</a>
+                            </li>
                 
                         </ul>
                     </li>

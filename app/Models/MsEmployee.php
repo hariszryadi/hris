@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Employee extends Model
+class MsEmployee extends Model
 {
     protected $table = 'ms_empl';
 
@@ -12,7 +12,7 @@ class Employee extends Model
 
     public function division()
     {
-        return $this->belongsTo(Division::class);
+        return $this->belongsTo(MsDivision::class);
     }
 
     public function user()

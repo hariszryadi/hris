@@ -44,3 +44,43 @@
 .col-body-profile span {
     font-weight: bold;
 }
+
+.section-leave-quota, .section-leave-form {
+    background-color: #1E74FD;
+    padding: 12px;
+    border-radius: 5px;
+}
+
+.section-leave-quota-title, .section-leave-quota-body {
+    text-align: center;
+    color: white;
+    border-bottom: 1px solid white;
+    padding: 12px 0;
+}
+
+.section-leave-quota-body span {
+    font-weight: bold;
+}
+
+.section-leave-form-type-label {
+    color: white;
+    margin-bottom: 12px;
+}
+
+.leave-form-type, .leave-form-category {
+    margin-bottom: 12px;
+}
+
+.calendar-wrapper {
+    font-size: 12px;
+}
+
+.btn-laeve {
+    float: right;
+}
+
+.section-leave-form-type:after {
+    content:'';
+    display:block;
+    clear:both;
+}

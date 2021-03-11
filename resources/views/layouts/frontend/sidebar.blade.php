@@ -47,7 +47,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="item">
+                        <a href="{{route('leave')}}" class="item">
                             <div class="icon-box bg-primary">
                                 <ion-icon name="calendar-outline"></ion-icon>
                             </div>

@@ -3998,9 +3998,9 @@ textarea,
 .form-control {
   background-clip: padding-box;
   background-image: linear-gradient(transparent, transparent);
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+  /* -webkit-appearance: none; */
+  /* -moz-appearance: none; */
+  /* appearance: none; */
 }
 
 .form-group {

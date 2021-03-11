@@ -4,17 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\MsDivision;
+use App\Models\MsTypeLeave;
+use App\Models\MsCategoryLeave;
 use DataTables;
 
-class DivisionController extends Controller
+class CategoryLeaveController extends Controller
 {
-    protected $_view = 'backend.division.';
+    protected $_view = 'backend.category-leave.';
 
-    public function index()
+    public function index(Request $request)
     {
         if (request()->ajax()) {
-            return Datatables::of(MsDivision::orderBy('id')->get())
+            return Datatables::of(MsCategoryLeave::orderBy('id')->get())
                 ->addColumn('action', function($data){
                     return '<ul class="icons-list">
                                 <li>
@@ -23,7 +24,7 @@ class DivisionController extends Controller
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-right text-center">
                                         <li>
-                                            <a href="/admin/division/'.$data->id .'/edit"><i class="icon-pencil5 text-primary"></i> Edit</a>
+                                            <a href="/admin/category-leave/'.$data->id .'/edit"><i class="icon-pencil5 text-primary"></i> Edit</a>
                                         </li>
                                         <li>
                                             <a href="javascript:void(0)" id="delete" data-id="'.$data->id.'"><i class="icon-bin text-danger"></i> Hapus</a>
@@ -31,6 +32,9 @@ class DivisionController extends Controller
                                     </div>
                                 </li>
                             </ul>';
+                })
+                ->editColumn('type_leave_id', function($drawings) {
+                    return $drawings->typeLeave->type_leave;
                 })
                 ->make(true);
         }
@@ -40,45 +44,51 @@ class DivisionController extends Controller
 
     public function create()
     {
-        return view($this->_view.'form');
+        $typeLeave = MsTypeLeave::get();
+        return view($this->_view.'form')->with(compact('typeLeave'));
     }
 
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required'
+            'category_leave' => 'required',
+            'type_leave_id' => 'required'
         ]);
         
-        MsDivision::create([
-            'name' => $request->name
+        MsCategoryLeave::create([
+            'category_leave' => $request->category_leave,
+            'type_leave_id' => $request->type_leave_id
         ]);
 
-        return redirect()->route('admin.division.index')->with('success', 'Success Message');
+        return redirect()->route('admin.categoryLeave.index')->with('success', 'Success Message');
     }
 
     public function edit($id)
     {
-        $division = MsDivision::find($id);
-        return view($this->_view.'form')->with(compact('division'));
+        $typeLeave = MsTypeLeave::get();
+        $categoryLeave = MsCategoryLeave::find($id);
+        return view($this->_view.'form')->with(compact('typeLeave', 'categoryLeave'));
     }
 
     public function update(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required'
+            'category_leave' => 'required',
+            'type_leave_id' => 'required'
         ]);
 
-        MsDivision::where('id', $request->id)->update([
-            'name' => $request->name
+        MsCategoryLeave::where('id', $request->id)->update([
+            'category_leave' => $request->category_leave,
+            'type_leave_id' => $request->type_leave_id
         ]);
 
-        return redirect()->route('admin.division.index')->with('success', 'Success Message');
+        return redirect()->route('admin.categoryLeave.index')->with('success', 'Success Message');
     }
 
     public function destroy(Request $request)
     {
-        $division = MsDivision::where('id', $request->id);
-        $division->delete();
+        $categoryLeave = MsCategoryLeave::where('id', $request->id);
+        $categoryLeave->delete();
 
         return response()->json(['success' => 'Delete Data Successfully']);
     }
