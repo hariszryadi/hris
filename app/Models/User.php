@@ -23,6 +23,6 @@ class User extends Authenticatable
 
     public function empl()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(MsEmployee::class);
     }
 }

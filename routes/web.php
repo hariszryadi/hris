@@ -63,9 +63,9 @@ Route::get('/profile', function () {
     return view('frontend.profile');
 })->middleware('auth:user')->name('profile');
 
-Route::get('/leave', function () {
-    return view('frontend.leave');
-})->middleware('auth:user')->name('leave');
+Route::get('/leave', 'LeaveController@index')->middleware('auth:user')->name('leave');
+Route::post('/getCategoryLeave', 'LeaveController@getCategoryLeave')->name('getCategoryLeave');
+Route::post('/requestLeave', 'LeaveController@requestLeave')->name('requestLeave');
 
 Route::get('/settings', function () {
     return view('frontend.settings');

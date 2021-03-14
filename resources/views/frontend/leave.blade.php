@@ -43,19 +43,19 @@
             <div class="section-leave-form">
                 <div class="section-leave-form-type">
                     <div class="section-leave-form-type-label">Pilih Tipe Cuti/Izin</div>
-                    <form action="">
+                    <form id="form-leave">
+                        {{ csrf_field() }}
                         <div class="leave-form-type">
-                            <select name="select_type_leave" id="select_type_leave" class="form-control">
-                                <option>Pilih Type</option>
-                                <option value="">Cuti</option>
-                                <option value="">Izin</option>
+                            <select name="type_leave" id="type_leave" class="form-control">
+                                <option>Pilih Tipe</option>
+                                @foreach ($typeLeave as $item)
+                                    <option value="{{$item->id}}">{{$item->type_leave}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="leave-form-category">
-                            <select name="select_category_leave" id="select_category_leave" class="form-control">
-                                <option >Pilih Kategori</option>
-                                <option value="">Kategori Cuti</option>
-                                <option value="">Kategori Izin</option>
+                            <select name="category_leave" id="category_leave" class="form-control">
+                                <option>Pilih Kategori</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-success btn-laeve">Submit</button>
@@ -70,16 +70,23 @@
     <script src="{{asset('assets/plugins/powerful-calendar/calendar.js')}}"></script>
     <script>
         $(document).ready(function () {
-            $('#select_type_leave').attr("disabled", true);
-            $('#select_category_leave').attr("disabled", true);
+            var _token = '{{ csrf_token() }}';
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': _token
+                }
+            });
+
+            $('#type_leave').attr("disabled", true);
+            $('#category_leave').attr("disabled", true);
         })
 
         function selectDate(date) {
             $('.calendar-wrapper').updateCalendarOptions({
                 date: date
             });
-            $('#select_type_leave').attr("disabled", false);
-            $('#select_category_leave').attr("disabled", false);
+            $('#type_leave').attr("disabled", false);
         }
 
         var defaultConfig = {
@@ -90,6 +97,81 @@
         };
 
         $('.calendar-wrapper').calendar(defaultConfig);
+
+        $('#type_leave').on('change', function () {
+            var typeLeaveId = $('#type_leave').find(":selected").val();
+            $.ajax({
+                url: "{{route('getCategoryLeave')}}",
+                method: "POST",
+                dataType: "json",
+                data: {id: typeLeaveId},
+                success: function (resp) {
+                    $('#category_leave option:not(:first)').remove();
+                    $.each(resp, function (key, item) {
+                        $('#category_leave').attr("disabled", false);
+                        $('#category_leave').append('<option value="'+item.id+'">'+item.category_leave+'</option>');
+                    })
+                },
+                error: function(xhr, status, error) {
+                    var err = JSON.parse(xhr.responseText);
+                    console.log(err.Message);
+                }
+            })
+        })
+
+        function convertDate(d){
+            var parts = d.split(" ");
+            var months = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
+            return parts[3]+"-"+months[parts[1]]+"-"+parts[2];
+        }
+
+        $('#form-leave').on('submit', function (e) {
+            e.preventDefault();
+            var typeLeave = $('#type_leave').find(":selected").val();
+            var categoryLeave = $('#category_leave').find(":selected").val();
+            var clickDate = $('.week').find('.selected').attr('data-date');
+            var startDate = convertDate(clickDate);
+            
+            $.ajax({
+                url: "{{route('requestLeave')}}",
+                method: "POST",
+                dataType: "json",
+                data: {
+                    type_leave: typeLeave,
+                    category_leave: categoryLeave,
+                    start_date: startDate
+                },
+                success: function (resp) {
+                    console.log(resp)
+                    $('.appCapsule').empty();
+                    $('.appCapsule').html(
+                        '<div class="section mt-2">'
+                        +   '<div class="section-leave-form">'
+                        +       '<div class="section-leave-form-type">'
+                        +           '<div class="row">'
+                        +               '<div class="col-md-6 col-xs-12 mb-2">'
+                        +                   '<div class="section-leave-form-type-label">'
+                        +                       'Tanggal Awal Cuti'
+                        +                   '</div>'
+                        +                   '<input type="date" class="form-control" name="start_date" id="start_date" value="'+startDate+'" disabled>'
+                        +               '</div>'
+                        +               '<div class="col-md-6 col-xs-12 mb-2">'
+                        +                   '<div class="section-leave-form-type-label">'
+                        +                       'Tanggal Akhir Cuti'
+                        +                   '</div>'
+                        +                   '<input type="date" class="form-control" name="end_date" id="end_date">'
+                        +               '</div>'
+                        +           '</div>'
+                        +       '</div>'
+                        +   '</div>'
+                    )
+                },
+                error: function (xhr, status, error) {
+                    var err = JSON.parse(xhr.responseText);
+                    console.log(err.Message);
+                }
+            })
+        })
 
     </script>
 @endsection
