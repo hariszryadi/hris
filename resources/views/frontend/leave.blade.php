@@ -11,8 +11,12 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('assets/plugins/powerful-calendar/style.css')}}">
     <link rel="stylesheet" href="{{asset('assets/plugins/powerful-calendar/theme.css')}}">
+    
     <div class="appCapsule">
         <div class="section mt-2">
+            <!-- Component Alert --> 
+            @include('helper.component-alert')
+            <!-- End Component Alert -->
             <div class="section-leave-quota">
                 <div class="section-leave-quota-title">
                     Total Sisa Kuota Cuti
@@ -20,7 +24,7 @@
                 <div class="section-leave-quota-body">
                     <div class="row mb-2">
                         <div class="col-12">
-                            Total Sisa Kuota Cuti : <span>12</span>
+                            Total Sisa Kuota Cuti : <span class="badge badge-warning">{{Auth::user()->empl->leaveQuota->max_quota}}</span>
                         </div>
                     </div>
                     <div class="row">
@@ -43,11 +47,11 @@
             <div class="section-leave-form">
                 <div class="section-leave-form-type">
                     <div class="section-leave-form-type-label">Pilih Tipe Cuti/Izin</div>
-                    <form id="form-leave">
+                    <form id="form-start-date">
                         {{ csrf_field() }}
                         <div class="leave-form-type">
                             <select name="type_leave" id="type_leave" class="form-control">
-                                <option>Pilih Tipe</option>
+                                <option value="null">Pilih Tipe</option>
                                 @foreach ($typeLeave as $item)
                                     <option value="{{$item->id}}">{{$item->type_leave}}</option>
                                 @endforeach
@@ -55,10 +59,10 @@
                         </div>
                         <div class="leave-form-category">
                             <select name="category_leave" id="category_leave" class="form-control">
-                                <option>Pilih Kategori</option>
+                                <option value="null">Pilih Kategori</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-success btn-laeve">Submit</button>
+                        <button type="submit" class="btn btn-success btn-right">Submit</button>
                     </form>
                 </div>
             </div>
@@ -68,6 +72,7 @@
 
 @section('scripts')
     <script src="{{asset('assets/plugins/powerful-calendar/calendar.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
     <script>
         $(document).ready(function () {
             var _token = '{{ csrf_token() }}';
@@ -83,6 +88,13 @@
         })
 
         function selectDate(date) {
+            var d = new Date();
+            var currentDate = d.getFullYear() + "-" + (d.getMonth()+1).toString().replace(/(^.$)/,"0$1") + "-" + d.getDate();
+            var selectDate = convertDate(date);
+            if (selectDate <= currentDate) {
+                bootbox.alert('Tidak Bisa Mengajukan Cuti Pada Tanggal Tersebut');
+                return false;
+            }
             $('.calendar-wrapper').updateCalendarOptions({
                 date: date
             });
@@ -125,15 +137,19 @@
             return parts[3]+"-"+months[parts[1]]+"-"+parts[2];
         }
 
-        $('#form-leave').on('submit', function (e) {
+        $('#form-start-date').on('submit', function (e) {
             e.preventDefault();
             var typeLeave = $('#type_leave').find(":selected").val();
             var categoryLeave = $('#category_leave').find(":selected").val();
             var clickDate = $('.week').find('.selected').attr('data-date');
             var startDate = convertDate(clickDate);
             
+            if (typeLeave == "null" || categoryLeave == "null") {
+                bootbox.alert('Pilih Kategori Cuti/Izin');
+                return false;
+            }
             $.ajax({
-                url: "{{route('requestLeave')}}",
+                url: "{{route('submitStartDateLeave')}}",
                 method: "POST",
                 dataType: "json",
                 data: {
@@ -148,20 +164,26 @@
                         '<div class="section mt-2">'
                         +   '<div class="section-leave-form">'
                         +       '<div class="section-leave-form-type">'
-                        +           '<div class="row">'
-                        +               '<div class="col-md-6 col-xs-12 mb-2">'
-                        +                   '<div class="section-leave-form-type-label">'
-                        +                       'Tanggal Awal Cuti'
+                        +           '<form method="post" action="/submitEndDateLeave" id="form-end-date">'
+                        +               '{{ csrf_field() }}'
+                        +               '<div class="row">'
+                        +                   '<div class="col-md-6 col-xs-12 mb-2">'
+                        +                       '<div class="section-leave-form-type-label">'
+                        +                           'Tanggal Pengajuan Cuti'
+                        +                       '</div>'
+                        +                       '<input type="date" class="form-control" name="start_date" id="start_date" value="'+startDate+'" readonly>'
                         +                   '</div>'
-                        +                   '<input type="date" class="form-control" name="start_date" id="start_date" value="'+startDate+'" disabled>'
-                        +               '</div>'
-                        +               '<div class="col-md-6 col-xs-12 mb-2">'
-                        +                   '<div class="section-leave-form-type-label">'
-                        +                       'Tanggal Akhir Cuti'
+                        +                   '<div class="col-md-6 col-xs-12 mb-2">'
+                        +                       '<div class="section-leave-form-type-label">'
+                        +                           'Tanggal Akhir Cuti'
+                        +                       '</div>'
+                        +                       '<input type="date" class="form-control" name="end_date" id="end_date">'
                         +                   '</div>'
-                        +                   '<input type="date" class="form-control" name="end_date" id="end_date">'
                         +               '</div>'
-                        +           '</div>'
+                        +               '<input type="hidden" name="type_leave" value="'+typeLeave+'">'
+                        +               '<input type="hidden" name="category_leave" value="'+categoryLeave+'">'
+                        +               '<button type="submit" class="btn btn-warning btn-right">Submit</button>'
+                        +           '</form>'
                         +       '</div>'
                         +   '</div>'
                     )
@@ -171,6 +193,25 @@
                     console.log(err.Message);
                 }
             })
+        })
+
+        $(document).on("change", "#end_date" , function() {
+            var startDate = $('#start_date').val();
+            var endDate = $(this).val();
+            if (endDate < startDate) {
+                bootbox.alert('Tidak Bisa Memilih Tanggal Akhir Cuti Sebelum Tanggal Pengajuan');
+                $('#end_date').val('')
+            }
+            return true;
+        });
+
+        $(document).on("submit", "#form-end-date", function () {
+            var endDate = $('#end_date').val();
+            if (endDate == "") {
+                bootbox.alert('Tentukan Tanggal Akhir Cuti');
+                return false;
+            }
+            return true;
         })
 
     </script>

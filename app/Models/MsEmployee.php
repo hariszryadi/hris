@@ -19,4 +19,9 @@ class MsEmployee extends Model
     {
         return $this->hasOne(User::class, 'empl_id');
     }
+
+    public function leaveQuota()
+    {
+        return $this->hasOne(MsLeaveQuota::class, 'empl_id');
+    }
 }

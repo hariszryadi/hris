@@ -65,7 +65,8 @@ Route::get('/profile', function () {
 
 Route::get('/leave', 'LeaveController@index')->middleware('auth:user')->name('leave');
 Route::post('/getCategoryLeave', 'LeaveController@getCategoryLeave')->name('getCategoryLeave');
-Route::post('/requestLeave', 'LeaveController@requestLeave')->name('requestLeave');
+Route::post('/submitStartDateLeave', 'LeaveController@submitStartDateLeave')->name('submitStartDateLeave');
+Route::post('/submitEndDateLeave', 'LeaveController@submitEndDateLeave')->name('submitEndDateLeave');
 
 Route::get('/settings', function () {
     return view('frontend.settings');

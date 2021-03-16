@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\MsEmployee;
 use App\Models\MsDivision;
 use App\Models\User;
+use App\Models\MsLeaveQuota;
 use DataTables;
 use File;
 
@@ -88,6 +89,12 @@ class EmployeeController extends Controller
             'nip' => $data->nip,
             'password' => \bcrypt($data->nip),
             'status' => true
+        ]);
+
+        MsLeaveQuota::create([
+            'used_quota' => 0,
+            'max_quota' => 12,
+            'empl_id' => $data->id
         ]);
 
         return redirect()->route('admin.employee.index')->with('success', 'Success Message');

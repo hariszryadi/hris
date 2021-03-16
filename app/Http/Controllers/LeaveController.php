@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\MsTypeLeave;
 use App\Models\MsCategoryLeave;
+use App\Models\TrLeave;
+use App\Models\User;
+use Auth;
 
 class LeaveController extends Controller
 {
@@ -22,7 +25,7 @@ class LeaveController extends Controller
         return response()->json($categoryLeave);
     }
 
-    public function requestLeave(Request $request)
+    public function submitStartDateLeave(Request $request)
     {
         $typeLeave = $request->type_leave;
         $categoryLeave = $request->category_leave;
@@ -33,5 +36,25 @@ class LeaveController extends Controller
             'start_date' => $startDate
         ];
         return response()->json($data);
+    }
+
+    public function submitEndDateLeave(Request $request)
+    {
+        $userId = Auth::guard('user')->user()->empl_id;
+        $typeLeave = $request->type_leave;
+        $categoryLeave = $request->category_leave;
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+        $data = [
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'type_leave_id' => $typeLeave,
+            'category_leave_id' => $categoryLeave,
+            'status' => 0,
+            'empl_id' => $userId
+        ];
+        TrLeave::create($data);
+        
+        return redirect()->route('leave')->with('success', 'Berhasil Melakukan Pengajuan Rencana Cuti');
     }
 }
