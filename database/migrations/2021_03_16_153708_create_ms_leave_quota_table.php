@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTrLeave extends Migration
+class CreateMsLeaveQuotaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateTrLeave extends Migration
      */
     public function up()
     {
-        Schema::create('tr_leave', function (Blueprint $table) {
+        Schema::create('ms_leave_quota', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('start_date');
-            $table->string('end_date');
-            $table->integer('type_leave_id');
-            $table->integer('category_leave_id');
-            $table->integer('status');
-            $table->integer('empl_id');
+            $table->integer('used_quota');
+            $table->integer('max_quota');
+            $table->unsignedBigInteger('empl_id');
+            $table->foreign('empl_id')->references('id')->on('ms_empl')
+                    ->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ class CreateTrLeave extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tr_leave');
+        Schema::dropIfExists('ms_leave_quota');
     }
 }

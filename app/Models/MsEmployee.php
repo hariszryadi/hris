@@ -24,4 +24,9 @@ class MsEmployee extends Model
     {
         return $this->hasOne(MsLeaveQuota::class, 'empl_id');
     }
+
+    public function trLeave()
+    {
+        return $this->hasMany(TrLeave::class, 'empl_id');
+    }
 }

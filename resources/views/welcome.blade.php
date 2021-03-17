@@ -40,24 +40,14 @@
                 <li data-target="#carouselIndicators" data-slide-to="2"></li>
             </ol>
             <div class="carousel-inner" role="listbox">
-                <div class="carousel-item active" style="background-image: url('https://i.imgur.com/NnzxG4S.jpg')">
-                    <div class="carousel-caption">
-                        <h3>Chicago</h3>
-                        <p>Thank you, Chicago!</p>
-                    </div> 
-                </div>
-                <div class="carousel-item " style="background-image: url('https://i.imgur.com/w439mEw.jpg')">
-                    <div class="carousel-caption">
-                        <h3>Los Angeles</h3>
-                        <p>We had such a great time in LA!</p>
-                    </div>   
-                </div>
-                <div class="carousel-item " style="background-image: url('https://i.imgur.com/cpIrOo1.jpg')">
-                    <div class="carousel-caption">
-                        <h3>New York</h3>
-                        <p>We love the Big Apple!</p>
+                @foreach ($slider as $key=>$item)
+                    <div class="carousel-item {{($key == 0) ? 'active' : ''}}" style="background-image: url('{{asset('storage/'.$item->image)}}')">
+                        <div class="carousel-caption">
+                            {{-- <h3></h3> --}}
+                            <p>{{$item->caption}}</p>
+                        </div> 
                     </div>
-                </div>
+                @endforeach
             </div>
             <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>

@@ -92,7 +92,7 @@
             var currentDate = d.getFullYear() + "-" + (d.getMonth()+1).toString().replace(/(^.$)/,"0$1") + "-" + d.getDate();
             var selectDate = convertDate(date);
             if (selectDate <= currentDate) {
-                bootbox.alert('Tidak Bisa Mengajukan Cuti Pada Tanggal Tersebut');
+                bootbox.alert('Tidak Bisa Mengajukan Cuti Pada Tanggal Yang Sudah Lewat');
                 return false;
             }
             $('.calendar-wrapper').updateCalendarOptions({
@@ -162,6 +162,11 @@
                     $('.appCapsule').empty();
                     $('.appCapsule').html(
                         '<div class="section mt-2">'
+                        +   '<div class="left mb-2" style="font-size:30px;">'
+                        +       '<a href="/leave" class="headerButton goBack">'
+                        +           '<ion-icon name="arrow-back"></ion-icon>'
+                        +       '</a>'
+                        +   '</div>'
                         +   '<div class="section-leave-form">'
                         +       '<div class="section-leave-form-type">'
                         +           '<form method="post" action="/submitEndDateLeave" id="form-end-date">'
@@ -169,15 +174,21 @@
                         +               '<div class="row">'
                         +                   '<div class="col-md-6 col-xs-12 mb-2">'
                         +                       '<div class="section-leave-form-type-label">'
-                        +                           'Tanggal Pengajuan Cuti'
+                        +                           'Tanggal Mulai Cuti'
                         +                       '</div>'
                         +                       '<input type="date" class="form-control" name="start_date" id="start_date" value="'+startDate+'" readonly>'
                         +                   '</div>'
                         +                   '<div class="col-md-6 col-xs-12 mb-2">'
                         +                       '<div class="section-leave-form-type-label">'
-                        +                           'Tanggal Akhir Cuti'
+                        +                           'Tanggal Selesai Cuti'
                         +                       '</div>'
                         +                       '<input type="date" class="form-control" name="end_date" id="end_date">'
+                        +                   '</div>'
+                        +                   '<div class="col-md-6 col-xs-12 mb-2">'
+                        +                       '<div class="section-leave-form-type-label">'
+                        +                           'Keterangan'
+                        +                       '</div>'
+                        +                       '<textarea class="form-control" name="description" id="description" rows="3"></textarea>'
                         +                   '</div>'
                         +               '</div>'
                         +               '<input type="hidden" name="type_leave" value="'+typeLeave+'">'
@@ -199,7 +210,7 @@
             var startDate = $('#start_date').val();
             var endDate = $(this).val();
             if (endDate < startDate) {
-                bootbox.alert('Tidak Bisa Memilih Tanggal Akhir Cuti Sebelum Tanggal Pengajuan');
+                bootbox.alert('Tidak Bisa Memilih Tanggal Selesai Cuti Sebelum Tanggal Mulai Cuti');
                 $('#end_date').val('')
             }
             return true;

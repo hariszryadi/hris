@@ -123,7 +123,7 @@
                         <span class="help-block"></span>
                         <span id="temp_image">
                             @if (isset($employee))
-                                <img src="{{ asset('storage/'.$employee->avatar) }}" class="img-thumbnail" 
+                                <img src="{{ asset('storage/'.$employee->avatar) }}" class="img-thumbnail img-empl" 
                                 @if ($employee->gender == 'Pria')
                                     onerror="this.src='{{asset('assets/admin/images/male.png')}}';"
                                 @endif 
@@ -201,7 +201,7 @@
                             $("<img/>", {
                                     "src": event.target.result,
                                     "class": idx,
-                                    "class": "img-thumbnail",
+                                    "class": "img-thumbnail img-empl",
                                 }).appendTo(previews);
                         };
                         reader.readAsDataURL(file);

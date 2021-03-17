@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMsTypeLeave extends Migration
+class CreateSlidersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateMsTypeLeave extends Migration
      */
     public function up()
     {
-        Schema::create('ms_type_leave', function (Blueprint $table) {
+        Schema::create('sliders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('type_leave');
+            $table->string('image');
+            $table->string('caption');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreateMsTypeLeave extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ms_type_leave');
+        Schema::dropIfExists('sliders');
     }
 }

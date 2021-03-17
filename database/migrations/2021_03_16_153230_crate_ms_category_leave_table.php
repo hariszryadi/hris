@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMsLeaveQuota extends Migration
+class CrateMsCategoryLeaveTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateMsLeaveQuota extends Migration
      */
     public function up()
     {
-        Schema::create('ms_leave_quota', function (Blueprint $table) {
+        Schema::create('ms_category_leave', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('used_quota');
-            $table->integer('max_quota');
-            $table->unsignedBigInteger('empl_id');
-            $table->foreign('empl_id')->references('id')->on('ms_empl')
+            $table->string('category_leave');
+            $table->unsignedBigInteger('type_leave_id');
+            $table->foreign('type_leave_id')->references('id')->on('ms_type_leave')
                     ->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
@@ -31,6 +30,6 @@ class CreateMsLeaveQuota extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ms_leave_quota');
+        Schema::dropIfExists('ms_category_leave');
     }
 }

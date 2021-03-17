@@ -54,13 +54,25 @@
                         <a href="#" class="nav-link"><i class="icon-transmission"></i>
                             <span>Transaction</span></a>
                         <ul>
+                            <li class="nav-item {{request()->is('admin/transaction-leave/*') ? 'active' : ''}}">
+                                <a href="{{route('admin.transactionLeave.index')}}">Transaksi Cuti/Izin</a>
+                            </li>
+
                             <li class="nav-item">
                                 <a href="#">Transaksi Lembur</a>
                             </li>
 
-                            <li class="nav-item">
-                                <a href="#">Transaksi Cuti</a>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item nav-item-submenu">
+                        <a href="#" class="nav-link"><i class="icon-stack"></i>
+                            <span>CMS</span></a>
+                        <ul>
+                            <li class="nav-item {{request()->is('admin/slider/*') ? 'active' : ''}}">
+                                <a href="{{route('admin.slider.index')}}">Slider</a>
                             </li>
+
                         </ul>
                     </li>
                 

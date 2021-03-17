@@ -1,4 +1,9 @@
-.img-thumbnail {
+.img-empl {
     height: 250px;
     width: 250px;
+}
+
+.img-slider {
+    height: 250px;
+    width: 450px;
 }
