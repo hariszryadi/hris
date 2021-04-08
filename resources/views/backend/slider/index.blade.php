@@ -80,7 +80,7 @@
                 columnDefs: [
                     { width: "5%", "targets": [0] },
                     { width: "10%", "targets": [3] },
-                    { className: "text-center", "targets": [3] }
+                    { className: "text-center", "targets": [1, 3] }
                 ]
             });
 

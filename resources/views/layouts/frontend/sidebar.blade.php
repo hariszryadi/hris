@@ -81,7 +81,7 @@
                 <a href="{{route('settings')}}" class="button">
                     <ion-icon name="settings-outline"></ion-icon>
                 </a>
-                <a href="{{route('logout')}}" class="button">
+                <a href="{{route('logout')}}" class="button" id="logout">
                     <ion-icon name="log-out-outline"></ion-icon>
                 </a>
             </div>

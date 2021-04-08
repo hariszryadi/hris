@@ -30,7 +30,7 @@
 
 </head>
 
-<body class="login-container">
+<body class="login-container" style="background-color: #26a69a; background-image: linear-gradient(#26a69a, #333333)">
 
 	<!-- Page container -->
 	<div class="page-container">
@@ -49,7 +49,7 @@
 						{{ csrf_field() }}
 						<div class="panel panel-body login-form">
 							<div class="text-center">
-								<div class="icon-object border-slate-300 text-slate-300"><i class="icon-reading"></i></div>
+								<div class="icon-object border-slate-300 text-slate-300"><i class="icon-user"></i></div>
 								<h5 class="content-group">Login to your account <small class="display-block">Enter your credentials below</small></h5>
 							</div>
 
@@ -68,7 +68,7 @@
 							</div>
 
 							<div class="form-group">
-								<button type="submit" class="btn bg-pink-400 btn-block">Sign in <i class="icon-circle-right2 position-right"></i></button>
+								<button type="submit" class="btn bg-teal-400 btn-block">Sign in <i class="icon-circle-right2 position-right"></i></button>
 							</div>
 
 						</div>
@@ -77,7 +77,7 @@
 
 					<!-- Footer -->
 					<div class="footer text-muted text-center">
-						&copy; 2021. <a href="#">Admin - HRIS-Ku</a>
+						&copy; 2021. <a href="#" style="color: #ffffff;">Admin - HRIS-Ku</a>
 					</div>
 					<!-- /footer -->
 

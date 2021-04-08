@@ -19,7 +19,7 @@
             <!-- End Component Alert -->
             <div class="section-leave-quota">
                 <div class="section-leave-quota-title">
-                    Total Sisa Kuota Cuti
+                    Informasi Cuti {{\Carbon\Carbon::now()->format('F Y')}}
                 </div>
                 <div class="section-leave-quota-body">
                     <div class="row mb-2">
@@ -211,7 +211,7 @@
             var endDate = $(this).val();
             if (endDate < startDate) {
                 bootbox.alert('Tidak Bisa Memilih Tanggal Selesai Cuti Sebelum Tanggal Mulai Cuti');
-                $('#end_date').val('')
+                $('#end_date').val('');
             }
             return true;
         });

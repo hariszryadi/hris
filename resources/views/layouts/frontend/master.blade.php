@@ -54,7 +54,22 @@
     <script src="{{asset('assets/js/plugins/jquery-circle-progress/circle-progress.min.js')}}"></script>
     <!-- Base Js File -->
     <script src="{{asset('assets/js/base.js')}}"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#logout').click(function (e) {
+                e.preventDefault();
+                var logout = $(this).attr('href');
+                
+                bootbox.confirm('Apakah anda yakin ingin keluar dari Aplikasi HRIS-Ku?', function (result) {
+                    if (result) {
+                        alert(logout);
+                    }
+                    return false;
+                })
+            })
+        })
+    </script>
     @yield('scripts')
 </body>
 
