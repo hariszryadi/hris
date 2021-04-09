@@ -12,7 +12,6 @@
 */
 
 /** Guest */
-Route::get('/', 'WelcomeController@index')->name('welcome');
 
 /** Admin */
 Route::group(['prefix' => 'admin'], function () {
@@ -69,18 +68,19 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 /** Empl */
-Route::get('/dashboard', function () {
-    return view('frontend.dashboard');
-})->middleware('auth:user')->name('dashboard');
 
 Route::get('/profile', function () {
     return view('frontend.profile');
 })->middleware('auth:user')->name('profile');
 
+Route::get('/', 'DashboardController@index')->middleware('auth:user')->name('dashboard');
+
 Route::get('/leave', 'LeaveController@index')->middleware('auth:user')->name('leave');
 Route::post('/getCategoryLeave', 'LeaveController@getCategoryLeave')->name('getCategoryLeave');
-Route::post('/submitStartDateLeave', 'LeaveController@submitStartDateLeave')->name('submitStartDateLeave');
-Route::post('/submitEndDateLeave', 'LeaveController@submitEndDateLeave')->name('submitEndDateLeave');
+Route::post('/getLeave', 'LeaveController@getLeave')->name('getLeave');
+Route::post('/postLeave', 'LeaveController@postLeave')->name('postLeave');
+
+Route::get('/overtime', 'OvertimeController@index')->middleware('auth:user')->name('overtime');
 
 Route::get('/settings', function () {
     return view('frontend.settings');

@@ -1,86 +1,79 @@
-.my-nav{
-    position: absolute;
-    z-index: 10;
+.loader {
+    position: relative;
+}
+
+.loader::after {
+    font-size: 15pt;
+    content: 'Loading...';
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.7);
+    color: white;
+    height: 100%;
     width: 100%;
-}
-    
-.carousel-item {
-    height: 100vh;
-    background: no-repeat center center scroll;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
 }
 
-.carousel-caption h3 {
-    color: white !important;
+.box-wrapper {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0px 1px 9px -2px #d2d2d2;
+    border-radius: 6px;
 }
 
-@media (max-width: 992px) {
-    .carousel-caption {
-        font-size: 4rem;
-    }
+.box-wrapper-heading {
+    padding: 20px 15px;
+    display: flex;
+    padding-bottom: 0;
+    position: relative;
 }
 
-.text-danger {
-    text-align: left;
+.box-wrapper-description {
+    padding: 15px 15px;
 }
 
-.row-header {
+.box-wrapper-heading-title {
+    font-weight: 600;
+    font-size: 14pt;
+    display: block; 
+    margin: auto; 
+}
+
+.box-wrapper-description-title {
+    font-weight: 600;
+    font-size: 12pt;
     text-align: center;
-    margin-bottom: 32px;
 }
 
-.avatar-profile {
-    width: 270px;
-    height: 270px;
-}
-
-.col-body-profile {
-    margin-bottom: 12px;
-}
-
-.col-body-profile span {
-    font-weight: bold;
-}
-
-.section-leave-quota, .section-leave-form {
-    background-color: #1E74FD;
-    padding: 12px;
-    border-radius: 5px;
-}
-
-.section-leave-quota-title, .section-leave-quota-body {
+.box-wrapper-description-body {
+    font-weight: 600;
     text-align: center;
-    color: white;
-    border-bottom: 1px solid white;
-    padding: 12px 0;
+    padding: 8px 0px;
 }
 
-.section-leave-quota-body span {
-    font-weight: bold;
+.box-wrapper-description-body .row .col-sm-6 {
+    margin: 8px 0px;
 }
 
-.section-leave-form-type-label {
-    color: white;
-    margin-bottom: 8px;
+.calendar-box {
+    padding: 8px;
 }
 
-.leave-form-type, .leave-form-category {
-    margin-bottom: 12px;
-}
-
-.calendar-wrapper {
-    font-size: 12px;
+.box-row {
+    padding: 8px 0px;
 }
 
 .btn-right {
     float: right;
 }
 
-.section-leave-form-type:after {
-    content:'';
-    display:block;
-    clear:both;
+.is-invalid {
+    border: 1px solid #de4437;
 }
