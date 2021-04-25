@@ -29,4 +29,9 @@ class MsEmployee extends Model
     {
         return $this->hasMany(TrLeave::class, 'empl_id');
     }
+
+    public function trOvertime()
+    {
+        return $this->hasMany(TrOvertime::class, 'empl_id');
+    }
 }

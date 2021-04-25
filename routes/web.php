@@ -81,6 +81,7 @@ Route::post('/getLeave', 'LeaveController@getLeave')->name('getLeave');
 Route::post('/postLeave', 'LeaveController@postLeave')->name('postLeave');
 
 Route::get('/overtime', 'OvertimeController@index')->middleware('auth:user')->name('overtime');
+Route::post('/postOvertime', 'OvertimeController@postOvertime')->name('postOvertime');
 
 Route::get('/settings', function () {
     return view('frontend.settings');

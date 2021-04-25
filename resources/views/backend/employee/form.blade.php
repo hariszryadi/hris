@@ -62,7 +62,7 @@
                         <input type="text" class="form-control" value="+62" disabled>
                     </div>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" name="phone" id="phone" placeholder="Telepon" value="{{(isset($employee) ? "$employee->phone" : '')}}">
+                        <input type="text" class="form-control" name="phone" id="phone" placeholder="Telepon" value="{{(isset($employee) ? "$sub_str_phone" : '')}}">
                         <span class="help-block"></span>
                     </div>
                 </div>

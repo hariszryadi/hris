@@ -12,16 +12,20 @@ use DB;
 
 class LeaveController extends Controller
 {
+    // '0' => 'Reject', 
+    // '1' => 'Pending', 
+    // '2' => 'Approved', 
+    // '3' => 'Cancelled', 
+    
     protected $_view = 'frontend.leave';
-
-    public function isNull($data){
-        return (($data != null) ? trim($data) : "-");
-    }
 
     public function index()
     {
         $typeLeave = MsTypeLeave::get();
-        return view($this->_view)->with(compact('typeLeave'));
+        $empl_id = Auth::guard('user')->user()->empl_id;
+        $countApproval = DB::table('tr_leave')->where('empl_id', $empl_id)->where('status', 2)->count();
+        $countRejected = DB::table('tr_leave')->where('empl_id', $empl_id)->where('status', 0)->count();
+        return view($this->_view)->with(compact('typeLeave', 'countApproval', 'countRejected'));
     }
 
     public function getCategoryLeave(Request $request)

@@ -44,7 +44,7 @@
 
             <!-- notificiation icon  -->
             <a href="#" class="opts_icon" uk-tooltip="title: Notifications ; pos: bottom ;offset:7">
-                <img src="assets/images/icons/bell.svg" alt=""> <span>3</span>
+                <i class="icon-material-outline-notifications-active" style="font-size:24px;"></i> <span>3</span>
             </a>
 
 

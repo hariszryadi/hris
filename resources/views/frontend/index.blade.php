@@ -1,6 +1,19 @@
 @extends('layouts.frontend.main')
 
+@section('title')
+    <title>Dashboard</title>
+@endsection
+
 @section('content')
+<style>
+    html body {
+        background: #1e64b1;
+    }
+    .sidebar .sidebar_innr .sections li.active a {
+        color: #1e64b1;
+    }
+</style>
+
 <div class="main_content_inner">
 
     <div uk-grid>

@@ -104,7 +104,9 @@ class EmployeeController extends Controller
     {
         $division = MsDivision::orderBy('id', 'ASC')->get();
         $employee = MsEmployee::find($id);
-        return view($this->_view.'form')->with(compact('division', 'employee'));
+        $phone = $employee->phone;
+        $sub_str_phone = \substr($phone, 2);
+        return view($this->_view.'form')->with(compact('division', 'employee', 'sub_str_phone'));
     }
 
     public function update(Request $request)
@@ -138,7 +140,7 @@ class EmployeeController extends Controller
         $data['empl_name'] = $request->empl_name;
         $data['birth_date'] = $request->birth_date;
         $data['address'] = $request->address;
-        $data['phone'] = '62' + $request->phone;
+        $data['phone'] = '62' . $request->phone;
         $data['email'] = $request->email;
         $data['gender'] = $request->gender;
         $data['religion'] = $request->religion;

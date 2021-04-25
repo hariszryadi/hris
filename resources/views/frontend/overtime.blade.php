@@ -1,7 +1,158 @@
 @extends('layouts.frontend.main')
 
+@section('title')
+    <title>Rencana Lembur</title>
+@endsection
+
 @section('content')
+
+<link rel="stylesheet" href="{{asset('assets/plugins/powerful-calendar/style.css')}}">
+<link rel="stylesheet" href="{{asset('assets/plugins/powerful-calendar/theme.css')}}">
+<style>
+    html body {
+        background: #1b9d41;
+    }
+    .sidebar .sidebar_innr .sections li.active a {
+        color: #1b9d41;
+    }
+</style>
+
 <div class="main_content_inner">
-    <h1>Overtime</h1>
+    
+    <!-- Component Alert --> 
+    @include('helper.notify')
+    <!-- End Component Alert -->
+
+    <div id="start-date-wrapper">
+        <div class="box-wrapper">
+            <div class="box-wrapper-heading">
+                <div class="box-wrapper-heading-title">
+                    Informasi Lembur {{\Carbon\Carbon::now()->format('F Y')}}
+                </div>
+            </div>
+            <div class="box-wrapper-description">
+                <div class="box-wrapper-description-title">
+                    Total Jam Lembur : <span class="badge badge-warning">0</span> Jam
+                </div>
+                {{-- <div class="box-wrapper-description-body">
+                    <div class="row">
+                        <div class="col-sm-6">Total Lembur Disetujui : 0</div>
+                        <div class="col-sm-6">Total Lembur Ditolak : 0</div>
+                    </div>
+                </div> --}}
+            </div>
+        </div>
+    
+        <div class="box-wrapper">
+            <div class="calendar-wrapper"></div>
+        </div>
+    
+        <div class="box-wrapper">
+            {{-- <div class="box-wrapper-heading">
+                Atur Waktu Lembur
+            </div> --}}
+            <div class="box-wrapper-description" style="overflow: hidden;">
+                <form id="form-overtime">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label>Waktu Mulai</label>
+                            <input type="time" class="form-control" name="start_time" value="17:00">
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Waktu Akhir</label>
+                            <input type="time" class="form-control" name="end_time" value="18:00">
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Durasi</label>
+                            <input type="time" class="form-control" name="duration" value="01:00">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 8px;">
+                        <div class="col-sm-12">
+                            <label>Keterangan</label>
+                            <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+                        </div>
+                    </div>
+                   <button type="submit" class="btn btn-warning btn-right" style="margin-top: 8px; color: #fff;">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+@endsection
+
+@section('scripts')
+<script src="{{asset('assets/plugins/powerful-calendar/calendar.js')}}"></script>
+
+<script>
+    $(document).ready(function () {
+        var _token = '{{ csrf_token() }}';
+        var defaultConfig = {
+            weekDayLength: 1,
+            date: new Date(),
+            onClickDate: selectDate,
+            showYearDropdown: true,
+        };
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': _token
+            }
+        });
+
+        $('.calendar-wrapper').calendar(defaultConfig);
+
+    })
+
+    function selectDate(date) {
+        var d = new Date();
+        var currentDate = d.getFullYear() + "-" + (d.getMonth()+1).toString().replace(/(^.$)/,"0$1") + "-" + str_pad(d.getDate());
+        var selectDate = convertDate(date);
+        if (selectDate <= currentDate) {
+            bootbox.alert('Tidak bisa mengajukan lembur pada Tanggal yang sudah lewat');
+            return false;
+        }
+        $('.calendar-wrapper').updateCalendarOptions({
+            date: date
+        });
+        // $('#type_leave').attr("disabled", false);
+    }
+
+    function str_pad(n) {
+        return String("00" + n).slice(-2);
+    }
+
+    function convertDate(d){
+        var parts = d.split(" ");
+        var months = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
+        return parts[3]+"-"+months[parts[1]]+"-"+parts[2];
+    }
+
+    $('#form-overtime').on('submit', function (e) {
+        e.preventDefault();
+        loadingproses();
+
+        $.ajax({
+            url: "{{route('postOvertime')}}",
+            type: "POST",
+            dataType: "json",
+            data: $('#form-overtime').serialize(),
+            success: function (data) {
+                console.log(data);
+                $('.alert-success').attr("hidden", false);
+                $('.alert-success strong').text(data.message);
+                loadingproses_close();
+            },
+            error: function (xhr, status, error) {
+                var err = JSON.parse(xhr.responseText);
+                console.log(err.message);
+                $('.alert-danger').attr("hidden", false);
+                $('.alert-danger strong').text(err.message);
+                loadingproses_close();
+            }
+        })
+    })
+</script>  
 @endsection
