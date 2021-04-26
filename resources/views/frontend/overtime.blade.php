@@ -56,15 +56,15 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <label>Waktu Mulai</label>
-                            <input type="time" class="form-control" name="start_time" value="17:00">
+                            <input type="time" class="form-control" name="start_time" id="start_time" value="17:00">
                         </div>
                         <div class="col-sm-4">
                             <label>Waktu Akhir</label>
-                            <input type="time" class="form-control" name="end_time" value="18:00">
+                            <input type="time" class="form-control" name="end_time" id="end_time" value="18:00">
                         </div>
                         <div class="col-sm-4">
                             <label>Durasi</label>
-                            <input type="time" class="form-control" name="duration" value="01:00">
+                            <input type="time" class="form-control" name="duration" id="duration" value="01:00" readonly>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 8px;">
@@ -73,7 +73,7 @@
                             <textarea class="form-control" name="description" id="description" rows="3"></textarea>
                         </div>
                     </div>
-                   <button type="submit" class="btn btn-warning btn-right" style="margin-top: 8px; color: #fff;">Submit</button>
+                   <button type="submit" class="btn btn-success btn-right" style="margin-top: 8px; color: #fff;">Submit</button>
                 </form>
             </div>
         </div>
@@ -103,14 +103,13 @@
         });
 
         $('.calendar-wrapper').calendar(defaultConfig);
-
     })
 
     function selectDate(date) {
         var d = new Date();
         var currentDate = d.getFullYear() + "-" + (d.getMonth()+1).toString().replace(/(^.$)/,"0$1") + "-" + str_pad(d.getDate());
         var selectDate = convertDate(date);
-        if (selectDate <= currentDate) {
+        if (selectDate < currentDate) {
             bootbox.alert('Tidak bisa mengajukan lembur pada Tanggal yang sudah lewat');
             return false;
         }
@@ -130,6 +129,29 @@
         return parts[3]+"-"+months[parts[1]]+"-"+parts[2];
     }
 
+    $('#start_time, #end_time').on('change', function () {
+        var startTime = $('#start_time').val();
+        var endTime = $('#end_time').val();
+        loadingproses();
+
+        if (startTime < "17:00" || endTime < "17:00") {
+            bootbox.alert('Tidak bisa mengajukan lembur dibawah pukul 17:00');
+            loadingproses_close();
+            $('#start_time').val("17:00");
+            $('#end_time').val("18:00");
+            $('#duration').val("01:00");
+            return false;
+        }
+
+        $.ajax({
+            type: 'GET',
+            success: function (data) {
+                getDuration(startTime, endTime);
+                loadingproses_close();
+            }
+        })
+    })
+
     $('#form-overtime').on('submit', function (e) {
         e.preventDefault();
         loadingproses();
@@ -141,18 +163,40 @@
             data: $('#form-overtime').serialize(),
             success: function (data) {
                 console.log(data);
+                $('.alert-danger').attr("hidden", true);
                 $('.alert-success').attr("hidden", false);
                 $('.alert-success strong').text(data.message);
+                $('#description').val('');
+                $('#start_time').val("17:00");
+                $('#end_time').val("18:00");
+                $('#duration').val("01:00");
+                $('html, body').animate({ scrollTop: 0 }, 'slow');
                 loadingproses_close();
             },
             error: function (xhr, status, error) {
                 var err = JSON.parse(xhr.responseText);
                 console.log(err.message);
+                $('.alert-success').attr("hidden", true);
                 $('.alert-danger').attr("hidden", false);
                 $('.alert-danger strong').text(err.message);
+                $('#description').val('');
+                $('#start_time').val("17:00");
+                $('#end_time').val("18:00");
+                $('#duration').val("01:00");
+                $('html, body').animate({ scrollTop: 0 }, 'slow');
                 loadingproses_close();
             }
         })
     })
+
+    function getDuration(startTime, endTime) {
+        var str0="01/01/1970 " + startTime;
+        var str1="01/01/1970 " + endTime;
+        var diff=(Date.parse(str1)-Date.parse(str0))/1000/60;
+        var hours=String(100+Math.floor(diff/60)).substr(1);
+        var mins=String(100+diff%60).substr(1);
+
+        $('#duration').val((hours+':'+mins));
+    }
 </script>  
 @endsection

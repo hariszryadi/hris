@@ -102,7 +102,7 @@
                                 <textarea class="form-control" name="description" id="description" rows="3"></textarea>
                             </div>
                         </div>
-                       <button type="submit" class="btn btn-warning btn-right" style="margin-top: 8px; color: #fff;">Submit</button>
+                       <button type="submit" class="btn btn-success btn-right" style="margin-top: 8px; color: #fff;">Submit</button>
                     </form>
                 </div>
             </div>
@@ -252,20 +252,21 @@
             data: $('#form-leave').serialize(),
             success: function (data) {
                 console.log(data);
-                $('#start-date-wrapper').show();
-                $('#end-date-wrapper').hide();
-                // $('.day').removeClass('selected');
-                // $('#type_leave').val('null').attr('disabled', true);
-                // $('#category_leave').val('null').attr('disabled', true);
+                $('.alert-danger').attr("hidden", true);
                 $('.alert-success').attr("hidden", false);
                 $('.alert-success strong').text(data.message);
+                $('#description').val('');
+                $('#end_date').val('');
                 loadingproses_close();
             },
             error: function (xhr, status, error) {
                 var err = JSON.parse(xhr.responseText);
                 console.log(err.message);
+                $('.alert-success').attr("hidden", true);
                 $('.alert-danger').attr("hidden", false);
                 $('.alert-danger strong').text(err.message);
+                $('#description').val('');
+                $('#end_date').val('');
                 loadingproses_close();
             }
         })

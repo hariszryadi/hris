@@ -70,6 +70,10 @@
         function loadingproses_close() {
             $('.body').removeClass('loader');
         }
+
+        $('.close').on('click', function () {
+            location.reload();
+        })
     </script>
     @yield('scripts')
 
