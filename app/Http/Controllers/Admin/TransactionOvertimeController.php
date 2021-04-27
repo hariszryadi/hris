@@ -4,17 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\TrLeave;
+use App\Models\TrOvertime;
 use DataTables;
+use DB;
 
-class TransactionLeaveController extends Controller
+class TransactionOvertimeController extends Controller
 {
-    protected $_view = 'backend.transaction-leave.';
+    protected $_view = 'backend.transaction-overtime.';
 
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            return Datatables::of(TrLeave::orderBy('id', 'DESC')->get())
+            return Datatables::of(TrOvertime::orderBy('id', 'DESC')->get())
                 ->addColumn('action', function($data){
                     return '<ul class="icons-list">
                                 <li>
@@ -32,9 +33,6 @@ class TransactionLeaveController extends Controller
                 ->editColumn('empl_id', function($drawings) {
                     return $drawings->empl->empl_name;
                 })
-                ->editColumn('category_leave_id', function($drawings) {
-                    return $drawings->categoryLeave->category_leave;
-                })
                 ->rawColumns(['action'])
                 ->make(true);
         }
@@ -44,8 +42,8 @@ class TransactionLeaveController extends Controller
 
     public function show(Request $request)
     {
-        $data = TrLeave::with(['typeLeave', 'categoryLeave', 'empl.division'])
-                    ->where('tr_leave.id', $request->id)
+        $data = TrOvertime::with('empl.division')
+                    ->where('tr_overtime.id', $request->id)
                     ->get();
 
         return response()->json(['data' => $data]);

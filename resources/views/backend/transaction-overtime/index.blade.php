@@ -1,7 +1,7 @@
 @extends('layouts.backend.master')
 
 @section('title-header')
-    Transaksi Cuti/Izin
+    Transaksi Lembur
 @endsection
 
 @section('menus')
@@ -9,7 +9,7 @@
 @endsection
 
 @section('submenus')
-    Transaksi Cuti/Izin
+    Transaksi Lembur
 @endsection
 
 @section('content')
@@ -35,7 +35,7 @@
     </style>
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">List Transaksi Cuti/Izin</h5>
+            <h5 class="panel-title">List Transaksi Lembur</h5>
         </div>
         <div class="panel-body">
             
@@ -47,15 +47,16 @@
                 </a>
             </div> --}}
             
-            <table class="table datatable-basic table-hover table-bordered striped">
+            <table class="table datatable-basic table-hover table-bordered striped nowrap">
                 <thead>
                     <tr class="bg-teal-400">
                         <th>No</th>
                         <th>Nama Pegawai</th>
-                        <th>ID Transaksi Cuti/Izin</th>
-                        <th>Tanggal Mulai Cuti</th>
-                        <th>Tanggal Selesai Cuti</th>
-                        <th>Kategori Cuti/Izin</th>
+                        <th>ID Transaksi Lembur</th>
+                        <th>Tanggal Lembur</th>
+                        <th>Jam Mulai Lembur</th>
+                        <th>Jam Selesai Lembur</th>
+                        <th>Durasi</th>
                         <th>Status</th>
                         <th>Aksi</th>
                     </tr>
@@ -98,7 +99,7 @@
                 bLengthChange: false,
                 pageLength: 10,
                 ajax: {
-                    url: "{{route('admin.transactionLeave.index')}}",
+                    url: "{{route('admin.transactionOvertime.index')}}",
                 },
                 columns: [
                     {data: "id", render: function (data, type, row, meta) {
@@ -106,45 +107,72 @@
                         },
                     },
                     {data: "empl_id", name: "empl_id", orderable: false},
-                    {data: "tr_leave_id", name: "tr_leave_id", orderable: false},
+                    {data: "tr_overtime_id", name: "tr_overtime_id", orderable: false},
                     {
-                        data: "start_date", 
-                        name: "start_date", 
+                        data: "created_at", 
+                        name: "created_at", 
                         render: function (data, type, full, meta) {
                             return formatDate(data);
                         },
                         orderable: false
                     },
                     {
-                        data: "end_date", 
-                        name: "end_date",
+                        data: "start_time", 
+                        name: "start_time",
                         render: function (data, type, full, meta) {
-                            return formatDate(data);
+                            return formatTime(data);
                         },
                         orderable: false
                     },
-                    {data: "category_leave_id", name: "category_leave_id", orderable: false},
+                    {
+                        data: "end_time", 
+                        name: "end_time", 
+                        render: function (data, type, full, meta) {
+                            return formatTime(data);
+                        },
+                        orderable: false
+                    },
+                    {
+                        data: "duration", 
+                        name: "duration",
+                        render: function (data, type, full, meta) {
+                            return formatDuration(data);
+                        },
+                        orderable: false
+                    },
                     {
                         data: "status", 
                         name: "status",
-                        render: function (data, type, full, meta) {
-                            return badgeStatus(data);
+                        render: function name(data, type, full, meta) {
+                            return badgeStatus(data)
                         },
                         orderable: false
                     },
-                    {data: "action", name: "action", orderable: false},
+                    {data: "action", name: "action", orderable: false}
                 ],
                 columnDefs: [
                     { width: "5%", "targets": [0] },
-                    { width: "10%", "targets": [3, 4, 5, 6, 7] },
-                    { className: "text-center", "targets": [3, 4, 5, 6, 7] }
+                    { width: "10%", "targets": [3, 4, 5, 6, 7, 8] },
+                    { className: "text-center", "targets": [3, 4, 5, 6, 7, 8] }
                 ]
             });
         })
 
         function formatDate(date) {
-            var parts = date.split('-');
-            return parts[2] + '-' + parts[1] + '-' + parts[0];
+            var parts = date.split(' ');
+            var getDate = parts[0];
+            var date = getDate.split('-');
+            return date[2] + '-' + date[1] + '-' + date[0];
+        }
+
+        function formatTime(time) {
+            var parts = time.split(':');
+            return parts[0] + ':' + parts[1];
+        }
+
+        function formatDuration(time) {
+            var parts = time.split(':');
+            return parts[0].replace(/\b0(?=\d)/g, '') + ' jam ' + (parts[1] != '00' ? parts[1] + ' menit' : '');
         }
 
         function badgeStatus(status) {    
@@ -163,15 +191,14 @@
             var id = $(this).attr('data-id');
             
             $.ajax({
-                url: "{{route('admin.transactionLeave.show')}}",
+                url: "{{route('admin.transactionOvertime.show')}}",
                 method: "POST",
                 dataType: "json",
                 data: {id:id},
                 success: function (data) {
-                    console.log(data);
                     var data = data.data[0];
                     $('#modal-detail').modal('show');
-                    $('#modal-detail-title').text(data.tr_leave_id);
+                    $('#modal-detail-title').text(data.tr_overtime_id);
                     $('.modal-body').html(
                         `<table class="tab">
                             <tr>
@@ -191,24 +218,24 @@
                             </tr>
                             <tr></tr>
                             <tr>
-                                <td>Tanggal Mulai Cuti</td>
+                                <td>Tanggal Lembur</td>
                                 <td>:</td>
-                                <td>${formatDate(data.start_date)}</td>
+                                <td>${formatDate(data.created_at)}</td>
                             </tr>
                             <tr>
-                                <td>Tanggal Selesai Cuti</td>
+                                <td>Jam Mulai Lembur</td>
                                 <td>:</td>
-                                <td>${formatDate(data.end_date)}</td>
+                                <td>${formatTime(data.start_time)}</td>
                             </tr>
                             <tr>
-                                <td>Tipe</td>
+                                <td>Jam Selesai Lembur</td>
                                 <td>:</td>
-                                <td>${data.type_leave.type_leave}</td>
+                                <td>${formatTime(data.end_time)}</td>
                             </tr>
                             <tr>
-                                <td>Kategori</td>
+                                <td>Durasi Lembur</td>
                                 <td>:</td>
-                                <td>${data.category_leave.category_leave}</td>
+                                <td>${formatDuration(data.duration)}</td>
                             </tr>
                             <tr>
                                 <td>Status</td>

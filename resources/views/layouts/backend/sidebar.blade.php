@@ -58,8 +58,8 @@
                                 <a href="{{route('admin.transactionLeave.index')}}">Transaksi Cuti/Izin</a>
                             </li>
 
-                            <li class="nav-item">
-                                <a href="#">Transaksi Lembur</a>
+                            <li class="nav-item {{request()->is('admin/transaction-overtime/*') ? 'active' : ''}}">
+                                <a href="{{route('admin.transactionOvertime.index')}}">Transaksi Lembur</a>
                             </li>
 
                         </ul>

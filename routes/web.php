@@ -58,6 +58,11 @@ Route::group(['prefix' => 'admin'], function () {
 
         /** Transaksi Cuti/Izin */
         Route::get('/transaction-leave/index', 'Admin\TransactionLeaveController@index')->name('admin.transactionLeave.index');
+        Route::post('/transaction-leave/show', 'Admin\TransactionLeaveController@show')->name('admin.transactionLeave.show');
+
+        /** Transaksi Lembur */
+        Route::get('/transaction-overtime/index', 'Admin\TransactionOvertimeController@index')->name('admin.transactionOvertime.index');
+        Route::post('/transaction-overtime/show', 'Admin\TransactionOvertimeController@show')->name('admin.transactionOvertime.show');
 
         /** Account Pegawai */
         Route::get('/account/index', 'Admin\AccountController@index')->name('admin.account.index');
