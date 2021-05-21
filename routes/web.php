@@ -69,6 +69,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/account/{id}/edit', 'Admin\AccountController@edit')->name('admin.account.edit');
         Route::post('/account/update', 'Admin\AccountController@update')->name('admin.account.update');
         Route::post('/account/change-status', 'Admin\AccountController@changeStatus')->name('admin.account.changeStatus');
+
+        /** Import */
+        Route::get('/import/index', 'Admin\ImportController@index')->name('admin.import.index');
+        Route::post('/import/absencye', 'Admin\ImportController@importAbsencye')->name('admin.import.absencye');
     });
 });
 

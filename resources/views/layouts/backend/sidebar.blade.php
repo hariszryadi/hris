@@ -66,6 +66,17 @@
                     </li>
 
                     <li class="nav-item nav-item-submenu">
+                        <a href="#" class="nav-link"><i class="icon-file-upload"></i>
+                            <span>Import</span></a>
+                        <ul>
+                            <li class="nav-item {{request()->is('admin/import/*') ? 'active' : ''}}">
+                                <a href="{{route('admin.import.index')}}">Import Absensi</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li class="nav-item nav-item-submenu">
                         <a href="#" class="nav-link"><i class="icon-stack"></i>
                             <span>CMS</span></a>
                         <ul>

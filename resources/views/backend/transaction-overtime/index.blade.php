@@ -13,26 +13,6 @@
 @endsection
 
 @section('content')
-    <style>
-        #modal-detail .modal-content {
-            border-radius: 8px;
-        }
-        #modal-detail .modal-header {
-            background-color: #26A69A;
-            color: #fff;
-            padding-bottom: 8px;
-            border-top-right-radius: 8px;
-            border-top-left-radius: 8px;
-        }
-        #modal-detail .modal-header .close {
-            color: #fff;
-            margin-top: -7px;
-        }
-        .tab {
-            border-collapse: inherit;
-            border-spacing: 15px 15px;
-        }
-    </style>
     <div class="panel panel-flat">
         <div class="panel-heading">
             <h5 class="panel-title">List Transaksi Lembur</h5>
