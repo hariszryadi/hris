@@ -1,38 +1,38 @@
 @extends('layouts.backend.master')
 
 @section('title-header')
-    Slider
+    User Admin
 @endsection
 
 @section('menus')
-    CMS
+    User Config
 @endsection
 
 @section('submenus')
-    Slider
+    User Admin
 @endsection
 
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">List Slider</h5>
+            <h5 class="panel-title">List User Admin</h5>
         </div>
         <div class="panel-body">
             
             <div class="form-group text-left">
-                <a href="{{route('admin.slider.create')}}" id="tambah" 
+                <a href="{{route('admin.userAdmin.create')}}" id="tambah" 
                     class="btn btn-primary">
                     <i class="icon-file-plus"></i>
                     Tambah
                 </a>
-            </div>       
+            </div>
             
             <table class="table datatable-basic table-hover table-bordered striped">
                 <thead>
                     <tr class="bg-teal-400">
                         <th>No</th>
-                        <th>Image</th>
-                        <th>Caption</th>
+                        <th>Nama</th>
+                        <th>Email</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -59,29 +59,21 @@
                 bLengthChange: false,
                 pageLength: 10,
                 ajax: {
-                    url: "{{route('admin.slider.index')}}",
+                    url: "{{route('admin.userAdmin.index')}}",
                 },
                 columns: [
                     {data: "id", render: function (data, type, row, meta) {
                             return meta.row + meta.settings._iDisplayStart + 1;
                         },
                     },
-                    {
-                        data: "image",
-                        name: "image",
-                        render: function (data, type, full, meta) {
-                            return `<img src="{{ asset('storage/${data}') }}" width="100" class="img-responsive" />`;
-                        },
-                        orderable: false
-                    },
-                    {data: "caption", name: "caption", orderable: false},
+                    {data: "name", name: "name", orderable: false},
+                    {data: "email", name: "email", orderable: false},
                     {data: "action", name: "action", orderable: false}
                 ],
                 columnDefs: [
                     { width: "5%", "targets": [0] },
-                    { width: "25%", "targets": [1] },
                     { width: "10%", "targets": [3] },
-                    { className: "text-center", "targets": [1, 3] }
+                    { className: "text-center", "targets": [3] }
                 ]
             });
 
@@ -100,7 +92,7 @@
                     }, function(result) {
                         if (result) {
                             $.ajax({
-                                url: "{{ route('admin.slider.destroy') }}",
+                                url: "{{ route('admin.userAdmin.destroy') }}",
                                 method: "POST",
                                 data: {id:id, image:image},
                                 success: function (resp) {

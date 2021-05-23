@@ -9,7 +9,7 @@
 @endsection
 
 @section('submenus')
-Kategori Cuti/Izin
+    Kategori Cuti/Izin
 @endsection
 
 @section('content')

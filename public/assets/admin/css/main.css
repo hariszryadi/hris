@@ -8,6 +8,11 @@
     width: 450px;
 }
 
+.img-avatar {
+    height: 250px;
+    width: 250px;
+}
+
 .img-responsive {
     margin-right: auto;
     margin-left: auto;

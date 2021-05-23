@@ -96,12 +96,12 @@
                                 <a href="{{route('admin.account.index')}}">Account Pegawai</a>
                             </li>
 
-                            <li class="nav-item">
-                                <a href="#">Role</a>
+                            <li class="nav-item {{request()->is('admin/role/*') ? 'active' : ''}}">
+                                <a href="{{route('admin.role.index')}}">Role</a>
                             </li>
 
-                            <li class="nav-item">
-                                <a href="#">User Admin</a>
+                            <li class="nav-item {{request()->is('admin/user-admin/*') ? 'active' : ''}}">
+                                <a href="{{route('admin.userAdmin.index')}}">User Admin</a>
                             </li>
             
                         </ul>

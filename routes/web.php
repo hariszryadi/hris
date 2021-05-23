@@ -73,6 +73,22 @@ Route::group(['prefix' => 'admin'], function () {
         /** Import */
         Route::get('/import/index', 'Admin\ImportController@index')->name('admin.import.index');
         Route::post('/import/absencye', 'Admin\ImportController@importAbsencye')->name('admin.import.absencye');
+
+        /** Role */
+        Route::get('/role/index', 'Admin\RoleController@index')->name('admin.role.index');
+        Route::get('/role/create', 'Admin\RoleController@create')->name('admin.role.create');
+        Route::post('/role/store', 'Admin\RoleController@store')->name('admin.role.store');
+        Route::get('/role/{id}/edit', 'Admin\RoleController@edit')->name('admin.role.edit');
+        Route::post('/role/update', 'Admin\RoleController@update')->name('admin.role.update');
+        Route::post('/role/destroy', 'Admin\RoleController@destroy')->name('admin.role.destroy');
+
+        /** User Admin */
+        Route::get('/user-admin/index', 'Admin\UserAdminController@index')->name('admin.userAdmin.index');
+        Route::get('/user-admin/create', 'Admin\UserAdminController@create')->name('admin.userAdmin.create');
+        Route::post('/user-admin/store', 'Admin\UserAdminController@store')->name('admin.userAdmin.store');
+        Route::get('/user-admin/{id}/edit', 'Admin\UserAdminController@edit')->name('admin.userAdmin.edit');
+        Route::post('/user-admin/update', 'Admin\UserAdminController@update')->name('admin.userAdmin.update');
+        Route::post('/user-admin/destroy', 'Admin\UserAdminController@destroy')->name('admin.userAdmin.destroy');
     });
 });
 
