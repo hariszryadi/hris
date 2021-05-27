@@ -22,7 +22,7 @@ Route::group(['prefix' => 'admin'], function () {
         return view('backend.dashboard');
     })->middleware('auth:admin')->name('admin.dashboard');
 
-    Route::group(['middleware' => 'auth:admin'], function () {
+    Route::group(['middleware' => ['auth:admin']], function () {
         
         /** Divisi */
         Route::get('/division/index', 'Admin\DivisionController@index')->name('admin.division.index');
@@ -31,6 +31,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/division/{id}/edit', 'Admin\DivisionController@edit')->name('admin.division.edit');
         Route::post('/division/update', 'Admin\DivisionController@update')->name('admin.division.update');
         Route::post('/division/destroy', 'Admin\DivisionController@destroy')->name('admin.division.destroy');
+
 
         /** Pegawai */
         Route::get('/employee/index', 'Admin\EmployeeController@index')->name('admin.employee.index');
