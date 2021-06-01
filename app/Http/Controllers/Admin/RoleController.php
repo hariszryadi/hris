@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\PermissionRole;
+use App\Models\Permission;
 use App\Models\Role;
 use DataTables;
 
@@ -40,6 +42,32 @@ class RoleController extends Controller
 
     public function create()
     {
+        if (request()->ajax()) {
+            return Datatables::of(Permission::orderBy('id')->get())
+                ->addColumn('readable', function($data){
+                    if ($data->readable == true) {
+                        return '<input type="checkbox" name="readable_'.$data->id.'"/>';
+                    }
+                })
+                ->addColumn('createable', function($data){
+                    if ($data->createable == true) {
+                        return '<input type="checkbox" name="createable_'.$data->id.'"/>';
+                    }
+                })
+                ->addColumn('updateable', function($data){
+                    if ($data->updateable == true) {
+                        return '<input type="checkbox" name="updateable_'.$data->id.'"/>';
+                    }
+                })
+                ->addColumn('deleteable', function($data){
+                    if ($data->deleteable == true) {
+                        return '<input type="checkbox" name="deleteable_'.$data->id.'"/>';
+                    }
+                })
+                ->rawColumns(['readable', 'createable', 'updateable', 'deleteable'])
+                ->make(true);
+        }
+
         return view($this->_view.'form');
     }
 
@@ -69,10 +97,22 @@ class RoleController extends Controller
             'name' => 'required'
         ]);
 
-        Role::where('id', $request->id)->update([
-            'name' => $request->name,
-            'description' => $request->description
-        ]);
+        // Role::where('id', $request->id)->update([
+        //     'name' => $request->name,
+        //     'description' => $request->description
+        // ]);
+
+        // $permission = PermissionRole::where('role_id', $request->id)->get();
+        // return dd($permission);
+        // foreach ($permissions as $permission) {
+            // $permissionRole = new PermissionRole;
+            PermissionRole::where('role_id', $request->id)->update([
+                'read_right' => true,
+                'create_right' => $request->createable,
+                'update_right' => $request->updateable,
+                'delete_right' => $request->deleteable
+            ]);
+        // }
 
         return redirect()->route('admin.role.index')->with('success', 'Success Message');
     }

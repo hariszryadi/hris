@@ -105,6 +105,8 @@ Route::get('/leave', 'LeaveController@index')->middleware('auth:user')->name('le
 Route::post('/getCategoryLeave', 'LeaveController@getCategoryLeave')->name('getCategoryLeave');
 Route::post('/getLeave', 'LeaveController@getLeave')->name('getLeave');
 Route::post('/postLeave', 'LeaveController@postLeave')->name('postLeave');
+Route::post('/getStatusRequestLeave', 'LeaveController@getStatusRequestLeave')->name('getStatusRequestLeave');
+Route::post('/cancelRequestLeave', 'LeaveController@cancelRequestLeave')->name('cancelRequestLeave');
 
 Route::get('/overtime', 'OvertimeController@index')->middleware('auth:user')->name('overtime');
 Route::post('/postOvertime', 'OvertimeController@postOvertime')->name('postOvertime');

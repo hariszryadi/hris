@@ -77,3 +77,74 @@
 .is-invalid {
     border: 1px solid #de4437;
 }
+
+.table-request > thead > tr > th {
+    border-top: none !important;
+    border-bottom: none !important;
+}
+
+.table-request > tbody > tr > td {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.detail-leave {
+    font-weight: bold;
+    color: #FF9D34;
+}
+
+.badge-cuti {
+    padding: 4px 16px;
+    color: #fff;
+    background-color: #FF9D34;
+    border-radius: 12px;
+}
+
+.badge-izin {
+    padding: 4px 16px;
+    color: #fff;
+    background-color: #1e64b1;
+    border-radius: 12px;
+}
+
+.nav-tabs {
+    margin-bottom: 8px !important;
+}
+
+.nav-tabs .nav-link {
+    color: #495057;
+}
+
+.nav-tabs .nav-link.active {
+    font-weight: bold !important;
+    color: #1e64b1 !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    border-bottom: 3px solid #FF9D34 !important;
+}
+
+.nav-tabs .nav-link.active:hover {
+    border-color: transparent !important;
+    border-bottom: 3px solid #FF9D34 !important;
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: transparent !important;
+}
+
+.dataTables_filter {
+    float: right;
+}
+
+.dataTables_empty {
+    text-align: center;
+}
+
+.pagination {
+    float: right
+}
+
+.cancel-request {
+    cursor: pointer;
+}

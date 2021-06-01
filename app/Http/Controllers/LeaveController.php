@@ -7,6 +7,7 @@ use App\Models\MsCategoryLeave;
 use App\Models\MsTypeLeave;
 use App\Models\TrLeave;
 use Carbon\Carbon;
+use DataTables;
 use Auth;
 use DB;
 
@@ -88,6 +89,59 @@ class LeaveController extends Controller
                 'message' => 'Gagal melakukan submit form cuti',
                 'error' => $e->getMessage()
             ], 400);
+        }
+    }
+
+    public function getStatusRequestLeave(Request $request)
+    {
+        $empl_id = Auth::guard('user')->user()->empl_id;
+        return Datatables::of(TrLeave::where('empl_id', $empl_id)->orderBy('id', 'desc')->get())
+                ->addColumn('detail_leave', function($data){
+                    return '<div class="row">
+                        <div class="col-4">
+                            <span class="detail-leave">Tanggal Mulai</span>
+                        </div>
+                        <div class="col-6">
+                            : '.$data->start_date.'
+                        </div>
+                        <div class="col-2">
+                            '.$this->badgeTypeLeave($data->type_leave_id).'
+                        </div>
+                        <div class="col-4">
+                            <span class="detail-leave">Tanggal Selesai</span>
+                        </div>
+                        <div class="col-6">
+                            : '.$data->end_date.'
+                        </div>
+                        <div class="col-4">
+                            <strong>Deskripsi</strong>
+                        </div>
+                        <div class="col-6">
+                            : '.$data->description.'
+                        </div>
+                    </div>';
+                })
+                ->addColumn('action', function($data){
+                    if ($data->status == 1) {
+                        return '<span data-id="'.$data->id.'" class="cancel-request">Cancel</span>';
+                    }
+                })
+                ->rawColumns(['detail_leave', 'action'])
+                ->make(true);
+    }
+
+    public function cancelRequestLeave(Request $request)
+    {
+        $leave = TrLeave::where('id', $request->id);
+        $leave->update(['status' => 3]);
+    }
+
+    public function badgeTypeLeave($data)
+    {
+        if ($data == 1) {
+            return '<span class="badge-cuti">Cuti</span>';
+        } else {
+            return '<span class="badge-izin">Izin</span>';
         }
     }
 }

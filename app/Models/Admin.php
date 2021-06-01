@@ -18,4 +18,9 @@ class Admin extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password', 'avatar'
     ];
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
 }

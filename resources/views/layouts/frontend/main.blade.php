@@ -62,6 +62,8 @@
     <script src="{{asset('assets/bootstrap/popper.min.js')}}"></script>
     <script src="{{asset('assets/bootstrap/bootstrap.min.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
     <script>
         function loadingproses() {
             $('.body').addClass('loader');

@@ -40,6 +40,26 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <div class="col-lg-2">
+                        <label for="control-label">Module</label>
+                    </div>
+                    <div class="col-lg-10">
+                        <table class="table datatable-basic table-hover table-bordered striped">
+                            <thead>
+                                <tr class="bg-teal-400">
+                                    <th>No</th>
+                                    <th>Module Permission</th>
+                                    <th>Read</th>
+                                    <th>Create</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+
                 <div class="form-group" style="margin-top: 50px; margin-left: 10px;">
                     <a class="btn btn-danger" href="{{route('admin.role.index')}}">Kembali</a>
                     <button type="submit" class="btn btn-primary">{{(isset($role) ? 'Update' : 'Simpan')}}</button>
@@ -68,6 +88,32 @@
                 onModulesLoaded : function() {
                     $.setupValidation(config);
                 }
+            });
+
+            $('.datatable-basic').DataTable({
+                processing: true,
+                serverside: true,
+                autoWidth: false,
+                bLengthChange: false,
+                pageLength: 10,
+                ajax: {
+                    url: "{{route('admin.role.create')}}",
+                },
+                columns: [
+                    {data: "id", render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        },
+                    },
+                    {data: "name", name: "name", orderable: false},
+                    {data: "readable", name: "readable", orderable: false},
+                    {data: "createable", name: "createable", orderable: false},
+                    {data: "updateable", name: "updateable", orderable: false},
+                    {data: "deleteable", name: "deleteable", orderable: false}
+                ],
+                columnDefs: [
+                    { width: "5%", "targets": [0, 2, 3, 4, 5] },
+                    { className: "text-center", "targets": [2, 3, 4, 5] }
+                ]
             });
         });
     </script>
