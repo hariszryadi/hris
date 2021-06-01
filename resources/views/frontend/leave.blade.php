@@ -19,6 +19,12 @@
         color: #fff;
         background-color: #FF9D34;
     }
+    .nav-tabs .nav-link.active {
+        border-bottom: 3px solid #FF9D34 !important;
+    }
+    .nav-tabs .nav-link.active:hover {
+        border-bottom: 3px solid #FF9D34 !important;
+    }
 </style>
 
 <div class="main_content_inner">

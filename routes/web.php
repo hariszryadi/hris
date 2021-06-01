@@ -110,6 +110,8 @@ Route::post('/cancelRequestLeave', 'LeaveController@cancelRequestLeave')->name('
 
 Route::get('/overtime', 'OvertimeController@index')->middleware('auth:user')->name('overtime');
 Route::post('/postOvertime', 'OvertimeController@postOvertime')->name('postOvertime');
+Route::post('/getStatusRequestOvertime', 'OvertimeController@getStatusRequestOvertime')->name('getStatusRequestOvertime');
+Route::post('/cancelRequestOvertime', 'OvertimeController@cancelRequestOvertime')->name('cancelRequestOvertime');
 
 Route::get('/settings', function () {
     return view('frontend.settings');

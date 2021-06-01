@@ -15,6 +15,16 @@
     .sidebar .sidebar_innr .sections li.active a {
         color: #1b9d41;
     }
+    #table-status-pengajuan-lembur > thead > tr {
+        color: #fff;
+        background-color: #1b9d41;
+    }
+    .nav-tabs .nav-link.active {
+        border-bottom: 3px solid #1b9d41 !important;
+    }
+    .nav-tabs .nav-link.active:hover {
+        border-bottom: 3px solid #1b9d41 !important;
+    }
 </style>
 
 <div class="main_content_inner">
@@ -23,58 +33,103 @@
     @include('helper.notify')
     <!-- End Component Alert -->
 
-    <div id="start-date-wrapper">
-        <div class="box-wrapper">
-            <div class="box-wrapper-heading">
-                <div class="box-wrapper-heading-title">
-                    Informasi Lembur {{\Carbon\Carbon::now()->format('F Y')}}
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#request-overtime">Rencana Lembur</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#status-request-overtime">Status Pengajuan Lembur</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#employee-request">Pengajuan Pegawai</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="request-overtime" class="tab-pane active">
+            <div id="start-date-wrapper">
+                <div class="box-wrapper">
+                    <div class="box-wrapper-heading">
+                        <div class="box-wrapper-heading-title">
+                            Informasi Lembur {{\Carbon\Carbon::now()->format('F Y')}}
+                        </div>
+                    </div>
+                    <div class="box-wrapper-description">
+                        <div class="box-wrapper-description-title">
+                            Total Jam Lembur : <span class="badge badge-warning">0</span> Jam
+                        </div>
+                        {{-- <div class="box-wrapper-description-body">
+                            <div class="row">
+                                <div class="col-sm-6">Total Lembur Disetujui : 0</div>
+                                <div class="col-sm-6">Total Lembur Ditolak : 0</div>
+                            </div>
+                        </div> --}}
+                    </div>
+                </div>
+            
+                <div class="box-wrapper">
+                    <div class="calendar-wrapper"></div>
+                </div>
+            
+                <div class="box-wrapper">
+                    {{-- <div class="box-wrapper-heading">
+                        Atur Waktu Lembur
+                    </div> --}}
+                    <div class="box-wrapper-description" style="overflow: hidden;">
+                        <form id="form-overtime">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Waktu Mulai</label>
+                                    <input type="time" class="form-control" name="start_time" id="start_time" value="17:00">
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Waktu Akhir</label>
+                                    <input type="time" class="form-control" name="end_time" id="end_time" value="18:00">
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Durasi</label>
+                                    <input type="time" class="form-control" name="duration" id="duration" value="01:00" readonly>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 8px;">
+                                <div class="col-sm-12">
+                                    <label>Keterangan</label>
+                                    <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+                                </div>
+                            </div>
+                           <button type="submit" class="btn btn-success btn-right" style="margin-top: 8px; color: #fff;">Submit</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <div class="box-wrapper-description">
-                <div class="box-wrapper-description-title">
-                    Total Jam Lembur : <span class="badge badge-warning">0</span> Jam
-                </div>
-                {{-- <div class="box-wrapper-description-body">
-                    <div class="row">
-                        <div class="col-sm-6">Total Lembur Disetujui : 0</div>
-                        <div class="col-sm-6">Total Lembur Ditolak : 0</div>
+        </div>
+
+        <div id="status-request-overtime" class="tab-pane">
+            <div class="box-wrapper">
+                <div class="box-wrapper-heading">
+                    <div class="box-wrapper-heading-title">
+                        List data status pengajuan lembur
                     </div>
-                </div> --}}
+                </div>
+                <div class="box-wrapper-description">
+                    <table id="table-status-pengajuan-lembur" class="table table-request">
+                        <thead>
+                            <tr>
+                                <th>ID Lembur</th>
+                                <th>Detail Lembur</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
-    
-        <div class="box-wrapper">
-            <div class="calendar-wrapper"></div>
-        </div>
-    
-        <div class="box-wrapper">
-            {{-- <div class="box-wrapper-heading">
-                Atur Waktu Lembur
-            </div> --}}
-            <div class="box-wrapper-description" style="overflow: hidden;">
-                <form id="form-overtime">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label>Waktu Mulai</label>
-                            <input type="time" class="form-control" name="start_time" id="start_time" value="17:00">
-                        </div>
-                        <div class="col-sm-4">
-                            <label>Waktu Akhir</label>
-                            <input type="time" class="form-control" name="end_time" id="end_time" value="18:00">
-                        </div>
-                        <div class="col-sm-4">
-                            <label>Durasi</label>
-                            <input type="time" class="form-control" name="duration" id="duration" value="01:00" readonly>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top: 8px;">
-                        <div class="col-sm-12">
-                            <label>Keterangan</label>
-                            <textarea class="form-control" name="description" id="description" rows="3"></textarea>
-                        </div>
-                    </div>
-                   <button type="submit" class="btn btn-success btn-right" style="margin-top: 8px; color: #fff;">Submit</button>
-                </form>
+
+        <div id="employee-request" class="tab-pane">
+            <div class="box-wrapper">
+                <h1>Ini halaman pengajuan pegawai</h1>
             </div>
         </div>
     </div>
@@ -103,6 +158,7 @@
         });
 
         $('.calendar-wrapper').calendar(defaultConfig);
+        getStatusRequestOvertime();
     })
 
     function selectDate(date) {
@@ -171,6 +227,7 @@
                 $('#end_time').val("18:00");
                 $('#duration').val("01:00");
                 $('html, body').animate({ scrollTop: 0 }, 'slow');
+                $('#table-status-pengajuan-lembur').DataTable().ajax.reload();
                 loadingproses_close();
             },
             error: function (xhr, status, error) {
@@ -198,5 +255,72 @@
 
         $('#duration').val((hours+':'+mins));
     }
+
+    function getStatusRequestOvertime() {
+        $('#table-status-pengajuan-lembur').DataTable({
+            processing: true,
+            serverside: true,
+            autoWidth: false,
+            bLengthChange: false,
+            pageLength: 10,
+            ajax: {
+                url: "{{route('getStatusRequestOvertime')}}",
+                type: "POST",
+            },
+            order: [[ 0, "desc" ]],
+            columns: [
+                {data: "tr_overtime_id", name: "tr_overtime_id"},
+                {data: "detail_overtime", name: "detail_overtime", orderable: false},
+                {
+                    data: "status", 
+                    name: "status",
+                    render: function (data, type, full, meta) {
+                        return badgeStatus(data);
+                    },
+                    orderable: false
+                },
+                {data: "action", name: "action", orderable: false}
+            ],
+            columnDefs: [
+                { width: "20%", "targets": [0] },
+                { width: "60%", "targets": [1] },
+                { width: "10%", "targets": [2, 3] },
+                { className: "text-center", "targets": [2, 3] }
+            ]
+        });
+    }
+
+    function badgeStatus(status) {    
+        if (status == 1) {
+            return '<span class="text-warning">Pending</span>';
+        } else if (status == 2) {
+            return '<span class="text-success">Approve</span>';
+        } else if (status == 3) {
+            return '<span class="text-secondary">Cancelled</span>';
+        } else {
+            return '<span class="text-danger">Reject</span>';
+        }
+    }
+
+    $(document).on('click', '.cancel-request', function () {
+        var id = $(this).attr('data-id');
+        bootbox.confirm("Apakah anda yakin akan membatalkan pengajuan ini?", function (result) {
+            if (result) {
+                $.ajax({
+                    url: "{{route('cancelRequestOvertime')}}",
+                    method: "POST",
+                    data: {id:id},
+                    success: function (resp) {
+                        bootbox.alert("Pengajuan lembur berhasil dibatalkan");
+                        $('#table-status-pengajuan-lembur').DataTable().ajax.reload();
+                    },
+                    error: function (resp) {
+                        var res = resp.responseJSON;
+                        bootbox.alert(res.message);
+                    }
+                })
+            }
+        })
+    })
 </script>  
 @endsection

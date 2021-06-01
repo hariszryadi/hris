@@ -94,6 +94,11 @@
     color: #FF9D34;
 }
 
+.detail-overtime {
+    font-weight: bold;
+    color: #1b9d41;
+}
+
 .badge-cuti {
     padding: 4px 16px;
     color: #fff;
