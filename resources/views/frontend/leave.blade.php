@@ -15,7 +15,12 @@
     .sidebar .sidebar_innr .sections li.active a {
         color: #FF9D34;
     }
-    #table-status-pengajuan-cuti > thead > tr {
+    @media (max-width: 1260px) {
+        .mobile-visible .main_sidebar {
+            background: #FF9D34;
+        }
+    }
+    #table-status-pengajuan-cuti > thead > tr, #table-pengajuan-cuti-pegawai > thead > tr {
         color: #fff;
         background-color: #FF9D34;
     }
@@ -41,9 +46,11 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#status-request-leave">Status Pengajuan Cuti</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#employee-request">Pengajuan Pegawai</a>
-        </li>
+        @if (Auth::user()->empl->head_division == true)
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#employee-request">Pengajuan Pegawai</a>
+            </li>
+        @endif
     </ul>
 
     <!-- Tab panes -->
@@ -144,7 +151,7 @@
                     </div>
                 </div>
                 <div class="box-wrapper-description">
-                    <table id="table-status-pengajuan-cuti" class="table table-request">
+                    <table id="table-status-pengajuan-cuti" class="table table-responsive-lg table-request">
                         <thead>
                             <tr>
                                 <th>ID Cuti</th>
@@ -160,7 +167,23 @@
 
         <div id="employee-request" class="tab-pane">
             <div class="box-wrapper">
-                <h1>Ini halaman pengajuan pegawai</h1>
+                <div class="box-wrapper-heading">
+                    <div class="box-wrapper-heading-title">
+                        List data pengajuan cuti pegawai
+                    </div>
+                </div>
+                <div class="box-wrapper-description">
+                    <table id="table-pengajuan-cuti-pegawai" class="table table-responsive-lg table-request">
+                        <thead>
+                            <tr>
+                                <th>ID Cuti</th>
+                                <th>Detail Cuti</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -191,6 +214,7 @@
         // $('#category_leave').attr("disabled", true);
         $('.calendar-wrapper').calendar(defaultConfig);
         getStatusRequestLeave();
+        getEmplRequestLeave();
     })
 
     function selectDate(date) {
@@ -313,6 +337,7 @@
                 $('#description').val('');
                 $('#end_date').val('');
                 $('#table-status-pengajuan-cuti').DataTable().ajax.reload();
+                $('#table-pengajuan-cuti-pegawai').DataTable().ajax.reload();
                 loadingproses_close();
             },
             error: function (xhr, status, error) {
@@ -366,6 +391,40 @@
         });
     }
 
+    function getEmplRequestLeave() {
+        $('#table-pengajuan-cuti-pegawai').DataTable({
+            processing: true,
+            serverside: true,
+            autoWidth: false,
+            bLengthChange: false,
+            pageLength: 10,
+            ajax: {
+                url: "{{route('getEmplRequestLeave')}}",
+                type: "POST",
+            },
+            order: [[ 0, "desc" ]],
+            columns: [
+                {data: "tr_leave_id", name: "tr_leave_id"},
+                {data: "detail_leave", name: "detail_leave", orderable: false},
+                {
+                    data: "status", 
+                    name: "status",
+                    render: function (data, type, full, meta) {
+                        return badgeStatus(data);
+                    },
+                    orderable: false
+                },
+                {data: "action", name: "action", orderable: false}
+            ],
+            columnDefs: [
+                { width: "15%", "targets": [0] },
+                { width: "65%", "targets": [1] },
+                { width: "10%", "targets": [2, 3] },
+                { className: "text-center", "targets": [2, 3] }
+            ]
+        });
+    }
+
     function badgeStatus(status) {    
         if (status == 1) {
             return '<span class="text-warning">Pending</span>';
@@ -378,17 +437,21 @@
         }
     }
 
-    $(document).on('click', '.cancel-request', function () {
-        var id = $(this).attr('data-id');
-        bootbox.confirm("Apakah anda yakin akan membatalkan pengajuan ini?", function (result) {
+    $(document).on('click', '.update-status', function () {
+        var leaveId = $(this).attr('data-leave-id');
+        var status = $(this).attr('data-status');
+        var emplId = $(this).attr('data-empl-id');
+        var action = $(this).text();
+        bootbox.confirm("Apakah anda yakin akan "+action+" pengajuan ini?", function (result) {
             if (result) {
                 $.ajax({
-                    url: "{{route('cancelRequestLeave')}}",
+                    url: "{{route('updateStatusRequestLeave')}}",
                     method: "POST",
-                    data: {id:id},
+                    data: {leaveId:leaveId, status:status, emplId:emplId},
                     success: function (resp) {
-                        bootbox.alert("Pengajuan cuti berhasil dibatalkan");
+                        bootbox.alert('Pengajuan cuti berhasil di '+action);
                         $('#table-status-pengajuan-cuti').DataTable().ajax.reload();
+                        $('#table-pengajuan-cuti-pegawai').DataTable().ajax.reload();
                     },
                     error: function (resp) {
                         var res = resp.responseJSON;

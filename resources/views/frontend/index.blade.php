@@ -23,7 +23,7 @@
             <div class="post">
                 <div class="post-heading">
                     <div class="post-title">
-                        <h4> HRIS-Ku </h4>
+                        <h4> HRIS.TEDC </h4>
                     </div>
                 </div>
                 <div class="post-description">

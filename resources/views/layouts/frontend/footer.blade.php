@@ -1,5 +1,5 @@
 <div class="footer-powered">
-    <p> © 2021 HRIS-Ku</p>
+    <p> © 2021 HRIS.TEDC</p>
 </div>
 
 <hr>

@@ -47,7 +47,7 @@
                     @yield('content')
 
                     <!-- Footer menus-->
-                    <div class="footer-wrapper-sidebar mt-4">
+                    <div class="footer-wrapper-sidebar mt-4" style="padding-left: 8px; padding-right: 8px; padding-bottom: 32px;">
                         @include('layouts.frontend.footer')
                     </div>
                 </div>

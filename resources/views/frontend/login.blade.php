@@ -46,7 +46,7 @@
                 <!-- column two -->
                 <div class="uk-card-default px-5 py-8">
                     <div class="mb-4 uk-text-center">
-                        <h2 class="mb-0">Welcome To HRIS-Ku</h3>
+                        <h2 class="mb-0">Welcome To HRIS.TEDC</h3>
                         <p class="my-2">Masukkan NIP dan Password Anda.</p>
                         @if($errors->any())
                             <div class="text-danger" style="text-align: center !important">

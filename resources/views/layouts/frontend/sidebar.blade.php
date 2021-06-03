@@ -48,7 +48,7 @@
             </ul>
     
             <div class="foot-content">
-                <p>© 2021 <strong>HRIS-Ku</strong>. All Rights Reserved. </p>
+                <p>© 2021 <strong>HRIS.TEDC</strong>. All Rights Reserved. </p>
             </div>
     
         </div>

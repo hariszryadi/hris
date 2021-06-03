@@ -11,7 +11,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h1>Selamat Datang di Dashboard Admin HRIS-Ku</h1>
+            <h1>Selamat Datang di Dashboard Admin HRIS.TEDC</h1>
         </div>
         <div class="panel-body">
             <p class="text-justify">

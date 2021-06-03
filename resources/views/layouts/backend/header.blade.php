@@ -1,6 +1,6 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-header">
-        <a class="navbar-brand" href="#">HRIS-Ku</a>
+        <a class="navbar-brand" href="#">HRIS.TEDC</a>
 
         <ul class="nav navbar-nav visible-xs-block">
             <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>

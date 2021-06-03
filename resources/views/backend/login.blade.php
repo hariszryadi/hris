@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>HRIS-Ku Admin</title>
+	<title>HRIS.TEDC-Admin</title>
 
 	<!-- Global stylesheets -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
@@ -77,7 +77,7 @@
 
 					<!-- Footer -->
 					<div class="footer text-muted text-center">
-						&copy; 2021. <a href="#" style="color: #ffffff;">Admin - HRIS-Ku</a>
+						&copy; 2021. <a href="#" style="color: #ffffff;">Admin - HRIS.TEDC</a>
 					</div>
 					<!-- /footer -->
 

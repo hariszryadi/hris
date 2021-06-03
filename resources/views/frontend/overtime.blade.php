@@ -15,7 +15,12 @@
     .sidebar .sidebar_innr .sections li.active a {
         color: #1b9d41;
     }
-    #table-status-pengajuan-lembur > thead > tr {
+    @media (max-width: 1260px) {
+        .mobile-visible .main_sidebar {
+            background: #1b9d41;
+        }
+    }
+    #table-status-pengajuan-lembur > thead > tr, #table-pengajuan-lembur-pegawai > thead > tr {
         color: #fff;
         background-color: #1b9d41;
     }
@@ -41,9 +46,11 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#status-request-overtime">Status Pengajuan Lembur</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#employee-request">Pengajuan Pegawai</a>
-        </li>
+        @if (Auth::user()->empl->head_division == true)
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#employee-request">Pengajuan Pegawai</a>
+            </li>
+        @endif
     </ul>
 
     <div class="tab-content">
@@ -113,7 +120,7 @@
                     </div>
                 </div>
                 <div class="box-wrapper-description">
-                    <table id="table-status-pengajuan-lembur" class="table table-request">
+                    <table id="table-status-pengajuan-lembur" class="table table-responsive-lg table-request">
                         <thead>
                             <tr>
                                 <th>ID Lembur</th>
@@ -129,7 +136,23 @@
 
         <div id="employee-request" class="tab-pane">
             <div class="box-wrapper">
-                <h1>Ini halaman pengajuan pegawai</h1>
+                <div class="box-wrapper-heading">
+                    <div class="box-wrapper-heading-title">
+                        List data pengajuan lembur pegawai
+                    </div>
+                </div>
+                <div class="box-wrapper-description">
+                    <table id="table-pengajuan-lembur-pegawai" class="table table-responsive-lg table-request">
+                        <thead>
+                            <tr>
+                                <th>ID Lembur</th>
+                                <th>Detail Lembur</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -159,6 +182,7 @@
 
         $('.calendar-wrapper').calendar(defaultConfig);
         getStatusRequestOvertime();
+        getEmplRequestOvertime();
     })
 
     function selectDate(date) {
@@ -172,7 +196,6 @@
         $('.calendar-wrapper').updateCalendarOptions({
             date: date
         });
-        // $('#type_leave').attr("disabled", false);
     }
 
     function str_pad(n) {
@@ -228,6 +251,7 @@
                 $('#duration').val("01:00");
                 $('html, body').animate({ scrollTop: 0 }, 'slow');
                 $('#table-status-pengajuan-lembur').DataTable().ajax.reload();
+                $('#table-pengajuan-lembur-pegawai').DataTable().ajax.reload();
                 loadingproses_close();
             },
             error: function (xhr, status, error) {
@@ -290,6 +314,40 @@
         });
     }
 
+    function getEmplRequestOvertime() {
+        $('#table-pengajuan-lembur-pegawai').DataTable({
+            processing: true,
+            serverside: true,
+            autoWidth: false,
+            bLengthChange: false,
+            pageLength: 10,
+            ajax: {
+                url: "{{route('getEmplRequestOvertime')}}",
+                type: "POST",
+            },
+            order: [[ 0, "desc" ]],
+            columns: [
+                {data: "tr_overtime_id", name: "tr_overtime_id"},
+                {data: "detail_overtime", name: "detail_overtime", orderable: false},
+                {
+                    data: "status", 
+                    name: "status",
+                    render: function (data, type, full, meta) {
+                        return badgeStatus(data);
+                    },
+                    orderable: false
+                },
+                {data: "action", name: "action", orderable: false}
+            ],
+            columnDefs: [
+                { width: "15%", "targets": [0] },
+                { width: "65%", "targets": [1] },
+                { width: "10%", "targets": [2, 3] },
+                { className: "text-center", "targets": [2, 3] }
+            ]
+        });
+    }
+
     function badgeStatus(status) {    
         if (status == 1) {
             return '<span class="text-warning">Pending</span>';
@@ -302,17 +360,20 @@
         }
     }
 
-    $(document).on('click', '.cancel-request', function () {
-        var id = $(this).attr('data-id');
-        bootbox.confirm("Apakah anda yakin akan membatalkan pengajuan ini?", function (result) {
+    $(document).on('click', '.update-status', function () {
+        var overtimeId = $(this).attr('data-overtime-id');
+        var status = $(this).attr('data-status');
+        var action = $(this).text();
+        bootbox.confirm("Apakah anda yakin akan "+action+" pengajuan ini?", function (result) {
             if (result) {
                 $.ajax({
-                    url: "{{route('cancelRequestOvertime')}}",
+                    url: "{{route('updateStatusRequestOvertime')}}",
                     method: "POST",
-                    data: {id:id},
+                    data: {overtimeId:overtimeId, status:status},
                     success: function (resp) {
-                        bootbox.alert("Pengajuan lembur berhasil dibatalkan");
+                        bootbox.alert('Pengajuan lembur berhasil di '+action);
                         $('#table-status-pengajuan-lembur').DataTable().ajax.reload();
+                        $('#table-pengajuan-lembur-pegawai').DataTable().ajax.reload();
                     },
                     error: function (resp) {
                         var res = resp.responseJSON;

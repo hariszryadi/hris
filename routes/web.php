@@ -106,12 +106,14 @@ Route::post('/getCategoryLeave', 'LeaveController@getCategoryLeave')->name('getC
 Route::post('/getLeave', 'LeaveController@getLeave')->name('getLeave');
 Route::post('/postLeave', 'LeaveController@postLeave')->name('postLeave');
 Route::post('/getStatusRequestLeave', 'LeaveController@getStatusRequestLeave')->name('getStatusRequestLeave');
-Route::post('/cancelRequestLeave', 'LeaveController@cancelRequestLeave')->name('cancelRequestLeave');
+Route::post('/getEmplRequestLeave', 'LeaveController@getEmplRequestLeave')->name('getEmplRequestLeave');
+Route::post('/updateStatusRequestLeave', 'LeaveController@updateStatusRequestLeave')->name('updateStatusRequestLeave');
 
 Route::get('/overtime', 'OvertimeController@index')->middleware('auth:user')->name('overtime');
 Route::post('/postOvertime', 'OvertimeController@postOvertime')->name('postOvertime');
 Route::post('/getStatusRequestOvertime', 'OvertimeController@getStatusRequestOvertime')->name('getStatusRequestOvertime');
-Route::post('/cancelRequestOvertime', 'OvertimeController@cancelRequestOvertime')->name('cancelRequestOvertime');
+Route::post('/getEmplRequestOvertime', 'OvertimeController@getEmplRequestOvertime')->name('getEmplRequestOvertime');
+Route::post('/updateStatusRequestOvertime', 'OvertimeController@updateStatusRequestOvertime')->name('updateStatusRequestOvertime');
 
 Route::get('/settings', function () {
     return view('frontend.settings');
