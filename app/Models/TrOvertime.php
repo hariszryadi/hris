@@ -14,4 +14,9 @@ class TrOvertime extends Model
     {
         return $this->belongsTo(MsEmployee::class);
     }
+
+    public function trOvertimeAmount()
+    {
+        return $this->hasOne(TrOvertimeAmount::class, 'overtime_id');
+    }
 }

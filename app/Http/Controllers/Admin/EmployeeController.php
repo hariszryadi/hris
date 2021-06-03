@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\MsEmployee;
 use App\Models\MsDivision;
 use App\Models\User;
-use App\Models\MsLeaveQuota;
+use App\Models\TrLeaveQuota;
 use DataTables;
 use File;
 
@@ -91,7 +91,7 @@ class EmployeeController extends Controller
             'status' => true
         ]);
 
-        MsLeaveQuota::create([
+        TrLeaveQuota::create([
             'used_quota' => 0,
             'max_quota' => 12,
             'empl_id' => $data->id

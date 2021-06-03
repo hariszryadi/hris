@@ -64,7 +64,7 @@
                     </div>
                     <div class="box-wrapper-description">
                         <div class="box-wrapper-description-title">
-                            Total Jam Lembur : <span class="badge badge-warning">0</span> Jam
+                            Total Jam Lembur : <span class="badge badge-warning">{{ $countOvertime }}</span> Jam
                         </div>
                         {{-- <div class="box-wrapper-description-body">
                             <div class="row">
@@ -85,6 +85,7 @@
                     </div> --}}
                     <div class="box-wrapper-description" style="overflow: hidden;">
                         <form id="form-overtime">
+                            <input type="hidden" name="overtime_date" id="overtime_date">
                             <div class="row">
                                 <div class="col-sm-4">
                                     <label>Waktu Mulai</label>
@@ -196,6 +197,7 @@
         $('.calendar-wrapper').updateCalendarOptions({
             date: date
         });
+        $('#overtime_date').val(selectDate);
     }
 
     function str_pad(n) {

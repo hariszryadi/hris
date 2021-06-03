@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\TrOvertimeAmount;
 use App\Models\TrOvertime;
 use App\Models\MsEmployee;
 use Carbon\Carbon;
@@ -21,11 +22,14 @@ class OvertimeController extends Controller
 
     public function index()
     {
-        return view($this->_view);
+        $empl_id = Auth::guard('user')->user()->empl_id;
+        $countOvertime = DB::table('tr_overtime')->where('empl_id', $empl_id)->sum('duration');
+        return view($this->_view)->with(compact('countOvertime'));
     }
 
     public function postOvertime(Request $request)
     {
+        $overtimeDate = $request->overtime_date;
         $startTime = $request->start_time;
         $endTime = $request->end_time;
         $duration = $request->duration;
@@ -44,6 +48,7 @@ class OvertimeController extends Controller
             }
 
             $trOvertime = TrOvertime::create([
+                'overtime_date' => $overtimeDate,
                 'start_time' => $startTime,
                 'end_time' => $endTime,
                 'duration' => $duration,
@@ -74,7 +79,7 @@ class OvertimeController extends Controller
                     return '<div class="row">
                             <div class="col-lg-4"><span class="detail-overtime">Tanggal Lembur</span></div>
                             <div class="col-lg-1">:</div>
-                            <div class="col-lg-7">'.$data->created_at->format('d-m-Y').'</div>
+                            <div class="col-lg-7">'.$this->dateFormat($data->overtime_date).'</div>
                             <div class="col-lg-4"><span class="detail-overtime">Waktu Mulai</span></div>
                             <div class="col-lg-1">:</div>
                             <div class="col-lg-7">'.$data->start_time.'</div>
@@ -105,12 +110,12 @@ class OvertimeController extends Controller
         $query = TrOvertime::select(
                     'tr_overtime.id as overtime_id',
                     'tr_overtime.tr_overtime_id',
+                    'tr_overtime.overtime_date',
                     'tr_overtime.start_time',
                     'tr_overtime.end_time',
                     'tr_overtime.duration',
                     'tr_overtime.description',
                     'tr_overtime.status',
-                    'tr_overtime.created_at',
                     'ms_empl.id as empl_id',
                     'ms_empl.nip',
                     'ms_empl.empl_name',
@@ -145,14 +150,17 @@ class OvertimeController extends Controller
                                     <div class="col-lg-7 no-padding">'.$data->nip.'</div>
                                     <div class="col-lg-4 no-padding"><span class="detail-overtime">Tanggal Lembur</span></div>
                                     <div class="col-lg-1 no-padding">:</div>
-                                    <div class="col-lg-7 no-padding">'.$data->created_at->format('d-m-Y').'</div>
+                                    <div class="col-lg-7 no-padding">'.$this->dateFormat($data->overtime_date).'</div>
                                     <div class="col-lg-4 no-padding"><span class="detail-overtime">Waktu Mulai</span></div>
                                     <div class="col-lg-1 no-padding">:</div>
                                     <div class="col-lg-7 no-padding">'.$data->start_time.'</div>
                                     <div class="col-lg-4 no-padding"><span class="detail-overtime">Waktu Selesai</span></div>
                                     <div class="col-lg-1 no-padding">:</div>
                                     <div class="col-lg-7 no-padding">'.$data->end_time.'</div>
-                                    <div class="col-lg-4 no-padding"><strong>Deskripsi</strong></div>
+                                    <div class="col-lg-4 no-padding"><span class="detail-overtime">Durasi</span></div>
+                                    <div class="col-lg-1 no-padding">:</div>
+                                    <div class="col-lg-7 no-padding">'.$data->duration.'</div>
+                                    <div class="col-lg-4 no-padding"><strong>Keterangan</strong></div>
                                     <div class="col-lg-1 no-padding">:</div>
                                     <div class="col-lg-7 no-padding">'.$data->description.'</div>
                                 </div>
@@ -161,7 +169,7 @@ class OvertimeController extends Controller
             })
             ->addColumn('action', function($data){
                 if ($data->status == 1 ) {
-                    return '<span data-overtime-id="'.$data->overtimeid.'" data-status="2" class="update-status text-success approve-request">Approve</span><hr>
+                    return '<span data-overtime-id="'.$data->overtime_id.'" data-status="2" class="update-status text-success approve-request">Approve</span><hr>
                         <span data-overtime-id="'.$data->overtime_id.'" data-status="0" class="update-status text-danger reject-request">Reject</span>';
                 }
             })
@@ -171,9 +179,29 @@ class OvertimeController extends Controller
 
     public function updateStatusRequestOvertime(Request $request)
     {
-        $overtime = TrOvertime::where('id', $request->overtimeId);
-        $overtime->update(['status' => $request->status]);
+        $overtime = TrOvertime::where('id', $request->overtimeId)->first();
+        $time = explode(':', $overtime->duration);
+        $hours = (int)$time[0];
+        if ($request->status == 2) {
+            $overtime->update(['status' => $request->status]);
+            $overtimeAmount = TrOvertimeAmount::create([
+                'overtime_id' => $overtime->id,
+                'empl_id' => $overtime->empl_id,
+                'duration' => $overtime->duration,
+                'total_amount' => ($hours * 10000)
+            ]);
+        } else {
+            $overtime->update(['status' => $request->status]);
+        }
 
         return response()->json(['success' => 'Update Status Successfully']);
+    }
+
+    private function dateFormat($date)
+    {
+        $oldDate = $date;
+        $arr = explode('-', $oldDate);
+        $newDate = $arr[2].'-'.$arr[1].'-'.$arr[0];
+        return $newDate;
     }
 }

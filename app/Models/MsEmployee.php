@@ -22,7 +22,7 @@ class MsEmployee extends Model
 
     public function leaveQuota()
     {
-        return $this->hasOne(MsLeaveQuota::class, 'empl_id');
+        return $this->hasOne(TrLeaveQuota::class, 'empl_id');
     }
 
     public function trLeave()

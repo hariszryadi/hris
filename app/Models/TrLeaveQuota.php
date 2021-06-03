@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MsLeaveQuota extends Model
+class TrLeaveQuota extends Model
 {
-    protected $table = 'ms_leave_quota';
+    protected $table = 'tr_leave_quota';
 
     protected $guarded = [];
 

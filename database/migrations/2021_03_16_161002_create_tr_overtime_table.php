@@ -16,6 +16,7 @@ class CreateTrOvertimeTable extends Migration
         Schema::create('tr_overtime', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('tr_overtime_id')->nullable();
+            $table->string('overtime_date');
             $table->time('start_time');
             $table->time('end_time');
             $table->time('duration');

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMsLeaveQuotaTable extends Migration
+class CreateTrOvertimeAmountTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,16 @@ class CreateMsLeaveQuotaTable extends Migration
      */
     public function up()
     {
-        Schema::create('ms_leave_quota', function (Blueprint $table) {
+        Schema::create('tr_overtime_amount', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('used_quota');
-            $table->integer('max_quota');
+            $table->unsignedBigInteger('overtime_id');
+            $table->foreign('overtime_id')->references('id')->on('tr_overtime')
+                    ->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('empl_id');
             $table->foreign('empl_id')->references('id')->on('ms_empl')
                     ->onDelete('cascade')->onUpdate('cascade');
+            $table->string('duration');
+            $table->string('total_amount');
             $table->timestamps();
         });
     }
@@ -31,6 +34,6 @@ class CreateMsLeaveQuotaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ms_leave_quota');
+        Schema::dropIfExists('tr_overtime_amount');
     }
 }

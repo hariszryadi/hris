@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MsCategoryLeave;
-use App\Models\MsLeaveQuota;
+use App\Models\TrLeaveQuota;
 use App\Models\MsTypeLeave;
 use App\Models\MsEmployee;
 use App\Models\TrLeave;
@@ -60,7 +60,7 @@ class LeaveController extends Controller
         $empl_id = Auth::guard('user')->user()->empl_id;
 
         try {
-            $query = DB::table('ms_leave_quota')
+            $query = DB::table('tr_leave_quota')
                     ->where('empl_id', $empl_id)
                     ->where('max_quota', 0)->count();
 
@@ -213,7 +213,7 @@ class LeaveController extends Controller
         $leave = TrLeave::where('id', $request->leaveId);
         if ($request->status == 2) {
             $leave->update(['status' => $request->status]);
-            $leaveQuota = MsLeaveQuota::where('empl_id', $request->emplId);
+            $leaveQuota = TrLeaveQuota::where('empl_id', $request->emplId);
             $leaveQuota->increment('used_quota');
             $leaveQuota->decrement('max_quota');
         } else {
