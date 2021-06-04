@@ -191,10 +191,8 @@
                 {{-- </a> --}}
 
                 <ul class="dropdown-user-menu">
-                    <li><a href="#"> <i class="fas fa-user-edit"></i> General Settings</a></li>
-                    </li>
-                    <li><a href="{{route('logout')}}"> <i class="fas fa-sign-out-alt"></i>Log Out</a>
-                    </li>
+                    <li><a href="{{route('profileSettings', ['id' => Auth::user()->empl->id])}}"> <i class="fas fa-user-edit"></i> Pengaturan Profile</a></li></li>
+                    <li><a href="{{route('logout')}}"> <i class="fas fa-sign-out-alt"></i>Log Out</a></li>
                 </ul>
 
             </div>

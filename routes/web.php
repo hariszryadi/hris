@@ -94,12 +94,9 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 /** Empl */
-
-Route::get('/profile', function () {
-    return view('frontend.profile');
-})->middleware('auth:user')->name('profile');
-
 Route::get('/', 'DashboardController@index')->middleware('auth:user')->name('dashboard');
+Route::get('/{id}/profile-settings', 'DashboardController@profileSettings')->middleware('auth:user')->name('profileSettings');
+Route::post('/update-profile', 'DashboardController@updateProfile')->name('updateProfile');
 
 Route::get('/leave', 'LeaveController@index')->middleware('auth:user')->name('leave');
 Route::post('/getCategoryLeave', 'LeaveController@getCategoryLeave')->name('getCategoryLeave');
@@ -114,10 +111,6 @@ Route::post('/postOvertime', 'OvertimeController@postOvertime')->name('postOvert
 Route::post('/getStatusRequestOvertime', 'OvertimeController@getStatusRequestOvertime')->name('getStatusRequestOvertime');
 Route::post('/getEmplRequestOvertime', 'OvertimeController@getEmplRequestOvertime')->name('getEmplRequestOvertime');
 Route::post('/updateStatusRequestOvertime', 'OvertimeController@updateStatusRequestOvertime')->name('updateStatusRequestOvertime');
-
-Route::get('/settings', function () {
-    return view('frontend.settings');
-})->middleware('auth:user')->name('settings');
 
 Route::get('/login', 'LoginController@login')->middleware('guest')->name('login');
 Route::post('/login', 'LoginController@credentials')->middleware('guest')->name('credentials');
