@@ -24,7 +24,7 @@
                 <li class="{{request()->is('leave') ? 'active' : ''}}">
                     <a href="{{route('leave')}}">
                         <i class="fa fa-calendar"></i> 
-                        Rencana Cuti 
+                        Rencana Cuti/Izin
                     </a>
                 </li>
                 <li class="{{request()->is('overtime') ? 'active' : ''}}">
@@ -40,12 +40,12 @@
         <!--  Optional Footer -->
         <div id="foot">
     
-            <ul>
-                <li> <a href="#"> About Us </a></li>
-                <li> <a href="#"> Setting </a></li>
-                <li> <a href="#"> Privacy Policy </a></li>
-                <li> <a href="#"> Terms - Conditions </a></li>
-            </ul>
+            {{-- <ul>
+                <li> <a href="#" uk-tooltip="title: About Us ; pos: bottom ;offset:7"> About Us </a></li>
+                <li> <a href="#" uk-tooltip="title: Setting ; pos: bottom ;offset:7"> Setting </a></li>
+                <li> <a href="#" uk-tooltip="title: Privacy Policy ; pos: bottom ;offset:7"> Privacy Policy </a></li>
+                <li> <a href="#" uk-tooltip="title: Terms - Conditions ; pos: bottom ;offset:7"> Terms - Conditions </a></li>
+            </ul> --}}
     
             <div class="foot-content">
                 <p>© 2021 <strong>HRIS.TEDC</strong>. All Rights Reserved. </p>

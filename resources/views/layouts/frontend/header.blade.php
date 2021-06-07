@@ -153,7 +153,7 @@
             </div>
 
             <!-- profile -image -->
-            <a class="opts_account" href="#">
+            <a class="opts_account" href="#" uk-tooltip="title: Profile ; pos: bottom ;offset:7">
                 <img src="{{asset('storage/'.Auth::user()->empl->avatar)}}" alt=""
                 @if (Auth::user()->empl->gender == 'Pria')
                     onerror="this.src='{{asset('assets/admin/images/male.png')}}';"

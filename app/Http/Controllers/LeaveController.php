@@ -22,13 +22,33 @@ class LeaveController extends Controller
     
     protected $_view = 'frontend.leave';
 
-    public function index()
+    public function index(Request $request)
     {
         $typeLeave = MsTypeLeave::get();
+        return view($this->_view)->with(compact('typeLeave'));
+    }
+
+    public function getInfoLeave(Request $request)
+    {
         $empl_id = Auth::guard('user')->user()->empl_id;
-        $countApproval = DB::table('tr_leave')->where('empl_id', $empl_id)->where('status', 2)->count();
-        $countRejected = DB::table('tr_leave')->where('empl_id', $empl_id)->where('status', 0)->count();
-        return view($this->_view)->with(compact('typeLeave', 'countApproval', 'countRejected'));
+        $query = DB::table('tr_leave_quota')->select('max_quota')->where('empl_id', $empl_id)->whereYear('created_at', $request->year)->first();
+        if ($query) {
+            $quotaLeave = $query->max_quota;
+        } else {
+            $quotaLeave = 0;
+        }
+        $countCutiApproval = DB::table('tr_leave')->where('empl_id', $empl_id)->where('type_leave_id', 1)->where('status', 2)->whereYear('created_at', $request->year)->count();
+        $countCutiRejected = DB::table('tr_leave')->where('empl_id', $empl_id)->where('type_leave_id', 1)->where('status', 0)->whereYear('created_at', $request->year)->count();
+        $countIzinApproval = DB::table('tr_leave')->where('empl_id', $empl_id)->where('type_leave_id', 2)->where('status', 2)->whereYear('created_at', $request->year)->count();
+        $countIzinRejected = DB::table('tr_leave')->where('empl_id', $empl_id)->where('type_leave_id', 2)->where('status', 0)->whereYear('created_at', $request->year)->count();
+
+        return response()->json([
+            'quotaLeave'        => $quotaLeave,
+            'countCutiApproval' => $countCutiApproval,
+            'countCutiRejected' => $countCutiRejected,
+            'countIzinApproval' => $countIzinApproval,
+            'countIzinApproval' => $countIzinRejected,
+        ]);
     }
 
     public function getCategoryLeave(Request $request)
@@ -113,14 +133,11 @@ class LeaveController extends Controller
                                 <div class="col-lg-10">
                                     <div class="row">
                                         <div class="col-lg-4"><span class="detail-leave">Tanggal Mulai</span></div>
-                                        <div class="col-lg-1">:</div>
-                                        <div class="col-lg-7">'.$this->dateFormat($data->start_date).'</div>
+                                        <div class="col-lg-8">'.$this->dateFormat($data->start_date).'</div>
                                         <div class="col-lg-4"><span class="detail-leave">Tanggal Selesai</span></div>
-                                        <div class="col-lg-1">:</div>
-                                        <div class="col-lg-7">'.$this->dateFormat($data->end_date).'</div>
+                                        <div class="col-lg-8">'.$this->dateFormat($data->end_date).'</div>
                                         <div class="col-lg-4"><strong>Deskripsi</strong></div>
-                                        <div class="col-lg-1">:</div>
-                                        <div class="col-lg-7">'.$data->description.'</div>
+                                        <div class="col-lg-8">'.$data->description.'</div>
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
@@ -176,21 +193,16 @@ class LeaveController extends Controller
                                 </div>
                                 <div class="col-lg-7">
                                     <div class="row">
-                                        <div class="col-lg-4 no-padding"><strong>Nama</strong></div>
-                                        <div class="col-lg-1 no-padding">:</div>
-                                        <div class="col-lg-7 no-padding">'.$data->empl_name.'</div>
-                                        <div class="col-lg-4 no-padding"><strong>NIP</strong></div>
-                                        <div class="col-lg-1 no-padding">:</div>
-                                        <div class="col-lg-7 no-padding">'.$data->nip.'</div>
-                                        <div class="col-lg-4 no-padding"><span class="detail-leave">Tanggal Mulai</span></div>
-                                        <div class="col-lg-1 no-padding">:</div>
-                                        <div class="col-lg-7 no-padding">'.$this->dateFormat($data->start_date).'</div>
-                                        <div class="col-lg-4 no-padding"><span class="detail-leave">Tanggal Selesai</span></div>
-                                        <div class="col-lg-1 no-padding">:</div>
-                                        <div class="col-lg-7 no-padding">'.$this->dateFormat($data->end_date).'</div>
-                                        <div class="col-lg-4 no-padding"><strong>Deskripsi</strong></div>
-                                        <div class="col-lg-1 no-padding">:</div>
-                                        <div class="col-lg-7 no-padding">'.$data->description.'</div>
+                                        <div class="col-lg-4"><strong>Nama</strong></div>
+                                        <div class="col-lg-8">'.$data->empl_name.'</div>
+                                        <div class="col-lg-4"><strong>NIP</strong></div>
+                                        <div class="col-lg-8">'.$data->nip.'</div>
+                                        <div class="col-lg-4"><span class="detail-leave">Tanggal Mulai</span></div>
+                                        <div class="col-lg-8">'.$this->dateFormat($data->start_date).'</div>
+                                        <div class="col-lg-4"><span class="detail-leave">Tanggal Selesai</span></div>
+                                        <div class="col-lg-8">'.$this->dateFormat($data->end_date).'</div>
+                                        <div class="col-lg-4"><strong>Deskripsi</strong></div>
+                                        <div class="col-lg-8">'.$data->description.'</div>
                                     </div>
                                 </div>
                                 <div class="col-lg-2">

@@ -1,7 +1,7 @@
 @extends('layouts.frontend.main')
 
 @section('title')
-    <title>Rencana Cuti</title>
+    <title>Rencana Cuti/Izin</title>
 @endsection
 
 @section('content')
@@ -30,6 +30,17 @@
     .nav-tabs .nav-link.active:hover {
         border-bottom: 3px solid #FF9D34 !important;
     }
+    .fa-arrow-circle-left, .fa-arrow-circle-right {
+        color: #FF9D34;
+        font-size: 25px;
+    }
+    #quota-leave {
+        border-radius: 50%;
+        padding: 4px 8px;
+        background: #fff;
+        color: #000;
+        text-align: center;
+    }
 </style>
 
 <div class="main_content_inner">
@@ -41,10 +52,10 @@
     <!-- Nav tabs -->
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#request-leave">Rencana Cuti</a>
+            <a class="nav-link active" data-toggle="tab" href="#request-leave">Rencana Cuti/Izin</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#status-request-leave">Status Pengajuan Cuti</a>
+            <a class="nav-link" data-toggle="tab" href="#status-request-leave">Status Pengajuan Cuti/Izin</a>
         </li>
         @if (Auth::user()->empl->head_division == true)
             <li class="nav-item">
@@ -60,17 +71,21 @@
                 <div class="box-wrapper">
                     <div class="box-wrapper-heading">
                         <div class="box-wrapper-heading-title">
-                            Informasi Cuti {{\Carbon\Carbon::now()->format('F Y')}}
+                            Informasi Cuti/Izin <span id="year-now"></span>
                         </div>
                     </div>
-                    <div class="box-wrapper-description">
+                    <div class="box-wrapper-description" style="background-color: #FF9D34; color: #fff;">
                         <div class="box-wrapper-description-title">
-                            Total Sisa Kuota Cuti : <span class="badge badge-warning">{{Auth::user()->empl->leaveQuota->max_quota}}</span> Hari
+                            Sisa kuota cuti/izin : <span id="quota-leave">0</span> Hari
                         </div>
                         <div class="box-wrapper-description-body">
                             <div class="row">
-                                <div class="col-sm-6">Total Cuti/Izin Disetujui : {{$countApproval}} Hari</div>
-                                <div class="col-sm-6">Total Cuti/Izin Ditolak : {{$countRejected}} Hari</div>
+                                <div class="col-sm-6">Total cuti disetujui : <span id="count-cuti-approval">0</span> Hari</div>
+                                <div class="col-sm-6">Total cuti ditolak : <span id="count-cuti-reject">0</span> Hari</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">Total izin disetujui : <span id="count-izin-approval">0</span> Hari</div>
+                                <div class="col-sm-6">Total izin ditolak : <span id="count-izin-reject">0</span> Hari</div>
                             </div>
                         </div>
                     </div>
@@ -81,7 +96,7 @@
                 </div>
             
                 <div class="box-wrapper">
-                    <div class="box-wrapper-heading">
+                    <div class="box-wrapper-heading" style="padding-bottom: 8px;">
                         Pilih Tipe Cuti/Izin
                     </div>
                     <div class="box-wrapper-description" style="overflow: hidden;">
@@ -147,15 +162,15 @@
             <div class="box-wrapper">
                 <div class="box-wrapper-heading">
                     <div class="box-wrapper-heading-title">
-                        List data status pengajuan cuti
+                        List data status pengajuan cuti/izin
                     </div>
                 </div>
                 <div class="box-wrapper-description">
                     <table id="table-status-pengajuan-cuti" class="table table-responsive-lg table-request">
                         <thead>
                             <tr>
-                                <th>ID Cuti</th>
-                                <th>Detail Cuti</th>
+                                <th>ID Cuti/Izin</th>
+                                <th>Detail Cuti/Izin</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -169,7 +184,7 @@
             <div class="box-wrapper">
                 <div class="box-wrapper-heading">
                     <div class="box-wrapper-heading-title">
-                        List data pengajuan cuti pegawai
+                        List data pengajuan cuti/izin pegawai
                     </div>
                 </div>
                 <div class="box-wrapper-description">
@@ -195,13 +210,27 @@
 @section('scripts')
 <script src="{{asset('assets/plugins/powerful-calendar/calendar.js')}}"></script>
 <script>
+    var d = new Date();
+    var arrayMonths = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    var objectMonths = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
+
     $(document).ready(function () {
         var _token = '{{ csrf_token() }}';
         var defaultConfig = {
             weekDayLength: 1,
-            date: new Date(),
+            date: d,
             onClickDate: selectDate,
-            showYearDropdown: true,
+            prevButton:'<i class="fa fa-arrow-circle-left"></i>',
+            nextButton:'<i class="fa fa-arrow-circle-right"></i>',
+            enableYearView:false,
+            showYearDropdown: false,
+            todayButtonContent:"Hari Ini",
+            onClickMonthNext:function (date) {
+                getInfoLeave(date);
+            },
+            onClickMonthPrev:function (date) {
+                getInfoLeave(date);
+            },
         };
 
         $.ajaxSetup({
@@ -213,12 +242,37 @@
         // $('#type_leave').attr("disabled", true);
         // $('#category_leave').attr("disabled", true);
         $('.calendar-wrapper').calendar(defaultConfig);
+        getInfoLeave(d);
         getStatusRequestLeave();
         getEmplRequestLeave();
     })
 
+    function getInfoLeave(date) {
+        var fullDate = date;
+        var fullDateSplit = fullDate.toString().split(" ");
+        var month = objectMonths[fullDateSplit[1]];
+        var year = fullDateSplit[3];
+        loadingproses();
+        
+        $.ajax({
+            url: "{{route('getInfoLeave')}}",
+            method: "POST",
+            data: {year:year},
+            success: function (data) {
+                // console.log(data);
+                $('#year-now').text(year);
+                $('.month-label').text(arrayMonths[(parseInt(month)-1)]);
+                $('#quota-leave').text(data.quotaLeave);
+                $('#count-cuti-approval').text(data.countCutiApproval);
+                $('#count-cuti-rejected').text(data.countCutiRejected);
+                $('#count-izin-approval').text(data.countIzinApproval);
+                $('#count-izin-rejected').text(data.countizinRejected);
+                loadingproses_close();
+            }
+        });
+    }
+
     function selectDate(date) {
-        var d = new Date();
         var currentDate = d.getFullYear() + "-" + (d.getMonth()+1).toString().replace(/(^.$)/,"0$1") + "-" + str_pad(d.getDate());
         var selectDate = convertDate(date);
         if (selectDate <= currentDate) {
@@ -235,10 +289,9 @@
         return String("00" + n).slice(-2);
     }
 
-    function convertDate(d){
-        var parts = d.split(" ");
-        var months = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
-        return parts[3]+"-"+months[parts[1]]+"-"+parts[2];
+    function convertDate(date){
+        var parts = date.split(" ");
+        return parts[3]+"-"+objectMonths[parts[1]]+"-"+parts[2];
     }
 
     $('#type_leave').on('change', function () {

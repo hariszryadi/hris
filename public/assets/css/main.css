@@ -48,7 +48,8 @@
     font-weight: 600;
     font-size: 14pt;
     display: block; 
-    margin: auto; 
+    margin: auto;
+    padding-bottom: 8px;
 }
 
 .box-wrapper-description-title {
@@ -160,7 +161,7 @@
 }
 
 .image-datatables {
-    height: 120px;
+    height: auto;
     width: 120px;
     border-radius: 5px;
 }

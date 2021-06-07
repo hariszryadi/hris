@@ -148,6 +148,12 @@ class EmployeeController extends Controller
 
         $employee->update($data);
 
+        User::where('empl_id', $request->id)->update([
+            'name' => $request->empl_name,
+            'nip' => $request->nip,
+            'password' => \bcrypt($request->nip),
+        ]);
+
         return redirect()->route('admin.employee.index')->with('success', 'Success Message');
     }
 

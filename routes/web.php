@@ -99,6 +99,7 @@ Route::get('/{id}/profile-settings', 'DashboardController@profileSettings')->mid
 Route::post('/update-profile', 'DashboardController@updateProfile')->name('updateProfile');
 
 Route::get('/leave', 'LeaveController@index')->middleware('auth:user')->name('leave');
+Route::post('/getInfoLeave', 'LeaveController@getInfoLeave')->name('getInfoLeave');
 Route::post('/getCategoryLeave', 'LeaveController@getCategoryLeave')->name('getCategoryLeave');
 Route::post('/getLeave', 'LeaveController@getLeave')->name('getLeave');
 Route::post('/postLeave', 'LeaveController@postLeave')->name('postLeave');

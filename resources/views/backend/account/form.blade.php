@@ -41,7 +41,7 @@
                 <div class="form-group">
                     <label class="control-label col-lg-2">Password</label>
                     <div class="col-lg-10">
-                        <input type="password" class="form-control" name="password" id="password" value="{{$account->password}}">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password">
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -56,25 +56,4 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="{{asset('assets/admin/js/form-validator/jquery.form-validator.min.js')}}"></script>
-    
-    <script>
-        $(document).ready(function () {
-            var config = {
-                form : 'form',
-                validate : {
-                    'password' : {
-                        validation : 'required'
-                    }
-                }
-            };
-            
-            $.validate({
-                modules : 'jsconf, security',
-                onModulesLoaded : function() {
-                    $.setupValidation(config);
-                }
-            });
-        });
-    </script>
 @endsection

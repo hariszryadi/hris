@@ -78,20 +78,15 @@ class OvertimeController extends Controller
                 ->addColumn('detail_overtime', function($data){
                     return '<div class="row">
                             <div class="col-lg-4"><span class="detail-overtime">Tanggal Lembur</span></div>
-                            <div class="col-lg-1">:</div>
-                            <div class="col-lg-7">'.$this->dateFormat($data->overtime_date).'</div>
+                            <div class="col-lg-8">'.$this->dateFormat($data->overtime_date).'</div>
                             <div class="col-lg-4"><span class="detail-overtime">Waktu Mulai</span></div>
-                            <div class="col-lg-1">:</div>
-                            <div class="col-lg-7">'.$data->start_time.'</div>
+                            <div class="col-lg-8">'.$data->start_time.'</div>
                             <div class="col-lg-4"><span class="detail-overtime">Waktu Akhir</span></div>
-                            <div class="col-lg-1">:</div>
-                            <div class="col-lg-7">'.$data->end_time.'</div>
+                            <div class="col-lg-8">'.$data->end_time.'</div>
                             <div class="col-lg-4"><span class="detail-overtime">Durasi</span></div>
-                            <div class="col-lg-1">:</div>
-                            <div class="col-lg-7">'.$data->duration.'</div>
+                            <div class="col-lg-8">'.$data->duration.'</div>
                             <div class="col-lg-4"><strong>Keterangan</strong></div>
-                            <div class="col-lg-1">:</div>
-                            <div class="col-lg-7">'.$data->description.'</div>
+                            <div class="col-lg-8">'.$data->description.'</div>
                         </div>';
                 })
                 ->addColumn('action', function($data){
@@ -142,27 +137,20 @@ class OvertimeController extends Controller
                             </div>
                             <div class="col-lg-9">
                                 <div class="row">
-                                    <div class="col-lg-4 no-padding"><strong>Nama</strong></div>
-                                    <div class="col-lg-1 no-padding">:</div>
-                                    <div class="col-lg-7 no-padding">'.$data->empl_name.'</div>
-                                    <div class="col-lg-4 no-padding"><strong>NIP</strong></div>
-                                    <div class="col-lg-1 no-padding">:</div>
-                                    <div class="col-lg-7 no-padding">'.$data->nip.'</div>
-                                    <div class="col-lg-4 no-padding"><span class="detail-overtime">Tanggal Lembur</span></div>
-                                    <div class="col-lg-1 no-padding">:</div>
-                                    <div class="col-lg-7 no-padding">'.$this->dateFormat($data->overtime_date).'</div>
-                                    <div class="col-lg-4 no-padding"><span class="detail-overtime">Waktu Mulai</span></div>
-                                    <div class="col-lg-1 no-padding">:</div>
-                                    <div class="col-lg-7 no-padding">'.$data->start_time.'</div>
-                                    <div class="col-lg-4 no-padding"><span class="detail-overtime">Waktu Selesai</span></div>
-                                    <div class="col-lg-1 no-padding">:</div>
-                                    <div class="col-lg-7 no-padding">'.$data->end_time.'</div>
-                                    <div class="col-lg-4 no-padding"><span class="detail-overtime">Durasi</span></div>
-                                    <div class="col-lg-1 no-padding">:</div>
-                                    <div class="col-lg-7 no-padding">'.$data->duration.'</div>
-                                    <div class="col-lg-4 no-padding"><strong>Keterangan</strong></div>
-                                    <div class="col-lg-1 no-padding">:</div>
-                                    <div class="col-lg-7 no-padding">'.$data->description.'</div>
+                                    <div class="col-lg-4"><strong>Nama</strong></div>
+                                    <div class="col-lg-8">'.$data->empl_name.'</div>
+                                    <div class="col-lg-4"><strong>NIP</strong></div>
+                                    <div class="col-lg-8">'.$data->nip.'</div>
+                                    <div class="col-lg-4"><span class="detail-overtime">Tanggal Lembur</span></div>
+                                    <div class="col-lg-8">'.$this->dateFormat($data->overtime_date).'</div>
+                                    <div class="col-lg-4"><span class="detail-overtime">Waktu Mulai</span></div>
+                                    <div class="col-lg-8">'.$data->start_time.'</div>
+                                    <div class="col-lg-4"><span class="detail-overtime">Waktu Selesai</span></div>
+                                    <div class="col-lg-8">'.$data->end_time.'</div>
+                                    <div class="col-lg-4"><span class="detail-overtime">Durasi</span></div>
+                                    <div class="col-lg-8">'.$data->duration.'</div>
+                                    <div class="col-lg-4"><strong>Keterangan</strong></div>
+                                    <div class="col-lg-8">'.$data->description.'</div>
                                 </div>
                             </div>
                         </div>';

@@ -57,13 +57,13 @@ class AccountController extends Controller
 
     public function update(Request $request)
     {
-        $this->validate($request, [
-            'password' => 'required'
-        ]);
+        $password = $request->password;
 
-        User::where('id', $request->id)->update([
-            'password' => \bcrypt($request->password)
-        ]);
+        if ($password != '') {
+            User::where('id', $request->id)->update([
+                'password' => \bcrypt($password)
+            ]);
+        }
 
         return redirect()->route('admin.account.index')->with('success', 'Success Message');
     }
