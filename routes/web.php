@@ -108,6 +108,7 @@ Route::post('/getEmplRequestLeave', 'LeaveController@getEmplRequestLeave')->name
 Route::post('/updateStatusRequestLeave', 'LeaveController@updateStatusRequestLeave')->name('updateStatusRequestLeave');
 
 Route::get('/overtime', 'OvertimeController@index')->middleware('auth:user')->name('overtime');
+Route::post('/getInfoOvertime', 'OvertimeController@getInfoOvertime')->name('getInfoOvertime');
 Route::post('/postOvertime', 'OvertimeController@postOvertime')->name('postOvertime');
 Route::post('/getStatusRequestOvertime', 'OvertimeController@getStatusRequestOvertime')->name('getStatusRequestOvertime');
 Route::post('/getEmplRequestOvertime', 'OvertimeController@getEmplRequestOvertime')->name('getEmplRequestOvertime');

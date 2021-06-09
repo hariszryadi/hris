@@ -22,9 +22,22 @@ class OvertimeController extends Controller
 
     public function index()
     {
-        $empl_id = Auth::guard('user')->user()->empl_id;
-        $countOvertime = DB::table('tr_overtime')->where('empl_id', $empl_id)->sum('duration');
         return view($this->_view)->with(compact('countOvertime'));
+    }
+
+    public function getInfoOvertime(Request $request)
+    {
+        $empl_id = Auth::guard('user')->user()->empl_id;
+        $query = DB::table('tr_overtime')->where('empl_id', $empl_id)->whereMonth('created_at', $request->month)->where('status', 2)->whereYear('created_at', $request->year)->sum('duration');
+        if ($query) {
+            $totalOvertime = $query;
+        } else {
+            $totalOvertime = "00:00:00";
+        }
+
+        return response()->json([
+            'totalOvertime' => $totalOvertime
+        ]);
     }
 
     public function postOvertime(Request $request)

@@ -30,6 +30,17 @@
     .nav-tabs .nav-link.active:hover {
         border-bottom: 3px solid #1b9d41 !important;
     }
+    .fa-arrow-circle-left, .fa-arrow-circle-right {
+        color: #1b9d41;
+        font-size: 25px;
+    }
+    #total-overtime {
+        border-radius: 5px;
+        padding: 4px 8px;
+        background: #fff;
+        color: #000;
+        text-align: center;
+    }
 </style>
 
 <div class="main_content_inner">
@@ -59,12 +70,12 @@
                 <div class="box-wrapper">
                     <div class="box-wrapper-heading">
                         <div class="box-wrapper-heading-title">
-                            Informasi Lembur {{\Carbon\Carbon::now()->format('F Y')}}
+                            Informasi Lembur <span id="month-year-now"></span>
                         </div>
                     </div>
-                    <div class="box-wrapper-description">
+                    <div class="box-wrapper-description" style="background-color: #1b9d41; color: #fff;">
                         <div class="box-wrapper-description-title">
-                            Total Jam Lembur : <span class="badge badge-warning">{{ $countOvertime }}</span> Jam
+                            Total jam lembur bulanan : <span id="total-overtime"></span>
                         </div>
                         {{-- <div class="box-wrapper-description-body">
                             <div class="row">
@@ -85,7 +96,7 @@
                     </div> --}}
                     <div class="box-wrapper-description" style="overflow: hidden;">
                         <form id="form-overtime">
-                            <input type="hidden" name="overtime_date" id="overtime_date">
+                            <input type="hidden" name="overtime_date" id="overtime_date" value="{{Carbon\Carbon::now()->format('Y-m-d')}}">
                             <div class="row">
                                 <div class="col-sm-4">
                                     <label>Waktu Mulai</label>
@@ -103,7 +114,7 @@
                             <div class="row" style="margin-top: 8px;">
                                 <div class="col-sm-12">
                                     <label>Keterangan</label>
-                                    <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+                                    <textarea class="form-control" name="description" id="description" rows="3" placeholder="Keterangan lembur"></textarea>
                                 </div>
                             </div>
                            <button type="submit" class="btn btn-success btn-right" style="margin-top: 8px; color: #fff;">Submit</button>
@@ -166,13 +177,27 @@
 <script src="{{asset('assets/plugins/powerful-calendar/calendar.js')}}"></script>
 
 <script>
+    var d = new Date();
+    var arrayMonths = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    var objectMonths = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
+
     $(document).ready(function () {
         var _token = '{{ csrf_token() }}';
         var defaultConfig = {
-            weekDayLength: 1,
-            date: new Date(),
+            weekDayLength: 3,
+            date: d,
             onClickDate: selectDate,
-            showYearDropdown: true,
+            prevButton:'<i class="fa fa-arrow-circle-left"></i>',
+            nextButton:'<i class="fa fa-arrow-circle-right"></i>',
+            enableYearView:false,
+            showYearDropdown: false,
+            todayButtonContent:"Hari Ini",
+            onClickMonthNext:function (date) {
+                getInfoOvertime(date);
+            },
+            onClickMonthPrev:function (date) {
+                getInfoOvertime(date);
+            },
         };
 
         $.ajaxSetup({
@@ -182,16 +207,47 @@
         });
 
         $('.calendar-wrapper').calendar(defaultConfig);
+        getInfoOvertime(d);
         getStatusRequestOvertime();
         getEmplRequestOvertime();
     })
 
+    function getInfoOvertime(date) {
+        var fullDate = date;
+        var fullDateSplit = fullDate.toString().split(" ");
+        var month = objectMonths[fullDateSplit[1]];
+        var year = fullDateSplit[3];
+        loadingproses();
+        
+        $.ajax({
+            url: "{{route('getInfoOvertime')}}",
+            method: "POST",
+            data: {month: month, year:year},
+            success: function (data) {
+                // console.log(data);
+                $('#month-year-now').text(arrayMonths[(parseInt(month)-1)]+" "+year);
+                $('#total-overtime').text(convertTime(data.totalOvertime));
+                loadingproses_close();
+            }
+        });
+    }
+
+    function convertTime(time) {
+        var parts = time.split(":");
+        if (parts[0] == "00") {
+            return "0 jam";
+        }
+        if (parts[1] == "00") {
+            return parts[0].replace(/^0+/, '')+" jam";
+        }
+        return parts[0].replace(/^0+/, '')+" jam "+parts[1].replace(/^0+/, '')+" menit";
+    }
+
     function selectDate(date) {
-        var d = new Date();
         var currentDate = d.getFullYear() + "-" + (d.getMonth()+1).toString().replace(/(^.$)/,"0$1") + "-" + str_pad(d.getDate());
         var selectDate = convertDate(date);
         if (selectDate < currentDate) {
-            bootbox.alert('Tidak bisa mengajukan lembur pada Tanggal yang sudah lewat');
+            bootbox.alert('Tidak bisa mengajukan lembur pada tanggal yang sudah lewat');
             return false;
         }
         $('.calendar-wrapper').updateCalendarOptions({
@@ -204,10 +260,9 @@
         return String("00" + n).slice(-2);
     }
 
-    function convertDate(d){
-        var parts = d.split(" ");
-        var months = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
-        return parts[3]+"-"+months[parts[1]]+"-"+parts[2];
+    function convertDate(date){
+        var parts = date.split(" ");
+        return parts[3]+"-"+objectMonths[parts[1]]+"-"+parts[2];
     }
 
     $('#start_time, #end_time').on('change', function () {

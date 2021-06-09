@@ -22,7 +22,7 @@ class LeaveController extends Controller
     
     protected $_view = 'frontend.leave';
 
-    public function index(Request $request)
+    public function index()
     {
         $typeLeave = MsTypeLeave::get();
         return view($this->_view)->with(compact('typeLeave'));

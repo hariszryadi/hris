@@ -36,28 +36,28 @@
     yearView = false;
 
   var monthMap = {
-    1: "january",
-    2: "february",
-    3: "march",
+    1: "januari",
+    2: "februari",
+    3: "maret",
     4: "april",
-    5: "may",
-    6: "june",
-    7: "july",
-    8: "august",
+    5: "mei",
+    6: "juni",
+    7: "juli",
+    8: "agustus",
     9: "september",
-    10: "october",
+    10: "oktober",
     11: "november",
-    12: "december",
+    12: "desember",
   };
 
   var dayMap = {
-    0: "sunday",
-    1: "monday",
-    2: "tuesday",
-    3: "wednesday",
-    4: "thursday",
-    5: "friday",
-    6: "saturday",
+    0: "minggu",
+    1: "senin",
+    2: "selasa",
+    3: "rabu",
+    4: "kamis",
+    5: "jumat",
+    6: "sabtu",
   };
 
   function getFirstDayOfMonth(currentDate) {

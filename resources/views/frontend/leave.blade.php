@@ -147,7 +147,7 @@
                                 <div class="row" style="margin-top: 8px;">
                                     <div class="col-sm-12">
                                         <label>Keterangan</label>
-                                        <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+                                        <textarea class="form-control" name="description" id="description" rows="3" placeholder="Keterangan cuti/izin"></textarea>
                                     </div>
                                 </div>
                                <button type="submit" class="btn btn-success btn-right" style="margin-top: 8px; color: #fff;">Submit</button>
@@ -211,13 +211,12 @@
 <script src="{{asset('assets/plugins/powerful-calendar/calendar.js')}}"></script>
 <script>
     var d = new Date();
-    var arrayMonths = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     var objectMonths = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
 
     $(document).ready(function () {
         var _token = '{{ csrf_token() }}';
         var defaultConfig = {
-            weekDayLength: 1,
+            weekDayLength: 3,
             date: d,
             onClickDate: selectDate,
             prevButton:'<i class="fa fa-arrow-circle-left"></i>',
@@ -225,12 +224,26 @@
             enableYearView:false,
             showYearDropdown: false,
             todayButtonContent:"Hari Ini",
+            // disable: function (date) {
+            //     var holiday = [
+            //         'Wed Jun 09 2021 00:00:00 GMT+0700 (Western Indonesia Time)',
+            //         'Thu Jun 10 2021 00:00:00 GMT+0700 (Western Indonesia Time)',
+            //         'Tue Jun 15 2021 00:00:00 GMT+0700 (Western Indonesia Time)',
+            //     ];
+            //     for(var i=0; i<holiday.length;i++) {
+            //         if(holiday[i] == date) {
+            //             return true;
+            //         }
+            //     }
+
+            //     return date < d;
+            // },
             onClickMonthNext:function (date) {
                 getInfoLeave(date);
             },
             onClickMonthPrev:function (date) {
                 getInfoLeave(date);
-            },
+            }
         };
 
         $.ajaxSetup({
@@ -261,7 +274,6 @@
             success: function (data) {
                 // console.log(data);
                 $('#year-now').text(year);
-                $('.month-label').text(arrayMonths[(parseInt(month)-1)]);
                 $('#quota-leave').text(data.quotaLeave);
                 $('#count-cuti-approval').text(data.countCutiApproval);
                 $('#count-cuti-rejected').text(data.countCutiRejected);
@@ -276,7 +288,7 @@
         var currentDate = d.getFullYear() + "-" + (d.getMonth()+1).toString().replace(/(^.$)/,"0$1") + "-" + str_pad(d.getDate());
         var selectDate = convertDate(date);
         if (selectDate <= currentDate) {
-            bootbox.alert('Tidak bisa mengajukan cuti pada Tanggal yang sudah lewat');
+            bootbox.alert('Tidak bisa mengajukan cuti pada tanggal tersebut');
             return false;
         }
         $('.calendar-wrapper').updateCalendarOptions({

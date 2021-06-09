@@ -171,3 +171,7 @@
     width: 250px;
     margin-top: 8px;
 }
+
+.week .day.header {
+    font-size: 100% !important;
+}
