@@ -117,3 +117,5 @@ Route::post('/updateStatusRequestOvertime', 'OvertimeController@updateStatusRequ
 Route::get('/login', 'LoginController@login')->middleware('guest')->name('login');
 Route::post('/login', 'LoginController@credentials')->middleware('guest')->name('credentials');
 Route::get('/logout', 'LoginController@logout')->middleware('auth:user')->name('logout');
+
+Route::post('/save-token', 'FirebaseController@saveToken')->name('save-token');

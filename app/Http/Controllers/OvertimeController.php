@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\TrOvertimeAmount;
 use App\Models\TrOvertime;
 use App\Models\MsEmployee;
+use App\Models\Notification;
+use App\Models\User;
 use Carbon\Carbon;
 use DataTables;
 use Auth;
@@ -48,8 +50,22 @@ class OvertimeController extends Controller
         $duration = $request->duration;
         $description = $this->isNull($request->description);
         $empl_id = Auth::guard('user')->user()->empl_id;
+        $division_id = MsEmployee::where('id', $empl_id)->pluck('division_id');
 
         try {
+            $queryNotif = User::select(
+                        'users.id',
+                        'users.name',
+                        'users.nip',
+                        'users.device_token',
+                        'ms_empl.division_id',
+                        'ms_empl.avatar'
+                    )
+                    ->join('ms_empl', 'users.empl_id', '=', 'ms_empl.id')
+                    ->where('ms_empl.division_id', $division_id)
+                    ->where('ms_empl.head_division', true)
+                    ->first();
+
             $query = DB::table('tr_overtime')
                     ->where('empl_id', $empl_id)
                     ->where('status', 1)->count();
@@ -70,6 +86,14 @@ class OvertimeController extends Controller
                 'empl_id' => $empl_id
             ]);
             $trOvertime->update(['tr_overtime_id' => \sprintf("OT-".Carbon::now()->format('Ymd')."%04d", $trOvertime->id)]);
+
+            $notification = new Notification;
+            $notification->type_transaction = 2;
+            $notification->transaction_id = $trOvertime->tr_overtime_id;
+            $notification->user_id = $queryNotif->id;
+            $notification->read = false;
+            $notification->save();
+            $notification->toMultipleDevice($queryNotif, 'Pengajuan Lembur Baru', 'Hallo, ada pengajuan lembur baru', null, route('overtime'));
 
             return response()->json([
                 'message' => 'Berhasil melakukan submit form lembur',
@@ -183,6 +207,21 @@ class OvertimeController extends Controller
         $overtime = TrOvertime::where('id', $request->overtimeId)->first();
         $time = explode(':', $overtime->duration);
         $hours = (int)$time[0];
+
+        $queryNotif = User::select(
+                    'users.id',
+                    'users.name',
+                    'users.nip',
+                    'users.device_token',
+                    'ms_empl.division_id',
+                    'ms_empl.avatar'
+                )
+                ->join('ms_empl', 'users.empl_id', '=', 'ms_empl.id')
+                ->where('ms_empl.id', $overtime->empl_id)
+                ->first();
+
+        $notification = new Notification;
+
         if ($request->status == 2) {
             $overtime->update(['status' => $request->status]);
             $overtimeAmount = TrOvertimeAmount::create([
@@ -191,10 +230,27 @@ class OvertimeController extends Controller
                 'duration' => $overtime->duration,
                 'total_amount' => ($hours * 10000)
             ]);
+
+            $notification->type_transaction = 2;
+            $notification->transaction_id = $overtime->tr_overtime_id;
+            $notification->user_id = $queryNotif->id;
+            $notification->read = false;
+            $notification->save();
+            $notification->toMultipleDevice($queryNotif, 'Status lembur', 'Selamat, Pengajuan lembur anda disetujui', null, route('overtime'));
+        } elseif ($request->status == 0) {
+            $overtime->update(['status' => $request->status]);
+
+            $notification->type_transaction = 2;
+            $notification->transaction_id = $overtime->tr_overtime_id;
+            $notification->user_id = $queryNotif->id;
+            $notification->read = false;
+            $notification->save();
+            $notification->toMultipleDevice($queryNotif, 'Status lembur', 'Maaf, Pengajuan lembur anda ditolak', null, route('overtime'));
         } else {
             $overtime->update(['status' => $request->status]);
         }
 
+        
         return response()->json(['success' => 'Update Status Successfully']);
     }
 

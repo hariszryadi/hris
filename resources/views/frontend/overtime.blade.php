@@ -313,7 +313,7 @@
             },
             error: function (xhr, status, error) {
                 var err = JSON.parse(xhr.responseText);
-                console.log(err.message);
+                console.log(err.error);
                 $('.alert-success').attr("hidden", true);
                 $('.alert-danger').attr("hidden", false);
                 $('.alert-danger strong').text(err.message);

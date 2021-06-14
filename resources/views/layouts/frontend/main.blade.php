@@ -9,6 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {{-- <link rel="icon" href="assets/images/favicon.png"> --}}
 
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- CSS -->
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/uikit.css')}}">
@@ -23,6 +26,20 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{{asset('assets/bootstrap/bootstrap.min.css')}}">
+
+    <!-- firebase integration started -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
+    <!-- Firebase App is always required and must be first -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-app.js"></script>
+
+    <!-- Add additional services that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-functions.js"></script>
+
+    <!-- firebase integration end -->
 </head>
 
 <body>
@@ -61,6 +78,7 @@
     <script src="{{asset('assets/jquery/jquery-3.3.1.min.js')}}"></script>
     <script src="{{asset('assets/bootstrap/popper.min.js')}}"></script>
     <script src="{{asset('assets/bootstrap/bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/firebase.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
