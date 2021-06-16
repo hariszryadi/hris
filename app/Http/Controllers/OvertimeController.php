@@ -236,7 +236,7 @@ class OvertimeController extends Controller
             $notification->user_id = $queryNotif->id;
             $notification->read = false;
             $notification->save();
-            $notification->toMultipleDevice($queryNotif, 'Status lembur', 'Selamat, Pengajuan lembur anda disetujui', null, route('overtime'));
+            $notification->toMultipleDevice($queryNotif, 'Status Lembur', 'Selamat, Pengajuan lembur anda disetujui', null, route('overtime'));
         } elseif ($request->status == 0) {
             $overtime->update(['status' => $request->status]);
 
@@ -245,7 +245,7 @@ class OvertimeController extends Controller
             $notification->user_id = $queryNotif->id;
             $notification->read = false;
             $notification->save();
-            $notification->toMultipleDevice($queryNotif, 'Status lembur', 'Maaf, Pengajuan lembur anda ditolak', null, route('overtime'));
+            $notification->toMultipleDevice($queryNotif, 'Status Lembur', 'Maaf, Pengajuan lembur anda ditolak', null, route('overtime'));
         } else {
             $overtime->update(['status' => $request->status]);
         }

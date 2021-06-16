@@ -81,11 +81,11 @@
                         <div class="box-wrapper-description-body">
                             <div class="row">
                                 <div class="col-sm-6">Total cuti disetujui : <span id="count-cuti-approval">0</span> Hari</div>
-                                <div class="col-sm-6">Total cuti ditolak : <span id="count-cuti-reject">0</span> Hari</div>
+                                <div class="col-sm-6">Total cuti ditolak : <span id="count-cuti-rejected">0</span> Hari</div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">Total izin disetujui : <span id="count-izin-approval">0</span> Hari</div>
-                                <div class="col-sm-6">Total izin ditolak : <span id="count-izin-reject">0</span> Hari</div>
+                                <div class="col-sm-6">Total izin ditolak : <span id="count-izin-rejected">0</span> Hari</div>
                             </div>
                         </div>
                     </div>

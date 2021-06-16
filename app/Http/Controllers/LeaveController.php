@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MsCategoryLeave;
+use App\Models\Notification;
 use App\Models\TrLeaveQuota;
 use App\Models\MsTypeLeave;
 use App\Models\MsEmployee;
 use App\Models\TrLeave;
+use App\Models\User;
 use Carbon\Carbon;
 use DataTables;
 use Auth;
@@ -47,7 +49,7 @@ class LeaveController extends Controller
             'countCutiApproval' => $countCutiApproval,
             'countCutiRejected' => $countCutiRejected,
             'countIzinApproval' => $countIzinApproval,
-            'countIzinApproval' => $countIzinRejected,
+            'countIzinRejected' => $countIzinRejected,
         ]);
     }
 
@@ -78,8 +80,22 @@ class LeaveController extends Controller
         $categoryLeaveId = $request->category_leave;
         $description = $this->isNull($request->description);
         $empl_id = Auth::guard('user')->user()->empl_id;
+        $division_id = MsEmployee::where('id', $empl_id)->pluck('division_id');
 
         try {
+            $queryNotif = User::select(
+                            'users.id',
+                            'users.name',
+                            'users.nip',
+                            'users.device_token',
+                            'ms_empl.division_id',
+                            'ms_empl.avatar'
+                        )
+                        ->join('ms_empl', 'users.empl_id', '=', 'ms_empl.id')
+                        ->where('ms_empl.division_id', $division_id)
+                        ->where('ms_empl.head_division', true)
+                        ->first();
+
             $query = DB::table('tr_leave_quota')
                     ->where('empl_id', $empl_id)
                     ->where('max_quota', 0)->count();
@@ -110,6 +126,15 @@ class LeaveController extends Controller
                 'empl_id' => $empl_id
             ]);
             $trLeave->update(['tr_leave_id' => \sprintf("LV-".Carbon::now()->format('Ymd')."%04d", $trLeave->id)]);
+
+            $notification = new Notification;
+            $notification->type_transaction = 1;
+            $notification->transaction_id = $trLeave->tr_leave_id;
+            $notification->user_id = $queryNotif->id;
+            $notification->read = false;
+            $notification->save();
+            $notification->toMultipleDevice($queryNotif, 'Pengajuan Cuti/Izin Baru', 'Hallo, ada pengajuan cuti/izin baru', null, route('leave'));
+
 
             return response()->json([
                 'message' => 'Berhasil melakukan submit form cuti',
@@ -222,12 +247,43 @@ class LeaveController extends Controller
 
     public function updateStatusRequestLeave(Request $request)
     {
-        $leave = TrLeave::where('id', $request->leaveId);
+        $leave = TrLeave::where('id', $request->leaveId)->first();
+
+        $queryNotif = User::select(
+                        'users.id',
+                        'users.name',
+                        'users.nip',
+                        'users.device_token',
+                        'ms_empl.division_id',
+                        'ms_empl.avatar'
+                    )
+                    ->join('ms_empl', 'users.empl_id', '=', 'ms_empl.id')
+                    ->where('ms_empl.id', $leave->empl_id)
+                    ->first();
+
+        $notification = new Notification;
+
         if ($request->status == 2) {
             $leave->update(['status' => $request->status]);
             $leaveQuota = TrLeaveQuota::where('empl_id', $request->emplId);
             $leaveQuota->increment('used_quota');
             $leaveQuota->decrement('max_quota');
+
+            $notification->type_transaction = 1;
+            $notification->transaction_id = $leave->tr_leave_id;
+            $notification->user_id = $queryNotif->id;
+            $notification->read = false;
+            $notification->save();
+            $notification->toMultipleDevice($queryNotif, 'Status Cuti/Izin', 'Selamat, Pengajuan cuti/izin anda disetujui', null, route('leave'));
+        } elseif($request->status == 0) {
+            $leave->update(['status' => $request->status]);
+
+            $notification->type_transaction = 1;
+            $notification->transaction_id = $leave->tr_leave_id;
+            $notification->user_id = $queryNotif->id;
+            $notification->read = false;
+            $notification->save();
+            $notification->toMultipleDevice($queryNotif, 'Status Cuti/Izin', 'Maaf, Pengajuan cuti/izin anda ditolak', null, route('leave'));
         } else {
             $leave->update(['status' => $request->status]);
         }

@@ -133,7 +133,7 @@
             } else if (status == 2) {
                 return '<span class="badge bg-success">Approve</span>';
             } else if (status == 3) {
-                return '<span class="badge bg-secondary">Cancelled</span>';
+                return '<span class="badge bg-grey">Cancelled</span>';
             } else {
                 return '<span class="badge bg-danger">Reject</span>';
             }
