@@ -127,7 +127,7 @@
                 error: function (err) {
                     var errors = err.responseJSON;
                     $('#modal-import').modal('hide');
-                    swal('Error!', errors.message, 'error');
+                    swal('Error!', errors.error, 'error');
                 }
             })            
         })

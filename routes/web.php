@@ -90,6 +90,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/user-admin/{id}/edit', 'Admin\UserAdminController@edit')->name('admin.userAdmin.edit');
         Route::post('/user-admin/update', 'Admin\UserAdminController@update')->name('admin.userAdmin.update');
         Route::post('/user-admin/destroy', 'Admin\UserAdminController@destroy')->name('admin.userAdmin.destroy');
+
+        /** Change Password */
+        Route::get('/change-password/index', 'Admin\ChangePasswordController@index')->name('admin.changePassword.index');
+        Route::post('/change-password/update', 'Admin\ChangePasswordController@update')->name('admin.changePassword.update');
     });
 });
 

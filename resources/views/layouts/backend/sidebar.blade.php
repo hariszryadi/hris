@@ -106,6 +106,22 @@
             
                         </ul>
                     </li>
+
+                    <li class="nav-item nav-item-submenu">
+                        <a href="#" class="nav-link"><i class="icon-download4"></i>
+                            <span>Report</span></a>
+                        <ul>
+            
+                            <li class="nav-item">
+                                <a href="#">Report Cuti/Izin</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#">Report Lembur</a>
+                            </li>
+            
+                        </ul>
+                    </li>
                 
                 </ul>
             </div>

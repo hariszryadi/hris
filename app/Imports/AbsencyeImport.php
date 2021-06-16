@@ -2,9 +2,9 @@
 
 namespace App\Imports;
 
-use App\Models\MsEmployee;
 use App\Models\TrImportAbsencye;
 use Maatwebsite\Excel\Concerns\ToModel;
+use DB;
 
 class AbsencyeImport implements ToModel
 {
@@ -15,10 +15,10 @@ class AbsencyeImport implements ToModel
     */
     public function model(array $row)
     {
-        $emplId = MsEmployee::select('id')->where('empl_name', $row[1])->get();
-
+        $emplId = DB::table('ms_empl')->select('id')->where('empl_name', ucwords(strtolower($row[1])))->get();
+        $id = $emplId[0]->id;
         return new TrImportAbsencye([
-            'empl_id' => $emplId[0]->id,
+            'empl_id' => $row[1],
             'time_entry' => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[2]),
             'time_return' => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[3])
         ]);

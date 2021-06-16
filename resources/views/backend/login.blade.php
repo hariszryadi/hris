@@ -51,6 +51,9 @@
 							<div class="text-center">
 								<div class="icon-object border-slate-300 text-slate-300"><i class="icon-user"></i></div>
 								<h5 class="content-group">Login to your account <small class="display-block">Enter your credentials below</small></h5>
+								@if($errors->any())
+									<h6 class="text-danger">{{$errors->first()}}</h6>
+								@endif
 							</div>
 
 							<div class="form-group has-feedback has-feedback-left">

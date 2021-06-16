@@ -23,8 +23,7 @@
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a href="#" class="text-warning"><i class="icon-user-plus"></i> My profile</a></li>
-                    <li><a href="#"><i class="icon-user-lock"></i>Change Password</a></li>
+                    <li><a href="{{route('admin.changePassword.index')}}"><i class="icon-user-lock"></i>Ubah Password</a></li>
                     <li class="divider"></li>
                     <li><a href="{{route('admin.logout')}}"><i class="icon-switch2"></i> Logout</a></li>
                 </ul>
