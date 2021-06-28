@@ -12,12 +12,22 @@ use File;
 class UserAdminController extends Controller
 {
     protected $_view = 'backend.user-admin.';
+    protected $disabled;
+    protected $trash;
 
     public function index()
     {
         if (request()->ajax()) {
             return Datatables::of(Admin::orderBy('id')->get())
                 ->addColumn('action', function($data){
+                    if ($data->email == 'superadmin@tedc.id') {
+                        $this->disabled = 'disabled';
+                        $this->trash = 'text-secondary';
+                    } else {
+                        $this->disabled = '';
+                        $this->trash = 'text-danger';
+                    }
+
                     return '<ul class="icons-list">
                                 <li>
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -25,10 +35,10 @@ class UserAdminController extends Controller
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-right text-center">
                                         <li>
-                                            <a href="/admin/user-admin/'.$data->id .'/edit"><i class="icon-pencil5 text-primary"></i> Edit</a>
+                                            <a href="/admin/user-admin/'.$data->id.'/edit"><i class="icon-pencil5 text-primary"></i> Edit</a>
                                         </li>
-                                        <li>
-                                            <a href="javascript:void(0)" id="delete" data-id="'.$data->id.'" data-image="' . $data->avatar . '"><i class="icon-bin text-danger"></i> Hapus</a>
+                                        <li class="'.$this->disabled.'">
+                                            <a href="javascript:void(0)" id="delete" data-id="'.$data->id.'" data-image="'.$data->avatar.'" '.$this->disabled.'><i class="icon-bin '.$this->trash.'"></i> Hapus</a>
                                         </li>
                                     </div>
                                 </li>
