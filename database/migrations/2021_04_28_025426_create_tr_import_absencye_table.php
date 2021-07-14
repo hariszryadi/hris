@@ -15,9 +15,9 @@ class CreateTrImportAbsencyeTable extends Migration
     {
         Schema::create('tr_import_absencye', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('empl_id');
-            $table->foreign('empl_id')->references('id')->on('ms_empl')
-                    ->onDelete('cascade')->onUpdate('cascade');
+            $table->string('code_fingerprint');
+            $table->string('empl_name');
+            $table->string('absencye_date');
             $table->time('time_entry');
             $table->time('time_return');
             $table->timestamps();

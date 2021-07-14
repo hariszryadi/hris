@@ -24,13 +24,13 @@
                 <li class="{{request()->is('leave') ? 'active' : ''}}">
                     <a href="{{route('leave')}}">
                         <i class="fa fa-calendar"></i> 
-                        Rencana Cuti/Izin
+                        Cuti/Izin
                     </a>
                 </li>
                 <li class="{{request()->is('overtime') ? 'active' : ''}}">
                     <a href="{{route('overtime')}}">
                         <i class="fa fa-clock-o"></i> 
-                        Rencana Lembur 
+                        Lembur 
                     </a>
                 </li>
             

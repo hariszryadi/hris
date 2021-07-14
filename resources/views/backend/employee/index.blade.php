@@ -68,7 +68,7 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         },
                     },
-                    {data: "nip", name: "nip", orderable: false},
+                    {data: "nip", name: "nip"},
                     {data: "empl_name", name: "empl_name", orderable: false},
                     {data: "email", name: "email", orderable: false},
                     {data: "division_id", name: "division_id", orderable: false},
