@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Imports\AbsencyeImport;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Models\MsEmployee;
+use App\Models\TrImportAbsencye;
+use App\Imports\AbsencyeImport;
+use DataTables;
 use DB;
 
 class ImportController extends Controller
@@ -15,6 +16,15 @@ class ImportController extends Controller
 
     public function index()
     {
+        $query = DB::table('tr_import_absencye')
+                    ->select(DB::raw('DATE(created_at) as date'), 'user')
+                    ->groupBy('date', 'user')
+                    ->get();
+
+        if (request()->ajax()) {
+            return Datatables::of($query)
+                ->make(true);
+        }
         return view($this->_view.'index');
     }
 

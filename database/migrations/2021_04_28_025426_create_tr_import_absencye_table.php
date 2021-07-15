@@ -15,11 +15,12 @@ class CreateTrImportAbsencyeTable extends Migration
     {
         Schema::create('tr_import_absencye', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('code_fingerprint');
+            $table->string('id_finger');
             $table->string('empl_name');
             $table->string('absencye_date');
-            $table->time('time_entry');
-            $table->time('time_return');
+            $table->string('time_entry')->nullable();
+            $table->string('time_return')->nullable();
+            $table->string('user');
             $table->timestamps();
         });
     }
