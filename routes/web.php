@@ -74,6 +74,7 @@ Route::group(['prefix' => 'admin'], function () {
         /** Import */
         Route::get('/import/index', 'Admin\ImportController@index')->name('admin.import.index');
         Route::post('/import/absencye', 'Admin\ImportController@importAbsencye')->name('admin.import.absencye');
+        Route::post('/import/destroy', 'Admin\ImportController@destroy')->name('admin.import.destroy');
 
         /** Role */
         Route::get('/role/index', 'Admin\RoleController@index')->name('admin.role.index');

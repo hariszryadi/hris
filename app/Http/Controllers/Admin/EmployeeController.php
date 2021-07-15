@@ -19,7 +19,7 @@ class EmployeeController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return Datatables::of(MsEmployee::orderBy('id', 'DESC')->get())
+            return Datatables::of(MsEmployee::orderBy('nip', 'DESC')->get())
                 ->addColumn('action', function($data){
                     return '<ul class="icons-list">
                                 <li>

@@ -31,6 +31,7 @@
                         <th>No</th>
                         <th>Tanggal Import</th>
                         <th>User Import</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
             </table>
@@ -87,6 +88,7 @@
                 serverside: true,
                 autoWidth: false,
                 bLengthChange: false,
+                bFilter: false,
                 pageLength: 10,
                 ajax: {
                     url: "{{route('admin.import.index')}}",
@@ -98,11 +100,14 @@
                     },
                     // {data: "empl_name", name: "empl_name", orderable: false},
                     // {data: "created_at", name: "created_at", orderable: false},
-                    {data: "date", orderable: false},
-                    {data: "user", orderable: false},
+                    {data: "date", name: "date", orderable: false},
+                    {data: "user", name: "user", orderable: false},
+                    {data: "action", name: "action", orderable: false}
                 ],
                 columnDefs: [
                     { width: "5%", "targets": [0] },
+                    { width: "10%", "targets": [3] },
+                    { className: "text-center", "targets": [3] }
                 ]
             });
 
@@ -143,9 +148,39 @@
                     $('.footer-button').show();
                     $('.footer-loading').hide();
                     $('#file').val('');
-                    swal('Error!', errors.error, 'error');
+                    swal('Error!', errors.message, 'error');
                 }
             })            
+        })
+
+        $(document).on('click', '#delete', function () {
+            var created_at = $(this).attr('data-date');
+            swal({
+                title: "Apakah Anda Yakin Akan Menghapus Data ini?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Ya, Hapus!",
+                cancelButtonText: "Kembali",
+                closeOnConfirm: false,
+                closeOnCancel: true
+                }, function(result) {
+                    if (result) {
+                        $.ajax({
+                            url: "{{ route('admin.import.destroy') }}",
+                            method: "POST",
+                            data: {created_at:created_at},
+                            success: function (resp) {
+                                table.ajax.reload();
+                                swal('Sukses!', resp.message, 'success');
+                            },
+                            error: function (resp) {
+                                swal('Error!', resp.message, 'error');
+                            }
+                        })
+                    }
+                }
+            )
         })
     </script>
     
