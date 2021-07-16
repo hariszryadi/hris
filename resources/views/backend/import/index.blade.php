@@ -1,7 +1,7 @@
 @extends('layouts.backend.master')
 
 @section('title-header')
-    Import
+    Import Absensi
 @endsection
 
 @section('menus')

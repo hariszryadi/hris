@@ -171,12 +171,12 @@
                             </tr>
                             <tr></tr>
                             <tr>
-                                <td>Tanggal Mulai Cuti</td>
+                                <td>Tanggal Mulai Cuti/Izin</td>
                                 <td>:</td>
                                 <td>${formatDate(data.start_date)}</td>
                             </tr>
                             <tr>
-                                <td>Tanggal Selesai Cuti</td>
+                                <td>Tanggal Selesai Cuti/Izin</td>
                                 <td>:</td>
                                 <td>${formatDate(data.end_date)}</td>
                             </tr>

@@ -112,12 +112,12 @@
                             <span>Report</span></a>
                         <ul>
             
-                            <li class="nav-item">
-                                <a href="#">Report Cuti/Izin</a>
+                            <li class="nav-item {{request()->is('admin/report/leave') ? 'active' : ''}}">
+                                <a href="{{route('admin.report.leave')}}">Report Cuti/Izin</a>
                             </li>
 
-                            <li class="nav-item">
-                                <a href="#">Report Lembur</a>
+                            <li class="nav-item {{request()->is('admin/report/overtime') ? 'active' : ''}}">
+                                <a href="{{route('admin.report.overtime')}}">Report Lembur</a>
                             </li>
             
                         </ul>

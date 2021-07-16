@@ -95,6 +95,12 @@ Route::group(['prefix' => 'admin'], function () {
         /** Change Password */
         Route::get('/change-password/index', 'Admin\ChangePasswordController@index')->name('admin.changePassword.index');
         Route::post('/change-password/update', 'Admin\ChangePasswordController@update')->name('admin.changePassword.update');
+
+        /** Report */
+        Route::get('/report/leave', 'Admin\ReportController@reportLeave')->name('admin.report.leave');
+        Route::get('/report/leave/download', 'Admin\ReportController@downloadReportLeave')->name('admin.report.leave.download');
+        Route::get('/report/overtime', 'Admin\ReportController@reportOvertime')->name('admin.report.overtime');
+        Route::get('/report/overtime/download', 'Admin\ReportController@downloadReportOvertime')->name('admin.report.overtime.download');
     });
 });
 
