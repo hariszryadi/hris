@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Models\AdminRole;
 use App\Models\Admin;
+use App\Models\Role;
 use DataTables;
 use File;
 
@@ -52,7 +54,8 @@ class UserAdminController extends Controller
 
     public function create()
     {
-        return view($this->_view.'create');
+        $role = Role::orderBy('id')->get();
+        return view($this->_view.'create')->with(compact('role'));
     }
 
     public function store(Request $request)
@@ -75,13 +78,19 @@ class UserAdminController extends Controller
             'avatar' => $path
         ]);
 
+        AdminRole::create([
+            'admin_id' => $data->id,
+            'role_id' => $request->role_id
+        ]);
+
         return redirect()->route('admin.userAdmin.index')->with('success', 'Success Message');
     }
 
     public function edit($id)
     {
-        $userAdmin = Admin::find($id);
-        return view($this->_view.'edit')->with(compact('userAdmin'));
+        $userAdmin = Admin::with('roles')->find($id);
+        $role = Role::orderBy('id')->get();
+        return view($this->_view.'edit')->with(compact('userAdmin', 'role'));
     }
 
     public function update(Request $request)
@@ -115,6 +124,10 @@ class UserAdminController extends Controller
         $data['name'] = $request->name;
 
         $userAdmin->update($data);
+
+        AdminRole::where('admin_id', $request->id)->update([
+            'role_id' => $request->role_id
+        ]);
 
         return redirect()->route('admin.userAdmin.index')->with('success', 'Success Message');
     }

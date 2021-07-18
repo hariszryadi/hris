@@ -61,6 +61,18 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="control-label col-lg-2">Role</label>
+                    <div class="col-lg-10">
+                        <select class="form-control" name="role_id" id="">
+                            <option value="null" selected disabled>Pilih Role</option>
+                            @foreach ($role as $item)
+                                <option value="{{$item->id}}" {{$userAdmin->roles->first()->id == $item->id ? 'selected' : ''}}>{{$item->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
                 <div class="form-group" style="margin-top: 50px; margin-left: 10px;">
                     <a class="btn btn-danger" href="{{route('admin.userAdmin.index')}}">Kembali</a>
                     <button type="submit" class="btn btn-primary">Update</button>
