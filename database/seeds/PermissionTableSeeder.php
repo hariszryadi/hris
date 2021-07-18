@@ -37,7 +37,7 @@ class PermissionTableSeeder extends Seeder
             $permission_ids[] = $d->id;
         }
         
-        // find admin role
+        // find super admin role
         $admin_role = Role::where('name', 'super-admin')->first();
         // synchronize permissions to admin role
         $admin_role->permissions()->sync($permission_ids);

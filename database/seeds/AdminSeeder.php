@@ -21,13 +21,6 @@ class AdminSeeder extends Seeder
                 'password' => Hash::make('superadmin@tedc.id'),
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-            ],
-            [
-                'name' => 'ADMIN',
-                'email' => 'admin@tedc.id',
-                'password' => Hash::make('admin@tedc.id'),
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]
         ]);
     }

@@ -83,6 +83,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/role/{id}/edit', 'Admin\RoleController@edit')->name('admin.role.edit');
         Route::post('/role/update', 'Admin\RoleController@update')->name('admin.role.update');
         Route::post('/role/destroy', 'Admin\RoleController@destroy')->name('admin.role.destroy');
+        Route::post('/role/dataTablePermission', 'Admin\RoleController@dataTablePermission')->name('admin.role.dataTablePermission');
 
         /** User Admin */
         Route::get('/user-admin/index', 'Admin\UserAdminController@index')->name('admin.userAdmin.index');
