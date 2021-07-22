@@ -14,6 +14,9 @@
         .table > thead > tr > th {
             vertical-align: middle;
         }
+        .table-count > tr > td {
+            vertical-align: middle;
+        }
         .table > tbody {
             border-right: 1px solid #eee;
             border-left: 1px solid #eee;
@@ -34,6 +37,14 @@
         <img src="{{public_path('images/logo.png')}}">
     </div>
     <h5 class="text-center">Report Cuti/Izin</h5>
+    <table class="table table-count">
+        <tr>
+            <td>cuti/izin di-<i>approve</i> : {{$status[2]}}</td>
+            <td>cuti/izin di-<i>reject</i> : {{$status[0]}}</td>
+            <td>cuti/izin di-<i>cancel</i> : {{$status[3]}}</td>
+            <td>cuti/izin <i>pending</i> : {{$status[1]}}</td>
+        </tr>
+    </table>
 	<table class="table">
 		<thead>
 			<tr>
@@ -100,6 +111,13 @@
 			@endforelse
 		</tbody>
 	</table>
-
+    <table class="table table-count">
+        <tr>
+            <td>cuti/izin di-<i>approve</i> : {{$status[2]}}</td>
+            <td>cuti/izin di-<i>reject</i> : {{$status[0]}}</td>
+            <td>cuti/izin di-<i>cancel</i> : {{$status[3]}}</td>
+            <td>cuti/izin <i>pending</i> : {{$status[1]}}</td>
+        </tr>
+    </table>
 </body>
 </html>

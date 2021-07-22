@@ -35,8 +35,9 @@ class ReportController extends Controller
             $query->where('empl_id', '=', $request->empl_id);
         }
         $data = $query->orderBy('id')->get();
+        $status = $data->countBy('status');
 
-        $pdf = PDF::loadview($this->_view.'leave.report',['data'=>$data]);
+        $pdf = PDF::loadview($this->_view.'leave.report',['data'=>$data, 'status'=>$status]);
         return $pdf->stream('report_leave.pdf')
                 ->header('Content-Type','application/pdf');
     }
@@ -60,8 +61,9 @@ class ReportController extends Controller
             $query->where('empl_id', '=', $request->empl_id);
         }
         $data = $query->orderBy('id')->get();
+        $status = $data->countBy('status');
 
-        $pdf = PDF::loadview($this->_view.'overtime.report',['data'=>$data]);
+        $pdf = PDF::loadview($this->_view.'overtime.report',['data'=>$data, 'status'=>$status]);
         return $pdf->stream('report_overtime.pdf')
                 ->header('Content-Type','application/pdf');
     }
