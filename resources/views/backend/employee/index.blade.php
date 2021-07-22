@@ -19,13 +19,15 @@
         </div>
         <div class="panel-body">
             
-            <div class="form-group text-left">
-                <a href="{{route('admin.employee.create')}}" id="tambah" 
-                    class="btn btn-primary">
-                    <i class="icon-file-plus"></i>
-                    Tambah
-                </a>
-            </div>       
+            @if (auth()->user()->roles()->first()->permission_role()->byId(2)->first()->create_right == true)
+                <div class="form-group text-left">
+                    <a href="{{route('admin.employee.create')}}" id="tambah" 
+                        class="btn btn-primary">
+                        <i class="icon-file-plus"></i>
+                        Tambah
+                    </a>
+                </div>       
+            @endif
             
             <table class="table datatable-basic table-hover table-bordered striped">
                 <thead>

@@ -21,9 +21,14 @@ class PermissionTableSeeder extends Seeder
             ['code' => 'M003', 'name' => '[Master] - Kategori Cuti/Izin', 'readable' => true, 'createable' => true, 'updateable' => true, 'deleteable' => true],
             ['code' => 'M004', 'name' => '[Transaction] - Transaksi Cuti/Izin', 'readable' => true, 'createable' => false, 'updateable' => false, 'deleteable' => false],
             ['code' => 'M005', 'name' => '[Transaction] - Transaksi Lembur', 'readable' => true, 'createable' => false, 'updateable' => false, 'deleteable' => false],
-            ['code' => 'M006', 'name' => '[User Config] - Account Pegawai', 'readable' => true, 'createable' => false, 'updateable' => true, 'deleteable' => false],
-            ['code' => 'M007', 'name' => '[User Config] - Role', 'readable' => true, 'createable' => true, 'updateable' => true, 'deleteable' => true],
-            ['code' => 'M008', 'name' => '[User Config] - User Admin', 'readable' => true, 'createable' => true, 'updateable' => true, 'deleteable' => true],
+            ['code' => 'M006', 'name' => '[Import] - Import Absensi', 'readable' => true, 'createable' => true, 'updateable' => false, 'deleteable' => true],
+            ['code' => 'M007', 'name' => '[CMS] - Slider', 'readable' => true, 'createable' => true, 'updateable' => true, 'deleteable' => true],
+            ['code' => 'M008', 'name' => '[User Config] - Account Pegawai', 'readable' => true, 'createable' => false, 'updateable' => true, 'deleteable' => false],
+            ['code' => 'M009', 'name' => '[User Config] - Role', 'readable' => true, 'createable' => true, 'updateable' => true, 'deleteable' => true],
+            ['code' => 'M010', 'name' => '[User Config] - User Admin', 'readable' => true, 'createable' => true, 'updateable' => true, 'deleteable' => true],
+            ['code' => 'M011', 'name' => '[Report] - Report Cuti/Izin', 'readable' => true, 'createable' => false, 'updateable' => false, 'deleteable' => false],
+            ['code' => 'M012', 'name' => '[Report] - Report Lembur', 'readable' => true, 'createable' => false, 'updateable' => false, 'deleteable' => false],
+            ['code' => 'M013', 'name' => '[Report] - Report Fee', 'readable' => true, 'createable' => false, 'updateable' => false, 'deleteable' => false],
         ];
 
         // update or insert permissions

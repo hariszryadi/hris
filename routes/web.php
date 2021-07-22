@@ -22,7 +22,7 @@ Route::group(['prefix' => 'admin'], function () {
         return view('backend.dashboard');
     })->middleware('auth:admin')->name('admin.dashboard');
 
-    Route::group(['middleware' => ['auth:admin']], function () {
+    Route::group(['middleware' => ['auth:admin', 'role']], function () {
         
         /** Divisi */
         Route::get('/division/index', 'Admin\DivisionController@index')->name('admin.division.index');

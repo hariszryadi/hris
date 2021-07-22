@@ -28,18 +28,20 @@ class ImportController extends Controller
         if (request()->ajax()) {
             return Datatables::of($query)
                 ->addColumn('action', function($data){
-                    return '<ul class="icons-list">
-                                <li>
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <i class="icon-menu9"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right text-center">
-                                        <li>
-                                            <a href="javascript:void(0)" id="delete" data-date="'.$data->date.'"><i class="icon-bin text-danger"></i> Hapus</a>
-                                        </li>
-                                    </div>
-                                </li>
-                            </ul>';
+                    if (auth()->user()->roles()->first()->permission_role()->byId(6)->first()->delete_right == true) {
+                        return '<ul class="icons-list">
+                                    <li>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="icon-menu9"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-right text-center">
+                                            <li>
+                                                <a href="javascript:void(0)" id="delete" data-date="'.$data->date.'"><i class="icon-bin text-danger"></i> Hapus</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>';
+                    }
                 })
                 ->make(true);
         }

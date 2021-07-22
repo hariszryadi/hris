@@ -17,21 +17,31 @@ class CategoryLeaveController extends Controller
         if (request()->ajax()) {
             return Datatables::of(MsCategoryLeave::orderBy('id')->get())
                 ->addColumn('action', function($data){
-                    return '<ul class="icons-list">
-                                <li>
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <i class="icon-menu9"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right text-center">
-                                        <li>
-                                            <a href="/admin/category-leave/'.$data->id .'/edit"><i class="icon-pencil5 text-primary"></i> Edit</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)" id="delete" data-id="'.$data->id.'"><i class="icon-bin text-danger"></i> Hapus</a>
-                                        </li>
-                                    </div>
-                                </li>
-                            </ul>';
+                    $x = '';
+                    if (auth()->user()->roles()->first()->permission_role()->byId(3)->first()->update_right == true) {
+                        $x .= '<li>
+                                    <a href="/admin/category-leave/'.$data->id .'/edit"><i class="icon-pencil5 text-primary"></i> Edit</a>
+                                </li>';
+                    }
+                    if (auth()->user()->roles()->first()->permission_role()->byId(3)->first()->delete_right == true) {
+                        $x .= '<li>
+                                    <a href="javascript:void(0)" id="delete" data-id="'.$data->id.'"><i class="icon-bin text-danger"></i> Hapus</a>
+                                </li>';
+                    }
+
+                    if (auth()->user()->roles()->first()->permission_role()->byId(3)->first()->update_right == true ||
+                        auth()->user()->roles()->first()->permission_role()->byId(3)->first()->delete_right == true) {
+                        return '<ul class="icons-list">
+                                    <li>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="icon-menu9"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-right text-center">
+                                            '.$x.'
+                                        </ul>
+                                    </li>
+                                </ul>';
+                    }
                 })
                 ->editColumn('type_leave_id', function($drawings) {
                     return $drawings->typeLeave->type_leave;

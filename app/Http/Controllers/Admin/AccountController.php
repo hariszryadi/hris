@@ -22,21 +22,24 @@ class AccountController extends Controller
                     } else {
                         $status .='<a href="javascript:void(0)" id="aktif" data-id="'.$data->id.'" data-status="'.$data->status.'"><i class="icon-user-check text-success"></i>Aktif</a>';
                     }
-                    return '<ul class="icons-list">
-                                <li>
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <i class="icon-menu9"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right text-center">
-                                        <li>
-                                            <a href="/admin/account/'.$data->id .'/edit"><i class="icon-pencil5 text-primary"></i> Edit</a>
-                                        </li>
-                                        <li>'
-                                            .$status.
-                                        '</li>
-                                    </div>
-                                </li>
-                            </ul>';
+
+                    if (auth()->user()->roles()->first()->permission_role()->byId(8)->first()->update_right == true) {
+                        return '<ul class="icons-list">
+                                    <li>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="icon-menu9"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-right text-center">
+                                            <li>
+                                                <a href="/admin/account/'.$data->id .'/edit"><i class="icon-pencil5 text-primary"></i> Edit</a>
+                                            </li>
+                                            <li>'
+                                                .$status.
+                                            '</li>
+                                        </ul>
+                                    </li>
+                                </ul>';
+                    }
                 })
                 ->editColumn('status', function($data) {
                     return ($data->status == true) ? '<span class="text-success">Active</span>' : 

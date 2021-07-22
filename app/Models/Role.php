@@ -19,4 +19,9 @@ class Role extends Model
     {
         return $this->belongsToMany(Admin::class);
     }
+
+    public function permission_role()
+    {
+        return $this->hasMany(PermissionRole::class);
+    }
 }

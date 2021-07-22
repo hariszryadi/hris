@@ -18,19 +18,25 @@ class SliderController extends Controller
         if (request()->ajax()) {
             return Datatables::of(Slider::orderBy('id')->get())
                 ->addColumn('action', function($data){
+                    $x = '';
+                    if (auth()->user()->roles()->first()->permission_role()->byId(7)->first()->update_right == true) {
+                        $x .= '<li>
+                                    <a href="/admin/slider/'.$data->id .'/edit"><i class="icon-pencil5 text-primary"></i> Edit</a>
+                                </li>';
+                    }
+                    if (auth()->user()->roles()->first()->permission_role()->byId(7)->first()->delete_right == true) {
+                        $x .= '<li>
+                                    <a href="javascript:void(0)" id="delete" data-id="'.$data->id.'" data-image="' . $data->image . '"><i class="icon-bin text-danger"></i> Hapus</a>
+                                </li>';
+                    }
                     return '<ul class="icons-list">
                                 <li>
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                         <i class="icon-menu9"></i>
                                     </a>
-                                    <ul class="dropdown-menu dropdown-menu-right text-center">
-                                        <li>
-                                            <a href="/admin/slider/'.$data->id .'/edit"><i class="icon-pencil5 text-primary"></i> Edit</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)" id="delete" data-id="'.$data->id.'" data-image="' . $data->image . '"><i class="icon-bin text-danger"></i> Hapus</a>
-                                        </li>
-                                    </div>
+                                    <ul class="dropdown-menu dropdown-menu-right text-center"> 
+                                        '.$x.'
+                                    </ul>
                                 </li>
                             </ul>';
                 })

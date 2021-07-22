@@ -19,11 +19,13 @@
         </div>
         <div class="panel-body">
             
-            <div class="form-group text-left">
-                <button id="import-absensi" class="btn btn-success"><i class="icon-file-plus"></i>
-                    Import Absensi
-                </button>
-            </div>       
+            @if (auth()->user()->roles()->first()->permission_role()->byId(6)->first()->create_right == true)
+                <div class="form-group text-left">
+                    <button id="import-absensi" class="btn btn-success"><i class="icon-file-plus"></i>
+                        Import Absensi
+                    </button>
+                </div>       
+            @endif
             
             <table class="table datatable-basic table-hover table-bordered striped">
                 <thead>
