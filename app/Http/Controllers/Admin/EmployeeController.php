@@ -90,7 +90,8 @@ class EmployeeController extends Controller
             'gender' => $request->gender,
             'religion' => $request->religion,
             'division_id' => $request->division_id,
-            'avatar' => $request->hasFile('avatar') ? $path : null
+            'avatar' => $request->hasFile('avatar') ? $path : null,
+            'head_division' => $request->has('head_division') ? true : null
         ]);
 
         User::create([
@@ -155,6 +156,9 @@ class EmployeeController extends Controller
         $data['gender'] = $request->gender;
         $data['religion'] = $request->religion;
         $data['division_id'] = $request->division_id;
+        if ($request->head_division != '') {
+            $data['head_division'] = true;
+        }
 
         $employee->update($data);
 

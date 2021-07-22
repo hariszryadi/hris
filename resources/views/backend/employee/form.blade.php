@@ -114,6 +114,12 @@
                         </select>
                         <span class="help-block"></span>
                     </div>
+                    <div class="col-lg-4">
+                        <label class="control-label col-lg-4">Kepala Divisi</label>
+                        <div class="col-lg-8" style="padding-top: 7px;">
+                            <input type="checkbox" name="head_division" id="head_division" {{(isset($employee) ? ($employee->head_division == true ? 'checked' : '') : '')}}>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
