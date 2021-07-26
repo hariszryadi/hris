@@ -115,7 +115,7 @@ class UserAdminController extends Controller
         }
 
         if ($password != '') {
-            $data['password'] = $password;
+            $data['password'] = Hash::make($password);
         }
 
         if ($avatar != '') {
