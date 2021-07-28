@@ -13,7 +13,7 @@
 
         <!-- form search-->
         <div class="head_search">
-            <form>
+            {{-- <form>
                 <div class="head_search_cont">
                     <input value="" type="text" class="form-control"
                         placeholder="Search..." autocomplete="off">
@@ -27,16 +27,14 @@
 
                     <ul class="dropdown-search-list">
                         <li class="list-title"> Recent Searches </li>
-                        <li></li>
                         <li class="menu-divider"></li>
-                        <li class="list-footer"> <a href="your-history.html"> Searches History </a>
+                        <li class="list-footer"> 
+                            <a href="#"> Searches History </a>
                         </li>
                     </ul>
 
                 </div>
-
-
-            </form>
+            </form> --}}
         </div>
 
         <!-- user icons -->
@@ -64,7 +62,7 @@
                     <ul>
                         @foreach ($queryNotif as $item)
                             <li>
-                                <a href="#">
+                                <a href="{{(substr($item->transaction_id, 0, 2) == 'LV') ? route('leave') : route('overtime') }}">
                                     <span class="notification-avatar">
                                         <img src="{{asset('storage/'.$item->avatar)}}" alt=""
                                         @if (Auth::user()->empl->gender == 'Pria')
@@ -73,9 +71,17 @@
                                             onerror="this.src='{{asset('assets/admin/images/female.png')}}';">
                                     </span>
                                     <span class="notification-text">
-                                        <strong>{{$item->empl_name}}.</strong> Like Your Comment On Video
-                                        <span class="text-primary">Learn Prototype Faster</span>
-                                        <br> <span class="time-ago"> {{$item->created_at->diffForHumans()}} </span>
+                                        <strong>{{$item->empl_name}}.</strong>
+                                        @if (substr($item->transaction_id, 0, 2) == 'LV')
+                                            Pengajuan cuti/izin baru
+                                        @else
+                                            Pengajuan lembur baru
+                                        @endif
+                                        <br>
+                                        <span class="time-ago"> {{$item->created_at->diffForHumans()}} </span>
+                                        <div class="text-right">
+                                            <button class="btn btn-default btn-sm delete-notification" data-id="{{$item->id}}">Hapus</button>
+                                        </div>
                                     </span>
                                 </a>
                             </li>

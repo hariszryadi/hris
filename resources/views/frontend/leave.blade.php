@@ -41,6 +41,9 @@
         color: #000;
         text-align: center;
     }
+    @media screen and (max-width:767px){
+        .nav-tabs > li {width:100%;}
+    }
 </style>
 
 <div class="main_content_inner">

@@ -131,3 +131,4 @@ Route::post('/login', 'LoginController@credentials')->middleware('guest')->name(
 Route::get('/logout', 'LoginController@logout')->middleware('auth:user')->name('logout');
 
 Route::post('/save-token', 'FirebaseController@saveToken')->name('save-token');
+Route::post('/destroy-notification', 'FirebaseController@destroyNotification')->name('destroy-notification');

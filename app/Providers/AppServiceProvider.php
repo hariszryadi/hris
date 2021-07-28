@@ -30,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
 
             $userId = auth()->guard('user')->user()->id;
             $queryNotif = Notification::select(
+                    'notifications.id',
                     'notifications.type_transaction',
                     'notifications.transaction_id',
                     'notifications.user_id',
@@ -42,7 +43,8 @@ class AppServiceProvider extends ServiceProvider
                 ->join('users', 'notifications.user_id', '=', 'users.id')
                 ->join('ms_empl', 'users.empl_id', '=', 'ms_empl.id')
                 ->where('notifications.user_id', $userId)
-                ->where('read', false)
+                ->where('notifications.read', false)
+                ->orderBy('notifications.created_at', 'desc')
                 ->get();
             $view->with('queryNotif', $queryNotif);
         });

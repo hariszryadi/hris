@@ -14,7 +14,7 @@ class Notification extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'type_transaction', 'transaction_id', 'user_id', 'read'
+        'type_transaction', 'transaction_id', 'user_id', 'read', 'deleted_at'
     ];
 
     protected $dates = ['deleted_at'];

@@ -94,6 +94,26 @@
         $('.close').on('click', function () {
             location.reload();
         })
+
+        $('.delete-notification').on('click', function () {
+            var id = $(this).attr('data-id');
+            var parent = $(this).closest('li');
+            loadingproses();
+
+            $.ajax({
+                url: "{{route('destroy-notification')}}",
+                method: "POST",
+                data: {id:id},
+                success: function (resp) {
+                    // console.log(resp);
+                    parent.remove();
+                    loadingproses_close();
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+        })
     </script>
     @yield('scripts')
 

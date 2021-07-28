@@ -17,7 +17,7 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown dropdown-user">
                 <a class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="{{asset('assets/admin/images/placeholder.jpg')}}" alt="">
+                    <img src="{{asset('storage/'.Auth::user()->avatar)}}" alt="" onerror="this.src='{{asset('assets/admin/images/placeholder.jpg')}}';">
                     <span>{{Auth::user()->name}}</span>
                     <i class="caret"></i>
                 </a>

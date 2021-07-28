@@ -5,7 +5,7 @@
         <div class="sidebar-user">
             <div class="category-content">
                 <div class="media">
-                    <a href="#" class="media-left"><img src="{{asset('assets/admin/images/placeholder.jpg')}}" class="img-circle img-sm" alt=""></a>
+                    <a href="#" class="media-left"><img src="{{asset('storage/'.Auth::user()->avatar)}}" class="img-circle img-sm" alt="" onerror="this.src='{{asset('assets/admin/images/placeholder.jpg')}}';"></a>
                     <div class="media-body">
                         <span class="media-heading text-semibold">{{Auth::user()->name}}</span>
                         <div class="text-size-mini text-muted">
