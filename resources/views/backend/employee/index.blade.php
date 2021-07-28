@@ -13,6 +13,13 @@
 @endsection
 
 @section('content')
+    <style>
+        .img-empl {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
     <div class="panel panel-flat">
         <div class="panel-heading">
             <h5 class="panel-title">List Pegawai</h5>
@@ -41,6 +48,21 @@
                     </tr>
                 </thead>
             </table>
+        </div>
+    </div>
+
+    <!-- Modal detail -->
+    <div class="modal fade" id="modal-detail" tabindex="-1" role="dialog" aria-labelledby="modal-detail-title" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Pegawai</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body"></div>
+            </div>
         </div>
     </div>
 @endsection
@@ -114,5 +136,77 @@
                 )
             })
         })
+
+        $(document).on('click', '#show', function () {
+            var id = $(this).attr('data-id');
+            
+            $.ajax({
+                url: "{{route('admin.employee.show')}}",
+                method: "POST",
+                dataType: "json",
+                data: {id:id},
+                success: function (data) {
+                    console.log(data);
+                    var data = data.data[0];
+                    var error;
+                    if (data.gender == 'Pria') {
+                        error = "this.src='{{asset('assets/admin/images/male.png')}}'";
+                    } else {
+                        error = "this.src='{{asset('assets/admin/images/female.png')}}'";
+                    }
+                    $('#modal-detail').modal('show');
+                    $('.modal-body').html(
+                        `<table class="tab">
+                            <img src="{{asset('storage/${data.avatar}')}}" class="img-thumbnail img-empl" onerror=${error} />
+                            <tr>
+                                <td>Nama</td>
+                                <td>:</td>
+                                <td><b>${data.empl_name}</b></td>
+                            </tr>
+                            <tr>
+                                <td>NIP</td>
+                                <td>:</td>
+                                <td><b>${data.nip}</b></td>
+                            </tr>
+                            <tr>
+                                <td>Tanggal Lahir</td>
+                                <td>:</td>
+                                <td><b>${formatDate(data.birth_date)}</b></td>
+                            </tr>
+                            <tr>
+                                <td>Alamat</td>
+                                <td>:</td>
+                                <td><b>${data.address}</b></td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>:</td>
+                                <td><b>${data.email}</b></td>
+                            </tr>
+                            <tr>
+                                <td>Jenis Kelamin</td>
+                                <td>:</td>
+                                <td><b>${data.gender}</b></td>
+                            </tr>
+                            <tr>
+                                <td>Agama</td>
+                                <td>:</td>
+                                <td><b>${data.religion}</b></td>
+                            </tr>
+                            <tr>
+                                <td>Divisi</td>
+                                <td>:</td>
+                                <td><b>${data.division.name}</b></td>
+                            </tr>
+                        </table>`
+                    );
+                }
+            })
+        })
+
+        function formatDate(date) {
+            var parts = date.split('-');
+            return parts[2] + '-' + parts[1] + '-' + parts[0];
+        }
     </script>
 @endsection

@@ -36,6 +36,7 @@ Route::group(['prefix' => 'admin'], function () {
         /** Pegawai */
         Route::get('/employee/index', 'Admin\EmployeeController@index')->name('admin.employee.index');
         Route::get('/employee/create', 'Admin\EmployeeController@create')->name('admin.employee.create');
+        Route::post('/employee/show', 'Admin\EmployeeController@show')->name('admin.employee.show');
         Route::post('/employee/store', 'Admin\EmployeeController@store')->name('admin.employee.store');
         Route::get('/employee/{id}/edit', 'Admin\EmployeeController@edit')->name('admin.employee.edit');
         Route::post('/empoyee/update', 'Admin\EmployeeController@update')->name('admin.employee.update');

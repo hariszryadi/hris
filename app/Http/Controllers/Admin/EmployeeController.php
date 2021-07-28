@@ -32,9 +32,15 @@ class EmployeeController extends Controller
                                     <a href="javascript:void(0)" id="delete" data-id="'.$data->id.'" data-avatar="' . $data->avatar . '"><i class="icon-bin text-danger"></i> Hapus</a>
                                 </li>';
                     }
+                    if (auth()->user()->roles()->first()->permission_role()->byId(2)->first()->read_right == true) {
+                        $x .= '<li>
+                                    <a href="javascript:void(0)" id="show" data-id="'.$data->id.'"><i class="icon-search4 text-success"></i> Detail</a>
+                                </li>';
+                    }
 
                     if (auth()->user()->roles()->first()->permission_role()->byId(2)->first()->update_right == true ||
-                        auth()->user()->roles()->first()->permission_role()->byId(2)->first()->delete_right == true) {
+                        auth()->user()->roles()->first()->permission_role()->byId(2)->first()->delete_right == true ||
+                        auth()->user()->roles()->first()->permission_role()->byId(2)->first()->read_right == true) {
                         return '<ul class="icons-list">
                                     <li>
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -60,6 +66,15 @@ class EmployeeController extends Controller
     {
         $division = MsDivision::orderBy('id', 'ASC')->get();
         return view($this->_view.'form')->with(compact('division'));
+    }
+
+    public function show(Request $request)
+    {
+        $data = MsEmployee::with('division')
+                    ->where('id', $request->id)
+                    ->get();
+
+        return response()->json(['data' => $data]);
     }
 
     public function store(Request $request)
