@@ -32,7 +32,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/division/update', 'Admin\DivisionController@update')->name('admin.division.update');
         Route::post('/division/destroy', 'Admin\DivisionController@destroy')->name('admin.division.destroy');
 
-
         /** Pegawai */
         Route::get('/employee/index', 'Admin\EmployeeController@index')->name('admin.employee.index');
         Route::get('/employee/create', 'Admin\EmployeeController@create')->name('admin.employee.create');
@@ -103,6 +102,15 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/report/leave/download', 'Admin\ReportController@downloadReportLeave')->name('admin.report.leave.download');
         Route::get('/report/overtime', 'Admin\ReportController@reportOvertime')->name('admin.report.overtime');
         Route::get('/report/overtime/download', 'Admin\ReportController@downloadReportOvertime')->name('admin.report.overtime.download');
+
+        /** Dosen */
+        Route::get('/lecturer/index', 'Admin\LecturerController@index')->name('admin.lecturer.index');
+        Route::get('/lecturer/create', 'Admin\LecturerController@create')->name('admin.lecturer.create');
+        Route::post('/lecturer/show', 'Admin\LecturerController@show')->name('admin.lecturer.show');
+        Route::post('/lecturer/store', 'Admin\LecturerController@store')->name('admin.lecturer.store');
+        Route::get('/lecturer/{id}/edit', 'Admin\LecturerController@edit')->name('admin.lecturer.edit');
+        Route::post('/lecturer/update', 'Admin\LecturerController@update')->name('admin.lecturer.update');
+        Route::post('/lecturer/destroy', 'Admin\LecturerController@destroy')->name('admin.lecturer.destroy');
     });
 });
 

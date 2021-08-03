@@ -150,10 +150,30 @@
                                         <a href="{{route('admin.report.overtime')}}">Report Lembur</a>
                                     </li>
                                 @endif
+
+                                {{-- @if (auth()->user()->roles()->first()->permission_role()->byId(13)->first()->read_right == true) --}}
+                                    <li class="nav-item">
+                                        <a href="#">Report Fee</a>
+                                    </li>
+                                {{-- @endif --}}
                             </ul>
                         </li>
                     @endif
-                
+                    
+                    {{-- @if (auth()->user()->roles()->first()->permission_role()->byId(11)->first()->read_right == true || --}}
+                        {{-- auth()->user()->roles()->first()->permission_role()->byId(12)->first()->read_right == true) --}}
+                        <li class="nav-item nav-item-submenu">
+                            <a href="#" class="nav-link"><i class="icon-database"></i>
+                                <span>Data</span></a>
+                            <ul>
+                                {{-- @if (auth()->user()->roles()->first()->permission_role()->byId(13)->first()->read_right == true) --}}
+                                    <li class="nav-item {{request()->is('admin/lecturer/*') ? 'active' : ''}}">
+                                        <a href="{{route('admin.lecturer.index')}}">Dosen</a>
+                                    </li>
+                                {{-- @endif --}}
+                            </ul>
+                        </li>
+                    {{-- @endif --}}
                 </ul>
             </div>
         </div>
