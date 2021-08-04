@@ -193,6 +193,10 @@
                 this.value = this.value.replace(/\D/g,'');
             });
 
+            $(document).on("input", "#certification_year", function() {
+                this.value = this.value.replace(/\D/g,'');
+            });
+
             $(document).on("input", "#name", function() {
                 this.value = this.value.toUpperCase();
             });

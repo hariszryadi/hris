@@ -22,8 +22,9 @@ Route::group(['prefix' => 'admin'], function () {
         return view('backend.dashboard');
     })->middleware('auth:admin')->name('admin.dashboard');
 
+    Route::post('/getCountLecturer', 'Admin\DashboardController@getCountLecturer')->middleware('auth:admin')->name('admin.getCountLecturer');
+
     Route::group(['middleware' => ['auth:admin', 'role']], function () {
-        
         /** Divisi */
         Route::get('/division/index', 'Admin\DivisionController@index')->name('admin.division.index');
         Route::get('/division/create', 'Admin\DivisionController@create')->name('admin.division.create');

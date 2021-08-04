@@ -80,7 +80,7 @@
                 serverside: true,
                 autoWidth: false,
                 bLengthChange: false,
-                pageLength: 10,
+                pageLength: 20,
                 ajax: {
                     url: "{{route('admin.lecturer.index')}}",
                 },

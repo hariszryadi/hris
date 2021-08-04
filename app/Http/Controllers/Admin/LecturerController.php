@@ -18,7 +18,7 @@ class LecturerController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return Datatables::of(MsLecturer::orderBy('id', 'DESC')->get())
+            return Datatables::of(MsLecturer::orderBy('name')->get())
                 ->addColumn('action', function($data){
                     return '<ul class="icons-list">
                                 <li>
