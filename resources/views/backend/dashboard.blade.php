@@ -103,7 +103,7 @@
     </div>
 
     <!-- Modal detail -->
-    <div class="modal fade" id="modal-detail" tabindex="-1" role="dialog" aria-labelledby="modal-detail-title" aria-hidden="true">
+    <div class="modal fade" id="modal-detail-lecturer" tabindex="-1" role="dialog" aria-labelledby="modal-detail-title" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -113,7 +113,24 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <canvas id="myChart" width="400" height="400"></canvas>
+                    <canvas id="myChartLecturer" width="400" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal detail -->
+    <div class="modal fade" id="modal-detail-empl" tabindex="-1" role="dialog" aria-labelledby="modal-detail-title" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Jumlah Pegawai</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <canvas id="myChartEmpl" width="400" height="400"></canvas>
                 </div>
             </div>
         </div>
@@ -133,7 +150,7 @@
             });
 
             $('#card-lecturer').on('click', function () {
-                $('#modal-detail').modal('show');
+                $('#modal-detail-lecturer').modal('show');
 
                 $.ajax({
                     url: "{{route('admin.getCountLecturer')}}",
@@ -144,10 +161,37 @@
                     }
                 })
             })
+
+            $('#card-employee').on('click', function () {
+                $('#modal-detail-empl').modal('show');
+
+                $.ajax({
+                    url: "{{route('admin.getCountEmployee')}}",
+                    method: "POST",
+                    success: function (resp) {
+                        console.log(resp);
+                        chartEmployee(
+                            resp.akademik,
+                            resp.kepegawaian,
+                            resp.kemahasiswaan,
+                            resp.keuangan,
+                            resp.umum,
+                            resp.upm,
+                            resp.upipv,
+                            resp.ukh,
+                            resp.usuk,
+                            resp.upust,
+                            resp.uppm,
+                            resp.upj,
+                            resp.usimp
+                        );
+                    }
+                })
+            })
         })
 
         function chartLecturer(params1, params2, params3, params4, params5) {
-            var ctx = document.getElementById('myChart').getContext('2d');
+            var ctx = document.getElementById('myChartLecturer').getContext('2d');
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -174,6 +218,62 @@
                 }
             });
         }
+
+        function chartEmployee(params1, params2, params3, params4, params5, params6, params7, params8, params9, params10, params11, params12, params13) {
+            var ctx = document.getElementById('myChartEmpl').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        'Subbag Akademik', 
+                        'Subbag Kepegawaian', 
+                        'Subbag Kemahasiswaan', 
+                        'Subbag Keuangan', 
+                        'Subbag Umum',
+                        'Unit Penjamin Mutu',
+                        'Unit Peng. Institusi & Pend. Vokasi',
+                        'Unit Kerjasama & Humas',
+                        'Unit Perpustakaan',
+                        'Unit Penelitian & Peng. Masyarakat',
+                        'Unit Produksi & Jas',
+                        'Unit Sertifikasi & Uji Kompetensi',
+                        'Unit SIM & PDDIKTI'
+                    ],
+                    datasets: [{
+                        label: 'Jumlah Pegawai',
+                        data: [params1, params2, params3, params4, params5, params6, params7, params8, params9, params10, params11, params12, params13],
+                        backgroundColor: [
+                            'rgb(41, 182, 246)',
+                            'rgb(239, 83, 80)',
+                            'rgb(102, 187, 106)',
+                            'rgb(185, 176, 69)',
+                            'rgb(92, 107, 192)',
+                            'rgb(41, 182, 246)',
+                            'rgb(239, 83, 80)',
+                            'rgb(102, 187, 106)',
+                            'rgb(185, 176, 69)',
+                            'rgb(92, 107, 192)',
+                            'rgb(41, 182, 246)',
+                            'rgb(239, 83, 80)',
+                            'rgb(102, 187, 106)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+
+        // $(".modal").on("hidden.bs.modal", function(){
+        //     $(".modal-body").html("");
+        // });
         
     </script>
 @endsection

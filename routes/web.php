@@ -23,6 +23,7 @@ Route::group(['prefix' => 'admin'], function () {
     })->middleware('auth:admin')->name('admin.dashboard');
 
     Route::post('/getCountLecturer', 'Admin\DashboardController@getCountLecturer')->middleware('auth:admin')->name('admin.getCountLecturer');
+    Route::post('/getCountEmployee', 'Admin\DashboardController@getCountEmployee')->middleware('auth:admin')->name('admin.getCountEmployee');
 
     Route::group(['middleware' => ['auth:admin', 'role']], function () {
         /** Divisi */

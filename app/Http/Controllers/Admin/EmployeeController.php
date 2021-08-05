@@ -19,7 +19,7 @@ class EmployeeController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return Datatables::of(MsEmployee::orderBy('nip', 'DESC')->get())
+            return Datatables::of(MsEmployee::orderBy('id')->get())
                 ->addColumn('action', function($data){
                     $x = '';
                     if (auth()->user()->roles()->first()->permission_role()->byId(2)->first()->update_right == true) {
@@ -173,6 +173,8 @@ class EmployeeController extends Controller
         $data['division_id'] = $request->division_id;
         if ($request->head_division != '') {
             $data['head_division'] = true;
+        } else {
+            $data['head_division'] = null;
         }
 
         $employee->update($data);
