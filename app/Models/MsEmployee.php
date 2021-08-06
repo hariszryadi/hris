@@ -40,6 +40,11 @@ class MsEmployee extends Model
         return $this->hasMany(TrOvertime::class, 'empl_id');
     }
 
+    public function overtimeUpdatedBy()
+    {
+        return $this->hasMany(TrOvertime::class, 'updated_by');
+    }
+
     public function scopeCheckDir($query)
     {
         return $query->where('division_id', '=', 14);

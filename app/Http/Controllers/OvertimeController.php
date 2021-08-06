@@ -127,12 +127,23 @@ class OvertimeController extends Controller
                             <div class="col-lg-8">'.$data->description.'</div>
                         </div>';
                 })
+                ->editColumn('status', function($data) {
+                    if ($data->status == 1) {
+                        return '<span class="text-warning">Pending</span>';
+                    } elseif($data->status == 2) { 
+                        return '<span class="text-success">Approve</span><span class="text-updated-by">Approved By: '.$data->updatedBy->empl_name.'</span>';
+                    } elseif($data->status == 3){
+                        return '<span class="text-secondary">Cancelled</span>';
+                    }else {
+                        return '<span class="text-danger">Reject</span><span class="text-updated-by">Rejected By: '.$data->updatedBy->empl_name.'</span>';
+                    }
+                })
                 ->addColumn('action', function($data){
                     if ($data->status == 1) {
                         return '<span data-overtime-id="'.$data->id.'" data-status="3" class="update-status text-secondary cancel-request">Cancel</span>';
                     }
                 })
-                ->rawColumns(['detail_overtime', 'action'])
+                ->rawColumns(['detail_overtime', 'status', 'action'])
                 ->make(true);
     }
 
@@ -156,6 +167,7 @@ class OvertimeController extends Controller
                         'tr_overtime.duration',
                         'tr_overtime.description',
                         'tr_overtime.status',
+                        'tr_overtime.updated_by',
                         'ms_empl.id as empl_id',
                         'ms_empl.nip',
                         'ms_empl.empl_name',
@@ -176,6 +188,7 @@ class OvertimeController extends Controller
                         'tr_overtime.duration',
                         'tr_overtime.description',
                         'tr_overtime.status',
+                        'tr_overtime.updated_by',
                         'ms_empl.id as empl_id',
                         'ms_empl.nip',
                         'ms_empl.empl_name',
@@ -198,6 +211,7 @@ class OvertimeController extends Controller
                         'tr_overtime.duration',
                         'tr_overtime.description',
                         'tr_overtime.status',
+                        'tr_overtime.updated_by',
                         'ms_empl.id as empl_id',
                         'ms_empl.nip',
                         'ms_empl.empl_name',
@@ -245,13 +259,24 @@ class OvertimeController extends Controller
                             </div>
                         </div>';
             })
+            ->editColumn('status', function($data) {
+                if ($data->status == 1) {
+                    return '<span class="text-warning">Pending</span>';
+                } elseif($data->status == 2) { 
+                    return '<span class="text-success">Approve</span><span class="text-updated-by">Approved By: '.$data->updatedBy->empl_name.'</span>';
+                } elseif($data->status == 3){
+                    return '<span class="text-secondary">Cancelled</span>';
+                }else {
+                    return '<span class="text-danger">Reject</span><span class="text-updated-by">Rejected By: '.$data->updatedBy->empl_name.'</span>';
+                }
+            })
             ->addColumn('action', function($data){
                 if ($data->status == 1 ) {
                     return '<span data-overtime-id="'.$data->overtime_id.'" data-status="2" class="update-status text-success approve-request">Approve</span><hr>
                         <span data-overtime-id="'.$data->overtime_id.'" data-status="0" class="update-status text-danger reject-request">Reject</span>';
                 }
             })
-            ->rawColumns(['detail_overtime', 'action'])
+            ->rawColumns(['detail_overtime', 'status', 'action'])
             ->make(true);
     }
 
