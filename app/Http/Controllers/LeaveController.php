@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use App\Models\MsCategoryLeave;
 use App\Models\Notification;
 use App\Models\TrLeaveQuota;
@@ -181,28 +182,79 @@ class LeaveController extends Controller
 
     public function getEmplRequestLeave(Request $request)
     {
+        $query = '';
         $empl_id = Auth::guard('user')->user()->empl_id;
         $division_id = MsEmployee::where('id', $empl_id)->pluck('division_id');
-        $query = TrLeave::select(
-                    'tr_leave.id as leave_id',
-                    'tr_leave.tr_leave_id',
-                    'tr_leave.start_date',
-                    'tr_leave.end_date',
-                    'tr_leave.type_leave_id',
-                    'tr_leave.category_leave_id',
-                    'tr_leave.description',
-                    'tr_leave.status',
-                    'ms_empl.id as empl_id',
-                    'ms_empl.nip',
-                    'ms_empl.empl_name',
-                    'ms_empl.division_id',
-                    'ms_empl.gender',
-                    'ms_empl.avatar'
-                )
-                ->join('ms_empl', 'tr_leave.empl_id', '=', 'ms_empl.id')
-                ->where('ms_empl.division_id', $division_id)
-                ->orderBy('tr_leave.id', 'desc')
-                ->get();
+        $dirId = MsEmployee::checkDir()->pluck('id');
+        $listWadirId = MsEmployee::checkWaDir()->pluck('id');
+        $collectWadirId = new Collection($listWadirId);
+        $collectDirId = new Collection($dirId);
+        
+        if ($collectDirId->contains($empl_id)) {
+            $query = TrLeave::select(
+                        'tr_leave.id as leave_id',
+                        'tr_leave.tr_leave_id',
+                        'tr_leave.start_date',
+                        'tr_leave.end_date',
+                        'tr_leave.type_leave_id',
+                        'tr_leave.category_leave_id',
+                        'tr_leave.description',
+                        'tr_leave.status',
+                        'ms_empl.id as empl_id',
+                        'ms_empl.nip',
+                        'ms_empl.empl_name',
+                        'ms_empl.division_id',
+                        'ms_empl.gender',
+                        'ms_empl.avatar'
+                    )
+                    ->join('ms_empl', 'tr_leave.empl_id', '=', 'ms_empl.id')
+                    ->orderBy('tr_leave.id', 'desc')
+                    ->get();
+        } elseif($collectWadirId->contains($empl_id)) {
+            $query = TrLeave::select(
+                        'tr_leave.id as leave_id',
+                        'tr_leave.tr_leave_id',
+                        'tr_leave.start_date',
+                        'tr_leave.end_date',
+                        'tr_leave.type_leave_id',
+                        'tr_leave.category_leave_id',
+                        'tr_leave.description',
+                        'tr_leave.status',
+                        'ms_empl.id as empl_id',
+                        'ms_empl.nip',
+                        'ms_empl.empl_name',
+                        'ms_empl.division_id',
+                        'ms_empl.gender',
+                        'ms_empl.avatar'
+                    )
+                    ->join('ms_empl', 'tr_leave.empl_id', '=', 'ms_empl.id')
+                    ->where('empl_id', '!=', $empl_id)
+                    ->where('ms_empl.head_division', true)
+                    ->orderBy('tr_leave.id', 'desc')
+                    ->get();
+        } else {
+            $query = TrLeave::select(
+                        'tr_leave.id as leave_id',
+                        'tr_leave.tr_leave_id',
+                        'tr_leave.start_date',
+                        'tr_leave.end_date',
+                        'tr_leave.type_leave_id',
+                        'tr_leave.category_leave_id',
+                        'tr_leave.description',
+                        'tr_leave.status',
+                        'ms_empl.id as empl_id',
+                        'ms_empl.nip',
+                        'ms_empl.empl_name',
+                        'ms_empl.division_id',
+                        'ms_empl.gender',
+                        'ms_empl.avatar'
+                    )
+                    ->join('ms_empl', 'tr_leave.empl_id', '=', 'ms_empl.id')
+                    ->where('ms_empl.division_id', $division_id)
+                    ->where('ms_empl.head_division', null)
+                    ->orderBy('tr_leave.id', 'desc')
+                    ->get();
+        }
 
         return Datatables::of($query)
                 ->addColumn('detail_leave', function($data){

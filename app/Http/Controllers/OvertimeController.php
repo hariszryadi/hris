@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use App\Models\TrOvertimeAmount;
 use App\Models\TrOvertime;
 use App\Models\MsEmployee;
@@ -137,28 +138,80 @@ class OvertimeController extends Controller
 
     public function getEmplRequestOvertime()
     {
+        $query = '';
         $empl_id = Auth::guard('user')->user()->empl_id;
         $division_id = MsEmployee::where('id', $empl_id)->pluck('division_id');
-        $query = TrOvertime::select(
-                    'tr_overtime.id as overtime_id',
-                    'tr_overtime.tr_overtime_id',
-                    'tr_overtime.overtime_date',
-                    'tr_overtime.start_time',
-                    'tr_overtime.end_time',
-                    'tr_overtime.duration',
-                    'tr_overtime.description',
-                    'tr_overtime.status',
-                    'ms_empl.id as empl_id',
-                    'ms_empl.nip',
-                    'ms_empl.empl_name',
-                    'ms_empl.division_id',
-                    'ms_empl.gender',
-                    'ms_empl.avatar'
-                )
-                ->join('ms_empl', 'tr_overtime.empl_id', '=', 'ms_empl.id')
-                ->where('ms_empl.division_id', $division_id)
-                ->orderBy('tr_overtime.id', 'desc')
-                ->get();
+        $dirId = MsEmployee::checkDir()->pluck('id');
+        $listWadirId = MsEmployee::checkWaDir()->pluck('id');
+        $collectWadirId = new Collection($listWadirId);
+        $collectDirId = new Collection($dirId);
+
+        if ($collectDirId->contains($empl_id)) {
+            $query = TrOvertime::select(
+                        'tr_overtime.id as overtime_id',
+                        'tr_overtime.tr_overtime_id',
+                        'tr_overtime.overtime_date',
+                        'tr_overtime.start_time',
+                        'tr_overtime.end_time',
+                        'tr_overtime.duration',
+                        'tr_overtime.description',
+                        'tr_overtime.status',
+                        'ms_empl.id as empl_id',
+                        'ms_empl.nip',
+                        'ms_empl.empl_name',
+                        'ms_empl.division_id',
+                        'ms_empl.gender',
+                        'ms_empl.avatar'
+                    )
+                    ->join('ms_empl', 'tr_overtime.empl_id', '=', 'ms_empl.id')
+                    ->orderBy('tr_overtime.id', 'desc')
+                    ->get();
+        } elseif($collectWadirId->contains($empl_id)){
+            $query = TrOvertime::select(
+                        'tr_overtime.id as overtime_id',
+                        'tr_overtime.tr_overtime_id',
+                        'tr_overtime.overtime_date',
+                        'tr_overtime.start_time',
+                        'tr_overtime.end_time',
+                        'tr_overtime.duration',
+                        'tr_overtime.description',
+                        'tr_overtime.status',
+                        'ms_empl.id as empl_id',
+                        'ms_empl.nip',
+                        'ms_empl.empl_name',
+                        'ms_empl.division_id',
+                        'ms_empl.gender',
+                        'ms_empl.avatar'
+                    )
+                    ->join('ms_empl', 'tr_overtime.empl_id', '=', 'ms_empl.id')
+                    ->where('empl_id', '!=', $empl_id)
+                    ->where('ms_empl.head_division', true)
+                    ->orderBy('tr_overtime.id', 'desc')
+                    ->get();
+        } else {
+            $query = TrOvertime::select(
+                        'tr_overtime.id as overtime_id',
+                        'tr_overtime.tr_overtime_id',
+                        'tr_overtime.overtime_date',
+                        'tr_overtime.start_time',
+                        'tr_overtime.end_time',
+                        'tr_overtime.duration',
+                        'tr_overtime.description',
+                        'tr_overtime.status',
+                        'ms_empl.id as empl_id',
+                        'ms_empl.nip',
+                        'ms_empl.empl_name',
+                        'ms_empl.division_id',
+                        'ms_empl.gender',
+                        'ms_empl.avatar'
+                    )
+                    ->join('ms_empl', 'tr_overtime.empl_id', '=', 'ms_empl.id')
+                    ->where('ms_empl.division_id', $division_id)
+                    ->where('ms_empl.head_division', null)
+                    ->orderBy('tr_overtime.id', 'desc')
+                    ->get();
+        }
+        
 
         return Datatables::of($query)
             ->addColumn('detail_overtime', function($data){

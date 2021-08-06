@@ -34,4 +34,14 @@ class MsEmployee extends Model
     {
         return $this->hasMany(TrOvertime::class, 'empl_id');
     }
+
+    public function scopeCheckDir($query)
+    {
+        return $query->where('division_id', '=', 14);
+    }
+
+    public function scopeCheckWadir($query)
+    {
+        return $query->where('division_id', '=', 15);
+    }
 }
