@@ -171,12 +171,23 @@ class LeaveController extends Controller
                                 </div>
                             </div>';
                 })
+                ->editColumn('status', function($data) {
+                    if ($data->status == 1) {
+                        return '<span class="text-warning">Pending</span>';
+                    } elseif($data->status == 2) { 
+                        return '<span class="text-success">Approve</span><span class="text-updated-by">Approved By: '.$data->updatedBy->empl_name.'</span>';
+                    } elseif($data->status == 3){
+                        return '<span class="text-secondary">Cancelled</span>';
+                    }else {
+                        return '<span class="text-danger">Reject</span><span class="text-updated-by">Rejected By: '.$data->updatedBy->empl_name.'</span>';
+                    }
+                })
                 ->addColumn('action', function($data){
                     if ($data->status == 1) {
                         return '<span data-leave-id="'.$data->id.'" data-status="3" class="update-status text-secondary cancel-request">Cancel</span>';
                     }
                 })
-                ->rawColumns(['detail_leave', 'action'])
+                ->rawColumns(['detail_leave', 'status', 'action'])
                 ->make(true);
     }
 
@@ -200,6 +211,7 @@ class LeaveController extends Controller
                         'tr_leave.category_leave_id',
                         'tr_leave.description',
                         'tr_leave.status',
+                        'tr_leave.updated_by',
                         'ms_empl.id as empl_id',
                         'ms_empl.nip',
                         'ms_empl.empl_name',
@@ -220,6 +232,7 @@ class LeaveController extends Controller
                         'tr_leave.category_leave_id',
                         'tr_leave.description',
                         'tr_leave.status',
+                        'tr_leave.updated_by',
                         'ms_empl.id as empl_id',
                         'ms_empl.nip',
                         'ms_empl.empl_name',
@@ -242,6 +255,7 @@ class LeaveController extends Controller
                         'tr_leave.category_leave_id',
                         'tr_leave.description',
                         'tr_leave.status',
+                        'tr_leave.updated_by',
                         'ms_empl.id as empl_id',
                         'ms_empl.nip',
                         'ms_empl.empl_name',
@@ -287,13 +301,24 @@ class LeaveController extends Controller
                                 </div>
                             </div>';
                 })
+                ->editColumn('status', function($data) {
+                    if ($data->status == 1) {
+                        return '<span class="text-warning">Pending</span>';
+                    } elseif($data->status == 2) { 
+                        return '<span class="text-success">Approve</span><span class="text-updated-by">Approved By: '.$data->updatedBy->empl_name.'</span>';
+                    } elseif($data->status == 3){
+                        return '<span class="text-secondary">Cancelled</span>';
+                    }else {
+                        return '<span class="text-danger">Reject</span><span class="text-updated-by">Rejected By: '.$data->updatedBy->empl_name.'</span>';
+                    }
+                })
                 ->addColumn('action', function($data){
                     if ($data->status == 1 ) {
                         return '<span data-leave-id="'.$data->leave_id.'" data-empl-id="'.$data->empl_id.'" data-status="2" class="update-status text-success approve-request">Approve</span><hr>
                             <span data-leave-id="'.$data->leave_id.'" data-empl-id="'.$data->empl_id.'" data-status="0" class="update-status text-danger reject-request">Reject</span>';
                     }
                 })
-                ->rawColumns(['detail_leave', 'action'])
+                ->rawColumns(['detail_leave', 'status', 'action'])
                 ->make(true);
     }
 
@@ -316,7 +341,10 @@ class LeaveController extends Controller
         $notification = new Notification;
 
         if ($request->status == 2) {
-            $leave->update(['status' => $request->status]);
+            $leave->update([
+                'status' => $request->status, 
+                'updated_by' => Auth::guard('user')->user()->empl_id
+            ]);
             $leaveQuota = TrLeaveQuota::where('empl_id', $request->emplId);
             $leaveQuota->increment('used_quota');
             $leaveQuota->decrement('max_quota');
@@ -328,8 +356,10 @@ class LeaveController extends Controller
             $notification->save();
             $notification->toMultipleDevice($queryNotif, 'Status Cuti/Izin', 'Selamat, Pengajuan cuti/izin anda disetujui', null, route('leave'));
         } elseif($request->status == 0) {
-            $leave->update(['status' => $request->status]);
-
+            $leave->update([
+                'status' => $request->status,
+                'updated_by' => Auth::guard('user')->user()->empl_id
+            ]);
             $notification->type_transaction = 1;
             $notification->transaction_id = $leave->tr_leave_id;
             $notification->user_id = $queryNotif->id;

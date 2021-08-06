@@ -30,6 +30,11 @@ class MsEmployee extends Model
         return $this->hasMany(TrLeave::class, 'empl_id');
     }
 
+    public function leaveUpdatedBy()
+    {
+        return $this->hasMany(TrLeave::class, 'updated_by');
+    }
+
     public function trOvertime()
     {
         return $this->hasMany(TrOvertime::class, 'empl_id');

@@ -15,6 +15,11 @@ class TrLeave extends Model
         return $this->belongsTo(MsEmployee::class);
     }
 
+    public function updatedBy()
+    {
+        return $this->belongsTo(MsEmployee::class, 'updated_by');
+    }
+
     public function typeLeave()
     {
         return $this->belongsTo(MsTypeLeave::class);

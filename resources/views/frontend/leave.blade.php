@@ -44,6 +44,12 @@
     @media screen and (max-width:767px){
         .nav-tabs > li {width:100%;}
     }
+    .text-updated-by {
+        display: block;
+        margin-top: 36px;
+        font-size: 7pt;
+        font-style: italic;
+    }
 </style>
 
 <div class="main_content_inner">
@@ -443,9 +449,9 @@
                 {
                     data: "status", 
                     name: "status",
-                    render: function (data, type, full, meta) {
-                        return badgeStatus(data);
-                    },
+                    // render: function (data, type, full, meta) {
+                    //     return badgeStatus(data);
+                    // },
                     orderable: false
                 },
                 {data: "action", name: "action", orderable: false}
@@ -477,9 +483,9 @@
                 {
                     data: "status", 
                     name: "status",
-                    render: function (data, type, full, meta) {
-                        return badgeStatus(data);
-                    },
+                    // render: function (data, type, full, meta) {
+                    //     return badgeStatus(data);
+                    // },
                     orderable: false
                 },
                 {data: "action", name: "action", orderable: false}
@@ -493,17 +499,17 @@
         });
     }
 
-    function badgeStatus(status) {    
-        if (status == 1) {
-            return '<span class="text-warning">Pending</span>';
-        } else if (status == 2) {
-            return '<span class="text-success">Approve</span>';
-        } else if (status == 3) {
-            return '<span class="text-secondary">Cancelled</span>';
-        } else {
-            return '<span class="text-danger">Reject</span>';
-        }
-    }
+    // function badgeStatus(status) {    
+    //     if (status == 1) {
+    //         return '<span class="text-warning">Pending</span>';
+    //     } else if (status == 2) {
+    //         return '<span class="text-success">Approve</span>';
+    //     } else if (status == 3) {
+    //         return '<span class="text-secondary">Cancelled</span>';
+    //     } else {
+    //         return '<span class="text-danger">Reject</span>';
+    //     }
+    // }
 
     $(document).on('click', '.update-status', function () {
         var leaveId = $(this).attr('data-leave-id');
