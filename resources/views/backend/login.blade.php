@@ -49,7 +49,8 @@
 						{{ csrf_field() }}
 						<div class="panel panel-body login-form">
 							<div class="text-center">
-								<div class="icon-object border-slate-300 text-slate-300"><i class="icon-user"></i></div>
+								{{-- <div class="icon-object border-slate-300 text-slate-300"><i class="icon-user"></i></div> --}}
+								<img src="{{asset('images/logo.png')}}" alt="" style="width: 230px; margin: 12px;">
 								<h5 class="content-group">Login to your account <small class="display-block">Enter your credentials below</small></h5>
 								@if($errors->any())
 									<h6 class="text-danger">{{$errors->first()}}</h6>

@@ -34,7 +34,7 @@
 
                 <div class="form-group">
                     <label class="control-label col-lg-2">Tipe Cuti/Izin</label>
-                    <div class="col-lg-6">
+                    <div class="col-lg-2">
                         <select name="type_leave_id" id="type_leave" class="form-control">
                             <option selected disabled>Pilih Tipe</option>
                             @foreach ($typeLeave as $item)

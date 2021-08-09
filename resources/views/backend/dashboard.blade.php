@@ -40,21 +40,6 @@
             </p>
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="card card-body bg-blue-400 has-bg-image" id="card-lecturer">
-                        <div class="media">
-                            <div class="media-body">
-                                <h3 class="mb-0">{{ \App\Models\MsLecturer::count() }}</h3>
-                                <span class="text-uppercase font-size-xs">jumlah dosen</span>
-                            </div>
-    
-                            <div class="ml-3 align-self-center">
-                                <i class="icon-graduation icon-3x opacity-75"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="col-lg-6">
                     <div class="card card-body bg-danger-400 has-bg-image" id="card-employee">
                         <div class="media">
                             <div class="media-body">
@@ -68,7 +53,21 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-6">
+                    <div class="card card-body bg-blue-400 has-bg-image" id="card-lecturer">
+                        <div class="media">
+                            <div class="media-body">
+                                <h3 class="mb-0">{{ \App\Models\MsLecturer::count() }}</h3>
+                                <span class="text-uppercase font-size-xs">jumlah dosen</span>
+                            </div>
     
+                            <div class="ml-3 align-self-center">
+                                <i class="icon-graduation icon-3x opacity-75"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {{-- <div class="col-lg-3">
                     <div class="card card-body bg-success-400 has-bg-image">
                         <div class="media">

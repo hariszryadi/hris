@@ -14,7 +14,7 @@ class AccountController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return Datatables::of(User::orderBy('id', 'DESC')->get())
+            return Datatables::of(User::orderBy('id')->get())
                 ->addColumn('action', function($data){
                     $status = '';
                     if ($data->status == true) {
