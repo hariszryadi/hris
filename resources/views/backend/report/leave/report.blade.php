@@ -39,10 +39,10 @@
     <h5 class="text-center">Report Cuti/Izin</h5>
     <table class="table table-count">
         <tr>
-            <td>cuti/izin di-<i>approve</i> : {{$status[2]}}</td>
-            <td>cuti/izin di-<i>reject</i> : {{$status[0]}}</td>
-            <td>cuti/izin di-<i>cancel</i> : {{$status[3]}}</td>
-            <td>cuti/izin <i>pending</i> : {{$status[1]}}</td>
+            <td>cuti/izin di-<i>approve</i> : {{isset($status[2]) ? $status[2] : 0}}</td>
+            <td>cuti/izin di-<i>reject</i> : {{isset($status[0]) ? $status[0] : 0}}</td>
+            <td>cuti/izin di-<i>cancel</i> : {{isset($status[3]) ? $status[3] : 0}}</td>
+            <td>cuti/izin <i>pending</i> : {{isset($status[1]) ? $status[1] : 0}}</td>
         </tr>
     </table>
 	<table class="table">
@@ -94,7 +94,7 @@
                             </tbody>
                         </table>
                     </td>
-                    @if ($item->status == 2)
+                    {{-- @if ($item->status == 2)
                         <td><span class="text-success">Approved</span></td>
                     @elseif($item->status == 3)
                         <td><span class="text-secondary">Cancelled</span></td>
@@ -102,7 +102,7 @@
                         <td><span class="text-danger">Rejected</span></td>
                     @else
                         <td><span class="text-warning">Pending</span></td>
-                    @endif
+                    @endif --}}
                 </tr>
             @empty
                 <tr>
@@ -113,10 +113,10 @@
 	</table>
     <table class="table table-count">
         <tr>
-            <td>cuti/izin di-<i>approve</i> : {{$status[2]}}</td>
-            <td>cuti/izin di-<i>reject</i> : {{$status[0]}}</td>
-            <td>cuti/izin di-<i>cancel</i> : {{$status[3]}}</td>
-            <td>cuti/izin <i>pending</i> : {{$status[1]}}</td>
+            <td>cuti/izin di-<i>approve</i> : {{isset($status[2]) ? $status[2] : 0}}</td>
+            <td>cuti/izin di-<i>reject</i> : {{isset($status[0]) ? $status[0] : 0}}</td>
+            <td>cuti/izin di-<i>cancel</i> : {{isset($status[3]) ? $status[3] : 0}}</td>
+            <td>cuti/izin <i>pending</i> : {{isset($status[1]) ? $status[1] : 0}}</td>
         </tr>
     </table>
 </body>

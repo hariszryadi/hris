@@ -39,10 +39,10 @@
     <h5 class="text-center">Report Lembur</h5>
     <table class="table table-count">
         <tr>
-            <td>lembur di-<i>approve</i> : {{$status[2]}}</td>
-            <td>lembur di-<i>reject</i> : {{$status[0]}}</td>
-            <td>lembur di-<i>cancel</i> : {{$status[3]}}</td>
-            <td>lembur <i>pending</i> : {{$status[1]}}</td>
+            <td>lembur di-<i>approve</i> : {{isset($status[2]) ? $status[2] : 0}}</td>
+            <td>lembur di-<i>reject</i> : {{isset($status[0]) ? $status[0] : 0}}</td>
+            <td>lembur di-<i>cancel</i> : {{isset($status[3]) ? $status[3] : 0}}</td>
+            <td>lembur <i>pending</i> : {{isset($status[1]) ? $status[1] : 0}}</td>
         </tr>
     </table>
 	<table class="table">
@@ -113,10 +113,10 @@
 	</table>
     <table class="table table-count">
         <tr>
-            <td>lembur di-<i>approve</i> : {{$status[2]}}</td>
-            <td>lembur di-<i>reject</i> : {{$status[0]}}</td>
-            <td>lembur di-<i>cancel</i> : {{$status[3]}}</td>
-            <td>lembur <i>pending</i> : {{$status[1]}}</td>
+            <td>lembur di-<i>approve</i> : {{isset($status[2]) ? $status[2] : 0}}</td>
+            <td>lembur di-<i>reject</i> : {{isset($status[0]) ? $status[0] : 0}}</td>
+            <td>lembur di-<i>cancel</i> : {{isset($status[3]) ? $status[3] : 0}}</td>
+            <td>lembur <i>pending</i> : {{isset($status[1]) ? $status[1] : 0}}</td>
         </tr>
     </table>
 </body>
