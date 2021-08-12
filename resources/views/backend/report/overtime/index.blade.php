@@ -29,26 +29,16 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <select name="month" class="form-control">
-                        <option value="null" selected>Semua Bulan</option>
-                        <option value="01">Januari</option>
-                        <option value="02">Februari</option>
-                        <option value="03">Maret</option>
-                        <option value="04">April</option>
-                        <option value="05">Mei</option>
-                        <option value="06">Juni</option>
-                        <option value="07">Juli</option>
-                        <option value="08">Agustus</option>
-                        <option value="09">September</option>
-                        <option value="10">Oktober</option>
-                        <option value="11">November</option>
-                        <option value="12">Desember</option>
-                    </select>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="start_date" id="start_date" placeholder="Tanggal Awal" onfocus="(this.type='date')">
+                        <span class="help-block"></span>
+                    </div>
                 </div>
                 <div class="col-md-3">
-                    <select name="year" class="form-control">
-                        <option value="2021">2021</option>
-                    </select>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="end_date" id="end_date" placeholder="Tanggal Akhir" onfocus="(this.type='date')">
+                        <span class="help-block"></span>
+                    </div>
                 </div>
                 <div class="col-md-2">
                     <button class="btn btn-primary">
@@ -58,4 +48,30 @@
             </form>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script type="text/javascript" src="{{asset('assets/admin/js/form-validator/jquery.form-validator.min.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            var config = {
+                form : 'form',
+                validate : {
+                    'start_date' : {
+                        validation : 'required'
+                    },
+                    'end_date' : {
+                        validation : 'required'
+                    }
+                }
+            };
+
+            $.validate({
+                modules : 'jsconf, security',
+                onModulesLoaded : function() {
+                    $.setupValidation(config);
+                }
+            });
+        })
+    </script>
 @endsection

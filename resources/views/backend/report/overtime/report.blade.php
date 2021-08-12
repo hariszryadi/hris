@@ -36,7 +36,7 @@
     <div class="row">
         <img src="{{public_path('images/logo.png')}}">
     </div>
-    <h5 class="text-center">Report Lembur</h5>
+    <p class="text-center"><b>Report Lembur Tanggal {{$start_date}} - {{$end_date}}</b></p>
     <table class="table table-count">
         <tr>
             <td>lembur di-<i>approve</i> : {{isset($status[2]) ? $status[2] : 0}}</td>

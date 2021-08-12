@@ -36,7 +36,7 @@
     <div class="row">
         <img src="{{public_path('images/logo.png')}}">
     </div>
-    <h5 class="text-center">Report Cuti/Izin</h5>
+    <p class="text-center"><b>Report Cuti/Izin Tanggal {{$start_date}} - {{$end_date}}</b></p>
     <table class="table table-count">
         <tr>
             <td>cuti/izin di-<i>approve</i> : {{isset($status[2]) ? $status[2] : 0}}</td>
@@ -94,7 +94,7 @@
                             </tbody>
                         </table>
                     </td>
-                    {{-- @if ($item->status == 2)
+                    @if ($item->status == 2)
                         <td><span class="text-success">Approved</span></td>
                     @elseif($item->status == 3)
                         <td><span class="text-secondary">Cancelled</span></td>
@@ -102,7 +102,7 @@
                         <td><span class="text-danger">Rejected</span></td>
                     @else
                         <td><span class="text-warning">Pending</span></td>
-                    @endif --}}
+                    @endif
                 </tr>
             @empty
                 <tr>

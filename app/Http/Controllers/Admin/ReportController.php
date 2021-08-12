@@ -24,20 +24,21 @@ class ReportController extends Controller
     public function downloadReportLeave(Request $request)
     {
         $query = TrLeave::with(['typeLeave', 'categoryLeave', 'empl.division'])
-                ->whereYear('created_at', $request->year);
-                // ->whereMonth('created_at', $request->month)
-                // ->orderBy('id')
-                // ->get();
-        if ($request->month != "null") {
-            $query->whereMonth('created_at', $request->month);
-        }
+                ->whereDate('created_at', '>=', $request->start_date)
+                ->whereDate('created_at', '<=', $request->end_date);
+
         if ($request->empl_id !== "null") {
             $query->where('empl_id', '=', $request->empl_id);
         }
         $data = $query->orderBy('id')->get();
         $status = $data->countBy('status');
 
-        $pdf = PDF::loadview($this->_view.'leave.report',['data'=>$data, 'status'=>$status]);
+        $pdf = PDF::loadview($this->_view.'leave.report',[
+            'data' => $data, 
+            'status' => $status, 
+            'start_date' => \Carbon\Carbon::parse($request->start_date)->format('d/m/Y'),
+            'end_date' => \Carbon\Carbon::parse($request->end_date)->format('d/m/Y')
+        ]);
         return $pdf->stream('report_leave.pdf')
                 ->header('Content-Type','application/pdf');
     }
@@ -52,18 +53,21 @@ class ReportController extends Controller
     public function downloadReportOvertime(Request $request)
     {
         $query = TrOvertime::with('empl.division')
-                ->whereYear('created_at', $request->year);
-                
-        if ($request->month != "null") {
-            $query->whereMonth('created_at', $request->month);
-        }
+                ->whereDate('created_at', '>=', $request->start_date)
+                ->whereDate('created_at', '<=', $request->end_date);
+
         if ($request->empl_id !== "null") {
             $query->where('empl_id', '=', $request->empl_id);
         }
         $data = $query->orderBy('id')->get();
         $status = $data->countBy('status');
 
-        $pdf = PDF::loadview($this->_view.'overtime.report',['data'=>$data, 'status'=>$status]);
+        $pdf = PDF::loadview($this->_view.'overtime.report',[
+            'data' => $data, 
+            'status' => $status,
+            'start_date' => \Carbon\Carbon::parse($request->start_date)->format('d/m/Y'),
+            'end_date' => \Carbon\Carbon::parse($request->end_date)->format('d/m/Y')
+        ]);
         return $pdf->stream('report_overtime.pdf')
                 ->header('Content-Type','application/pdf');
     }
