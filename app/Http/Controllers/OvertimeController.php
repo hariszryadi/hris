@@ -301,7 +301,10 @@ class OvertimeController extends Controller
         $notification = new Notification;
 
         if ($request->status == 2) {
-            $overtime->update(['status' => $request->status]);
+            $overtime->update([
+                'status' => $request->status,
+                'updated_by' => Auth::guard('user')->user()->empl_id
+            ]);
             $overtimeAmount = TrOvertimeAmount::create([
                 'overtime_id' => $overtime->id,
                 'empl_id' => $overtime->empl_id,
