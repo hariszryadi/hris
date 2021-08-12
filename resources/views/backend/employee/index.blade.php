@@ -27,7 +27,7 @@
         <div class="panel-body">
             
             @if (auth()->user()->roles()->first()->permission_role()->byId(2)->first()->create_right == true)
-                <div class="form-group text-left">
+                <div class="form-group text-left" style="display: inline;">
                     <a href="{{route('admin.employee.create')}}" id="tambah" 
                         class="btn btn-primary">
                         <i class="icon-file-plus"></i>
@@ -35,6 +35,13 @@
                     </a>
                 </div>       
             @endif
+
+            <div class="form-group text-right" style="display: inline;">
+                <a href="{{route('admin.export.exportEmployee')}}" class="btn btn-success">
+                    <i class="icon-download"></i>
+                    Download Excel
+                </a>
+            </div>
             
             <table class="table datatable-basic table-hover table-bordered striped">
                 <thead>

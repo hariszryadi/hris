@@ -26,11 +26,18 @@
         </div>
         <div class="panel-body">
             
-            <div class="form-group text-left">
+            <div class="form-group text-left" style="display: inline;">
                 <a href="{{route('admin.lecturer.create')}}" id="tambah" 
                     class="btn btn-primary">
                     <i class="icon-file-plus"></i>
                     Tambah
+                </a>
+            </div>
+
+            <div class="form-group text-right" style="display: inline;">
+                <a href="{{route('admin.export.exportLecturer')}}" class="btn btn-success">
+                    <i class="icon-download"></i>
+                    Download Excel
                 </a>
             </div>
             

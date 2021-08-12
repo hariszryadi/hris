@@ -64,6 +64,7 @@
                     <label class="control-label col-lg-2">Kepangkatan</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control" name="rank" id="rank" placeholder="Kepangkatan" value="{{(isset($lecturer) ? "$lecturer->rank" : '')}}">
+                        <span class="form-text text-muted">*contoh : III/a - Penata Muda</span>
                         <span class="help-block"></span>
                     </div>
                 </div>

@@ -113,6 +113,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/lecturer/{id}/edit', 'Admin\LecturerController@edit')->name('admin.lecturer.edit');
         Route::post('/lecturer/update', 'Admin\LecturerController@update')->name('admin.lecturer.update');
         Route::post('/lecturer/destroy', 'Admin\LecturerController@destroy')->name('admin.lecturer.destroy');
+        
+        /** Export */
+        Route::get('/export/employee', 'Admin\ExportController@exportEmployee')->name('admin.export.exportEmployee');
+        Route::get('/export/lecturer', 'Admin\ExportController@exportLecturer')->name('admin.export.exportLecturer');
     });
 });
 
