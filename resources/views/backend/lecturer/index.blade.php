@@ -48,6 +48,7 @@
                         <th>No. Registrasi</th>
                         <th>Nama Dosen</th>
                         <th>Jabatan Fungsional</th>
+                        <th>Prodi</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -99,13 +100,14 @@
                     {data: "no_reg", name: "no_reg"},
                     {data: "name", name: "name", orderable: false},
                     {data: "functional_position_id", name: "functional_position_id", orderable: false},
+                    {data: "major_id", name: "major_id", orderable: false},
                     {data: "action", name: "action", orderable: false}
                 ],
                 columnDefs: [
                     { width: "5%", "targets": [0] },
                     { width: "15%", "targets": [1] },
-                    { width: "10%", "targets": [4] },
-                    { className: "text-center", "targets": [4] }
+                    { width: "10%", "targets": [5] },
+                    { className: "text-center", "targets": [5] }
                 ]
             });
 
