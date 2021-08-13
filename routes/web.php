@@ -78,6 +78,14 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/import/absencye', 'Admin\ImportController@importAbsencye')->name('admin.import.absencye');
         Route::post('/import/destroy', 'Admin\ImportController@destroy')->name('admin.import.destroy');
 
+        /** Finger */
+        Route::get('/finger/index', 'Admin\FingerController@index')->name('admin.finger.index');
+        Route::get('/finger/create', 'Admin\FingerController@create')->name('admin.finger.create');
+        Route::post('/finger/store', 'Admin\FingerController@store')->name('admin.finger.store');
+        Route::get('/finger/{id}/edit', 'Admin\FingerController@edit')->name('admin.finger.edit');
+        Route::post('/finger/update', 'Admin\FingerController@update')->name('admin.finger.update');
+        Route::post('/finger/destroy', 'Admin\FingerController@destroy')->name('admin.finger.destroy');
+
         /** Role */
         Route::get('/role/index', 'Admin\RoleController@index')->name('admin.role.index');
         Route::get('/role/create', 'Admin\RoleController@create')->name('admin.role.create');

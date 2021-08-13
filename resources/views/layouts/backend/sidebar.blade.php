@@ -85,6 +85,9 @@
                             <a href="#" class="nav-link"><i class="icon-file-upload"></i>
                                 <span>Import</span></a>
                             <ul>
+                                <li class="nav-item {{request()->is('admin/finger/*') ? 'active' : ''}}">
+                                    <a href="{{route('admin.finger.index')}}">Set ID Finger</a>
+                                </li>
                                 <li class="nav-item {{request()->is('admin/import/*') ? 'active' : ''}}">
                                     <a href="{{route('admin.import.index')}}">Import Absensi</a>
                                 </li>

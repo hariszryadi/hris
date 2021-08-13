@@ -13,6 +13,12 @@
 @endsection
 
 @section('content')
+    <style>
+        .form-text {
+            display: block;
+            margin-top: .5rem;
+        }
+    </style>
     <div class="panel panel-flat">
         <div class="panel-heading">
             <h5 class="panel-title">List Import Absensi</h5>
@@ -56,6 +62,7 @@
                         <label>Pilih file excel</label>
                         <div class="form-group">
                             <input type="file" class="form-control" name="file" id="file">
+                            <span class="form-text text-muted">*Import absensi dilakukan 1 kali setiap bulannya</span>
                         </div>
                     </div>
                     <div class="modal-footer footer-button">

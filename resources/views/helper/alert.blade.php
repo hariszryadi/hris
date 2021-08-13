@@ -26,3 +26,10 @@
         });
     </script>
 @endif
+@if ($errors->has('id_finger'))
+    <script type="text/javascript">
+        $(function (resp) {
+            swal('Error!', 'ID Finger Duplikat\nTerdapat Pada Pegawai Lain', 'error');
+        });
+    </script>
+@endif

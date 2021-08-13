@@ -16,7 +16,7 @@ class ReportController extends Controller
 
     public function reportLeave()
     {
-        $empl = MsEmployee::orderBy('nip')->get();
+        $empl = MsEmployee::orderBy('empl_name')->get();
 
         return view($this->_view.'leave.index')->with(compact('empl'));
     }
@@ -45,7 +45,7 @@ class ReportController extends Controller
 
     public function reportOvertime()
     {
-        $empl = MsEmployee::orderBy('nip')->get();
+        $empl = MsEmployee::orderBy('empl_name')->get();
 
         return view($this->_view.'overtime.index')->with(compact('empl'));
     }
