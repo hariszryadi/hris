@@ -112,6 +112,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/report/leave/download', 'Admin\ReportController@downloadReportLeave')->name('admin.report.leave.download');
         Route::get('/report/overtime', 'Admin\ReportController@reportOvertime')->name('admin.report.overtime');
         Route::get('/report/overtime/download', 'Admin\ReportController@downloadReportOvertime')->name('admin.report.overtime.download');
+        Route::get('/report/fee', 'Admin\ReportController@reportFee')->name('admin.report.fee');
+        Route::get('/report/fee/download', 'Admin\ReportController@downloadReportFee')->name('admin.report.fee.download');
 
         /** Dosen */
         Route::get('/lecturer/index', 'Admin\LecturerController@index')->name('admin.lecturer.index');

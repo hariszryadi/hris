@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Finger extends Model
 {
-    protected $table = 'id_finger';
+    protected $table = 'ms_finger';
 
     protected $guarded = [];
 }

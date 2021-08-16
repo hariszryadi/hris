@@ -49,11 +49,14 @@ class FingerController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'nip' => 'required|unique:id_finger',
-            'id_finger' => 'required|unique:id_finger'
+            'nip' => 'required|unique:ms_finger',
+            'id_finger' => 'required|unique:ms_finger'
         ]);
-        
+      
+        $empl = MsEmployee::where('nip', $request->nip)->first();
+
         Finger::create([
+            'empl_id' => $empl->id,
             'nip' => $request->nip,
             'id_finger' => $request->id_finger,
         ]);
@@ -76,7 +79,10 @@ class FingerController extends Controller
             'id_finger' => 'required'
         ]);
 
+        $empl = MsEmployee::where('nip', $request->nip)->first();
+
         Finger::where('id', $request->id)->update([
+            'empl_id' => $empl->id,
             'nip' => $request->nip,
             'id_finger' => $request->id_finger
         ]);

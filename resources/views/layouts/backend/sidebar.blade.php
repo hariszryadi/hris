@@ -154,11 +154,11 @@
                                     </li>
                                 @endif
 
-                                {{-- @if (auth()->user()->roles()->first()->permission_role()->byId(13)->first()->read_right == true) --}}
-                                    <li class="nav-item">
-                                        <a href="#">Report Fee</a>
+                                @if (auth()->user()->roles()->first()->permission_role()->byId(13)->first()->read_right == true)
+                                    <li class="nav-item {{request()->is('admin/report/fee') ? 'active' : ''}}">
+                                        <a href="{{route('admin.report.fee')}}">Report Fee</a>
                                     </li>
-                                {{-- @endif --}}
+                                @endif
                             </ul>
                         </li>
                     @endif

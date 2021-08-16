@@ -1,7 +1,7 @@
 @extends('layouts.backend.master')
 
 @section('title-header')
-    Report Lembur
+    Report Fee
 @endsection
 
 @section('menus')
@@ -9,19 +9,19 @@
 @endsection
 
 @section('submenus')
-    Report Lembur
+    Report Fee
 @endsection
 
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Report Lembur</h5>
+            <h5 class="panel-title">Report Fee</h5>
         </div>
         <div class="panel-body">
-            <form class="form-group row" action="{{route('admin.report.overtime.download')}}" target="_blank">
+            <form class="form-group row" action="{{route('admin.report.fee.download')}}" target="_blank">
                 {{ csrf_field() }}
                 <div class="col-md-4">
-                    <select name="empl_id" class="form-control">
+                    <select name="empl_id" class="form-control" id="empl_id">
                         <option value="null" selected>Semua Pegawai</option>
                         @foreach ($empl as $item)
                             <option value="{{$item->id}}">{{$item->empl_name}}</option>
@@ -41,8 +41,8 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-danger">
-                        Download PDF
+                    <button class="btn btn-success">
+                        Download Excel
                     </button>
                 </div>
             </form>

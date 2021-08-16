@@ -41,8 +41,8 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-primary">
-                        Download Report
+                    <button class="btn btn-danger">
+                        Download PDF
                     </button>
                 </div>
             </form>

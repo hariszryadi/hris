@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\FeeExport;
 use App\Models\MsEmployee;
 use App\Models\TrOvertime;
 use App\Models\TrLeave;
@@ -71,4 +73,16 @@ class ReportController extends Controller
         return $pdf->stream('report_overtime.pdf')
                 ->header('Content-Type','application/pdf');
     }
+
+    public function reportFee()
+    {
+        $empl = MsEmployee::orderBy('empl_name')->get();
+
+        return view($this->_view.'fee.index')->with(compact('empl'));
+    }
+
+    public function downloadReportFee(Request $request)
+	{
+		return Excel::download(new FeeExport($request->empl_id, $request->start_date, $request->end_date), 'data_fee_makan.xlsx');
+	}
 }

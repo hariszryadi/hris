@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIdFingerTable extends Migration
+class CreateMsFingerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class CreateIdFingerTable extends Migration
      */
     public function up()
     {
-        Schema::create('id_finger', function (Blueprint $table) {
+        Schema::create('ms_finger', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('empl_id')->unique();
             $table->string('nip')->unique();
             $table->string('id_finger')->unique();
             $table->timestamps();
@@ -28,6 +29,6 @@ class CreateIdFingerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('id_finger');
+        Schema::dropIfExists('ms_finger');
     }
 }
