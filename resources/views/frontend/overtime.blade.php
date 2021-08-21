@@ -1,7 +1,7 @@
 @extends('layouts.frontend.main')
 
 @section('title')
-    <title>Rencana Lembur</title>
+    <title>Lembur</title>
 @endsection
 
 @section('content')
@@ -61,7 +61,7 @@
     <!-- Nav tabs -->
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#request-overtime">Rencana Lembur</a>
+            <a class="nav-link active" data-toggle="tab" href="#request-overtime">Pengajuan Lembur</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#status-request-overtime">Status Pengajuan Lembur</a>

@@ -115,12 +115,12 @@ class FeeExport implements FromCollection, WithHeadings
             //         COUNT ( tr_import_absencye.empl_name ) * 10000 AS uang_makan,
             //         overtime.durasi,
             //         overtime_amount.uang_lembur,
-            //         (COUNT ( tr_import_absencye.empl_name ) * 10000) + overtime_amount.uang_lembur AS total
+            //         ( COUNT ( tr_import_absencye.empl_name ) * 10000 ) + COALESCE(overtime_amount.uang_lembur, 0) AS total 
             //     FROM
             //         tr_import_absencye
             //         INNER JOIN ms_finger ON tr_import_absencye.id_finger = ms_finger.id_finger
             //         LEFT JOIN ( SELECT tr_overtime.empl_id, SUM ( tr_overtime.duration ) AS durasi FROM tr_overtime GROUP BY tr_overtime.empl_id ) overtime ON overtime.empl_id = ms_finger.empl_id
-            //         LEFT JOIN ( SELECT tr_overtime_amount.empl_id, SUM ( tr_overtime_amount.total_amount :: INT ) AS uang_lembur FROM tr_overtime_amount GROUP BY tr_overtime_amount.empl_id ) overtime_amount ON overtime_amount.empl_id = overtime.empl_id 
+            //         LEFT JOIN ( SELECT tr_overtime_amount.empl_id, tr_overtime_amount.total_amount :: INT ) AS uang_lembur FROM tr_overtime_amount GROUP BY tr_overtime_amount.empl_id ) overtime_amount ON overtime_amount.empl_id = overtime.empl_id 
             //     WHERE
             //         tr_import_absencye.time_return <> '' 
             //         AND tr_import_absencye.time_entry <> '' 

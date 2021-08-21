@@ -15,7 +15,7 @@ class CreateMsFingerTable extends Migration
     {
         Schema::create('ms_finger', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('empl_id')->unique();
+            $table->bigInteger('empl_id')->unique();
             $table->string('nip')->unique();
             $table->string('id_finger')->unique();
             $table->timestamps();

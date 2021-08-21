@@ -1,7 +1,7 @@
 @extends('layouts.frontend.main')
 
 @section('title')
-    <title>Rencana Cuti/Izin</title>
+    <title>Cuti/Izin</title>
 @endsection
 
 @section('content')
@@ -61,7 +61,7 @@
     <!-- Nav tabs -->
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#request-leave">Rencana Cuti/Izin</a>
+            <a class="nav-link active" data-toggle="tab" href="#request-leave">Pengajuan Cuti/Izin</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#status-request-leave">Status Pengajuan Cuti/Izin</a>
