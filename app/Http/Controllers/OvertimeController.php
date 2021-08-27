@@ -319,7 +319,10 @@ class OvertimeController extends Controller
             $notification->save();
             $notification->toMultipleDevice($queryNotif, 'Status Lembur', 'Selamat, Pengajuan lembur anda disetujui', null, route('overtime'));
         } elseif ($request->status == 0) {
-            $overtime->update(['status' => $request->status]);
+            $overtime->update([
+                'status' => $request->status,
+                'updated_by' => Auth::guard('user')->user()->empl_id
+            ]);
 
             $notification->type_transaction = 2;
             $notification->transaction_id = $overtime->tr_overtime_id;
