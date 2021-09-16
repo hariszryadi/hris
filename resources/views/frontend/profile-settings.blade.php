@@ -7,7 +7,7 @@
 @section('content')
 <style>
     html body {
-        background: #1e64b1;
+        background: #3E3E3E;
     }
     .sidebar .sidebar_innr .sections li.active a {
         color: #1e64b1;

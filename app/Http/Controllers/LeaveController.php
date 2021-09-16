@@ -134,7 +134,7 @@ class LeaveController extends Controller
             $notification->user_id = $queryNotif->id;
             $notification->read = false;
             $notification->save();
-            $notification->toMultipleDevice($queryNotif, 'Pengajuan Cuti/Izin Baru', 'Hallo, ada pengajuan cuti/izin baru', null, route('leave'));
+            $notification->toSingleDevice($queryNotif->device_token, 'Pengajuan Cuti/Izin Baru', 'Hallo, ada pengajuan cuti/izin baru', null, route('leave'));
 
 
             return response()->json([
@@ -354,7 +354,7 @@ class LeaveController extends Controller
             $notification->user_id = $queryNotif->id;
             $notification->read = false;
             $notification->save();
-            $notification->toMultipleDevice($queryNotif, 'Status Cuti/Izin', 'Selamat, Pengajuan cuti/izin anda disetujui', null, route('leave'));
+            $notification->toSingleDevice($queryNotif->device_token, 'Status Cuti/Izin', 'Selamat, Pengajuan cuti/izin anda disetujui', null, route('leave'));
         } elseif($request->status == 0) {
             $leave->update([
                 'status' => $request->status,
@@ -365,7 +365,7 @@ class LeaveController extends Controller
             $notification->user_id = $queryNotif->id;
             $notification->read = false;
             $notification->save();
-            $notification->toMultipleDevice($queryNotif, 'Status Cuti/Izin', 'Maaf, Pengajuan cuti/izin anda ditolak', null, route('leave'));
+            $notification->toSingleDevice($queryNotif->device_token, 'Status Cuti/Izin', 'Maaf, Pengajuan cuti/izin anda ditolak', null, route('leave'));
         } else {
             $leave->update(['status' => $request->status]);
         }

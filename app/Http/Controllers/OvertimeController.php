@@ -59,6 +59,7 @@ class OvertimeController extends Controller
                         'users.name',
                         'users.nip',
                         'users.device_token',
+                        'users.device_token',
                         'ms_empl.division_id',
                         'ms_empl.avatar'
                     )
@@ -94,7 +95,7 @@ class OvertimeController extends Controller
             $notification->user_id = $queryNotif->id;
             $notification->read = false;
             $notification->save();
-            $notification->toMultipleDevice($queryNotif, 'Pengajuan Lembur Baru', 'Hallo, ada pengajuan lembur baru', null, route('overtime'));
+            $notification->toSingleDevice($queryNotif->device_token, 'Pengajuan Lembur Baru', 'Hallo, ada pengajuan lembur baru', null, route('overtime'));
 
             return response()->json([
                 'message' => 'Berhasil melakukan submit form lembur',
@@ -317,7 +318,7 @@ class OvertimeController extends Controller
             $notification->user_id = $queryNotif->id;
             $notification->read = false;
             $notification->save();
-            $notification->toMultipleDevice($queryNotif, 'Status Lembur', 'Selamat, Pengajuan lembur anda disetujui', null, route('overtime'));
+            $notification->toSingleDevice($queryNotif->device_token, 'Status Lembur', 'Selamat, Pengajuan lembur anda disetujui', null, route('overtime'));
         } elseif ($request->status == 0) {
             $overtime->update([
                 'status' => $request->status,
@@ -329,7 +330,7 @@ class OvertimeController extends Controller
             $notification->user_id = $queryNotif->id;
             $notification->read = false;
             $notification->save();
-            $notification->toMultipleDevice($queryNotif, 'Status Lembur', 'Maaf, Pengajuan lembur anda ditolak', null, route('overtime'));
+            $notification->toSingleDevice($queryNotif->device_token, 'Status Lembur', 'Maaf, Pengajuan lembur anda ditolak', null, route('overtime'));
         } else {
             $overtime->update(['status' => $request->status]);
         }

@@ -36,9 +36,14 @@
 
             <!-- Error title -->
             <div class="text-center">
-                <h1 class="error-title">404</h1>
+				<h1 class="error-title">404</h1>
+				<img src="{{asset('images/logo.png')}}" alt="" style="width: 200px;">
                 <h3>Oops, Maaf halaman tidak ditemukan!</h3>
-                <a href="{{route('admin.dashboard')}}"><h3>Kembali ke halaman Dashboard</h3></a>
+                @if (auth()->guard('user'))
+					<a href="{{route('dashboard')}}"><h3>Kembali ke halaman Dashboard</h3></a>
+				@else
+					<a href="{{route('admin.dashboard')}}"><h3>Kembali ke halaman Dashboard</h3></a>
+				@endif
             </div>
             <!-- /error title -->
 

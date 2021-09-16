@@ -73,9 +73,9 @@
                                     <span class="notification-text">
                                         <strong>{{$item->empl_name}}.</strong>
                                         @if (substr($item->transaction_id, 0, 2) == 'LV')
-                                            Pengajuan cuti/izin baru
+                                            Notifikasi cuti/izin
                                         @else
-                                            Pengajuan lembur baru
+                                            Notifikasi lembur
                                         @endif
                                         <br>
                                         <span class="time-ago"> {{$item->created_at->diffForHumans()}} </span>
@@ -111,11 +111,12 @@
                     <div class="dropdown-user-details">
 
                         <div class="dropdown-user-cover">
-                            <img src="{{asset('storage/'.Auth::user()->empl->avatar)}}" alt=""
+                            {{-- <img src="{{asset('storage/'.Auth::user()->empl->avatar)}}" alt=""
                             @if (Auth::user()->empl->gender == 'Pria')
                                 onerror="this.src='{{asset('assets/admin/images/male.png')}}';"
                             @endif 
-                                onerror="this.src='{{asset('assets/admin/images/female.png')}}';">
+                                onerror="this.src='{{asset('assets/admin/images/female.png')}}';"> --}}
+                            <img src="{{asset('images/tedc.png')}}" alt="">
                         </div>
                         <div class="dropdown-user-avatar">
                             <img src="{{asset('storage/'.Auth::user()->empl->avatar)}}" alt=""
